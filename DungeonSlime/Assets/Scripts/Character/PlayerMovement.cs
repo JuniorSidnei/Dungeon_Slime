@@ -16,13 +16,15 @@ namespace DungeonSlime.Character {
         [SerializeField] private Transform m_hit_left_up;
         [SerializeField] private Transform m_hit_left_down;
         [SerializeField] private LayerMask m_groundMask;
+        [SerializeField] private BoxCollider2D m_collider;
         public float OffsetDistance;
         public Ease EaseMovement;
 
         private void Update() {
             if (Input.GetKeyDown(KeyCode.D)) {
                 transform.DOMoveX(
-                    evaluateRaycast(m_hit_right_up, m_hit_right_down, Vector2.right).transform.position.x -
+                    evaluateRaycast(m_hit_right_up.transform.position, m_hit_right_down, Vector2.right, Vector2.down).transform.position
+                        .x -
                     OffsetDistance,
                     m_speed).SetEase(EaseMovement).OnComplete(() => {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSlimeForm());
@@ -31,46 +33,58 @@ namespace DungeonSlime.Character {
 
             if (Input.GetKeyDown(KeyCode.A)) {
                 transform.DOMoveX(
-                    evaluateRaycast(m_hit_left_up, m_hit_left_down, Vector2.left).transform.position.x + OffsetDistance,
+                    evaluateRaycast(m_hit_left_up.transform.position, m_hit_left_down, Vector2.left, Vector2.down).transform.position.x +
+                    OffsetDistance,
                     m_speed).SetEase(EaseMovement);
             }
 
             if (Input.GetKeyDown(KeyCode.W)) {
                 transform.DOMoveY(
-                    evaluateRaycast(m_hit_right_up, m_hit_left_up, Vector2.up).transform.position.y - OffsetDistance,
+                    evaluateRaycast(m_hit_right_up.transform.position, m_hit_left_up, Vector2.up, Vector2.left).transform.position.y -
+                    OffsetDistance,
                     m_speed).SetEase(EaseMovement);
             }
 
             if (Input.GetKeyDown(KeyCode.S)) {
                 transform.DOMoveY(
-                    evaluateRaycast(m_hit_right_down, m_hit_left_down, Vector2.down).transform.position.y +
+                    evaluateRaycast(m_hit_right_down.transform.position, m_hit_left_down, Vector2.down, Vector2.left).transform.position
+                        .y +
                     OffsetDistance,
                     m_speed).SetEase(EaseMovement);
             }
+
+            for (int i = 0; i < 5; i++) {
+                Debug.DrawRay((Vector2)m_hit_right_up.transform.position + 0.35f * i * Vector2.down, Vector2.right, Color.red);
+            }
         }
 
-        private RaycastHit2D evaluateRaycast(Transform firstHit, Transform secondHit, Vector2 direction) {
-            RaycastHit2D hit = Physics2D.Raycast(firstHit.position, direction, 30, m_groundMask);
-            RaycastHit2D hit_two = Physics2D.Raycast(secondHit.position, direction, 30f, m_groundMask);
+        private RaycastHit2D evaluateRaycast(Vector2 originHit, Transform secondHit, Vector2 rayDirection,
+            Vector2 raySense) {
+            var rayLenght = 50f;
+            var raySpacing = .35f;
+            var rayCount = 5; //maybe change this value based on slime form?
+            var oldDistance = 500f;
+            var minorHitDistance = new RaycastHit2D();
+            Vector2 rayOrigin = originHit;
+            
+            for (var i = 0; i < rayCount; i++) {
+                var hit = Physics2D.Raycast(rayOrigin + raySpacing * i * raySense, rayDirection, rayLenght, m_groundMask);
+            
+                Debug.DrawRay(rayOrigin + raySpacing * i * raySense, rayDirection, Color.red);
+               
+                if (hit) {
+                    //Debug.Log("bati no: " + hit.collider.name);
+                    var minorDistance = (Vector3)originHit - hit.transform.position;
 
-            var distance_one = Vector3.zero;
-            var distance_two = Vector3.zero;
-
-            if (hit) {
-                Debug.Log("hit bateu no: " + hit.collider.name);
-                distance_one = firstHit.position - hit.transform.position;
+                    if (minorDistance.magnitude < oldDistance) {
+                        oldDistance = minorDistance.magnitude;
+                        minorHitDistance = hit;
+                        //Debug.Log("menor: " + hit.collider.name);
+                    }
+                }
             }
 
-            if (hit_two) {
-                Debug.Log("hit2 bateu no: " + hit_two.collider.name);
-                distance_two = secondHit.position - hit_two.transform.position;
-            }
-
-            if (distance_one.magnitude < distance_two.magnitude || distance_one.magnitude > distance_two.magnitude) {
-                return hit_two;
-            }
-
-            return hit;
+            return minorHitDistance;
         }
     }
 }
