@@ -16,16 +16,73 @@ namespace DungeonSlime.Character {
             FULL_STRETCHED_V
         }
 
+        //[SerializeField] private BoxCollider2D m_boxCollider;
+        [SerializeField] private Animator m_anim;
         private SlimeForms m_slimeForms;
         
         private void Awake() {
-            GameManager.Instance.GlobalDispatcher.Subscribe<OnUpdateSlimeForm>(OnUpdateSlimeForm);
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnCollisionDetected>(OnCollisionDetected);
             m_slimeForms = SlimeForms.NORMAL;
         }
 
-        private void OnUpdateSlimeForm(OnUpdateSlimeForm ev) {
-            Debug.Log("mudando forma");
-            transform.localScale = new Vector3(5, 20);
+        private void Update() {
+            switch (m_slimeForms) {
+                case SlimeForms.NORMAL:
+                    m_anim.SetTrigger("normal");
+                    break;
+                case SlimeForms.SEMI_STRECHED_H:
+                    m_anim.SetTrigger("semi_stretched_h");
+                    break;
+                case SlimeForms.FULL_STRETCHED_H:
+                    m_anim.SetTrigger("full_stretched_h");
+                    break;
+                case SlimeForms.SEMI_STRETCHED_V:
+                    m_anim.SetTrigger("semi_stretched_v");
+                    break;
+                case SlimeForms.FULL_STRETCHED_V:
+                    m_anim.SetTrigger("full_stretched_v");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void OnCollisionDetected(OnCollisionDetected ev) {
+            switch (m_slimeForms) {
+                case SlimeForms.NORMAL:
+                    if (ev.CurrentDirection == Vector2.right || ev.CurrentDirection == Vector2.left) {
+                        m_slimeForms = SlimeForms.SEMI_STRETCHED_V;
+                    } else if (ev.CurrentDirection == Vector2.up || ev.CurrentDirection == Vector2.down) {
+                        m_slimeForms = SlimeForms.SEMI_STRECHED_H;
+                    }
+                    break;
+                case SlimeForms.SEMI_STRECHED_H:
+                    if (ev.CurrentDirection == Vector2.right || ev.CurrentDirection == Vector2.left) {
+                        m_slimeForms = SlimeForms.NORMAL;
+                    } else if (ev.CurrentDirection == Vector2.up || ev.CurrentDirection == Vector2.down) {
+                        m_slimeForms = SlimeForms.FULL_STRETCHED_H;
+                    }
+                    break;
+                case SlimeForms.FULL_STRETCHED_H:
+                    if (ev.CurrentDirection == Vector2.right || ev.CurrentDirection == Vector2.left) {
+                        m_slimeForms = SlimeForms.SEMI_STRECHED_H;
+                    }
+                    break;
+                case SlimeForms.SEMI_STRETCHED_V:
+                    if (ev.CurrentDirection == Vector2.right || ev.CurrentDirection == Vector2.left) {
+                        m_slimeForms = SlimeForms.FULL_STRETCHED_V;
+                    } else if (ev.CurrentDirection == Vector2.up || ev.CurrentDirection == Vector2.down) {
+                        m_slimeForms = SlimeForms.NORMAL;
+                    }
+                    break;
+                case SlimeForms.FULL_STRETCHED_V:
+                    if (ev.CurrentDirection == Vector2.up || ev.CurrentDirection == Vector2.down) {
+                        m_slimeForms = SlimeForms.SEMI_STRETCHED_V;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
