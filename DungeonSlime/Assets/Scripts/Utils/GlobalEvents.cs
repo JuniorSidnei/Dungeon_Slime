@@ -1,18 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DungeonSlime.Utils {
 
-    public class OnUpdateSlimeForm {  }
+    public class OnLoadNextScene {  }
 
     public class OnCollisionDetected {
-        public OnCollisionDetected(int objectLayer, Vector2 currentDirection) {
+        public OnCollisionDetected(int objectLayer, Vector2 currentDirection, Action onFinishAnimation) {
             ObjectLayer = objectLayer;
             CurrentDirection = currentDirection;
+            OnFinishAnimation = onFinishAnimation;
         }
 
         public int ObjectLayer;
         public Vector2 CurrentDirection;
+        public Action OnFinishAnimation;
     }
 }

@@ -15,8 +15,7 @@ namespace DungeonSlime.Character {
             SEMI_STRETCHED_V,
             FULL_STRETCHED_V
         }
-
-        //[SerializeField] private BoxCollider2D m_boxCollider;
+        
         [SerializeField] private Animator m_anim;
         private SlimeForms m_slimeForms;
         
@@ -83,6 +82,7 @@ namespace DungeonSlime.Character {
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            ev.OnFinishAnimation?.Invoke();
         }
     }
 }
