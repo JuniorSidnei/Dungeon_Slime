@@ -7,8 +7,9 @@ namespace DungeonSlime.Utils {
     [System.Serializable]
     public class Block {
         public enum BlockType {
-            Empty = 0,
-            Wall = 1
+            Floor = 0,
+            Wall = 1,
+            Black = 2
         }
         
         public BlockType type;

@@ -8,8 +8,13 @@ using UnityEngine.Tilemaps;
 namespace DungeonSlime {
     public class LevelManager : MonoBehaviour {
 
-        //public Tile tile;
-        public GameObject foo; // todo this will be a tile
+        [Header("tile settings")]
+        public TileBase wall;
+        public TileBase floor;
+        public TileBase empty;
+        public Tilemap tileMap;
+        
+        [Header("json file")]
         public TextAsset jsonFile;
         private Level m_currentLevel;
         
@@ -21,7 +26,16 @@ namespace DungeonSlime {
         private void InstantiateLevel(Level level) {
             for (var i = 0; i < level.blocks.Length; i++) {
                 var position = GetPositionForIndex(i, level.columnCount);
-                Instantiate(foo, new Vector3(position.x, position.y, 0), quaternion.identity, transform);
+                
+                if (level.blocks[i].type == Block.BlockType.Floor) {
+                    tileMap.SetTile(new Vector3Int(position.x, position.y, 0), floor);    
+                }
+                else if(level.blocks[i].type == Block.BlockType.Wall) {
+                    tileMap.SetTile(new Vector3Int(position.x, position.y, 0), wall);    
+                }
+                else {
+                    tileMap.SetTile(new Vector3Int(position.x, position.y, 0), empty);
+                }
             }
         }
 
