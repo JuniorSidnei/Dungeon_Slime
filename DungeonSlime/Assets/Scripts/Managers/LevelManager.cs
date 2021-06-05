@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using DungeonSlime.Utils;
 using Unity.Mathematics;
 using UnityEngine;
@@ -9,18 +11,37 @@ namespace DungeonSlime {
     public class LevelManager : MonoBehaviour {
 
         [Header("tile settings")]
-        public TileBase wall;
-        public TileBase floor;
+        public TileBase wallTile;
+        public TileBase floorTile;
         public TileBase empty;
-        public Tilemap tileMap;
+        public Tilemap wallMap;
+        public Tilemap floorMap;
         
         [Header("json file")]
         public TextAsset jsonFile;
+
+        [Header("player")]
+        public GameObject Player;
+        
         private Level m_currentLevel;
+        private List<Vector3> availablePlaces = new List<Vector3>();
         
         public void LoadLevel(int levelIndex) {
+            //TODO:: load level by index
             m_currentLevel = JsonUtility.FromJson<Level>(jsonFile.text);
             InstantiateLevel(m_currentLevel);
+            
+            for (var n = wallMap.cellBounds.xMin; n < wallMap.cellBounds.xMax; n++)  {
+                for (var p = wallMap.cellBounds.yMin; p < wallMap.cellBounds.yMax; p++)  {
+                    var localPlace = (new Vector3Int(n, p, (int)wallMap.transform.position.y));
+                    var place = wallMap.CellToWorld(localPlace);
+                    
+                    if (wallMap.HasTile(localPlace))  {
+                        //Tile at "place"
+                        availablePlaces.Add(place);
+                    }
+                }
+            }
         }
 
         private void InstantiateLevel(Level level) {
@@ -28,19 +49,46 @@ namespace DungeonSlime {
                 var position = GetPositionForIndex(i, level.columnCount);
                 
                 if (level.blocks[i].type == Block.BlockType.Floor) {
-                    tileMap.SetTile(new Vector3Int(position.x, position.y, 0), floor);    
+                    floorMap.SetTile(new Vector3Int(position.x, position.y, 0), floorTile);    
                 }
                 else if(level.blocks[i].type == Block.BlockType.Wall) {
-                    tileMap.SetTile(new Vector3Int(position.x, position.y, 0), wall);    
+                    wallMap.SetTile(new Vector3Int(position.x, position.y, 0), wallTile);    
                 }
                 else {
-                    tileMap.SetTile(new Vector3Int(position.x, position.y, 0), empty);
+                    floorMap.SetTile(new Vector3Int(position.x, position.y, 0), empty);
                 }
             }
         }
 
         private static Vector2Int GetPositionForIndex(int index, int columnCount) {
             return new Vector2Int(index % columnCount, index / columnCount);
+        }
+
+        private void Update() {
+            if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                Vector2Int currentPlayerPosition = (Vector2Int) wallMap.WorldToCell(Player.transform.position);
+                
+                if (Move(currentPlayerPosition, Vector2Int.right, out Vector2Int toPosition)) {
+                    Player.transform.DOMoveX(toPosition.x, 1f);
+                }
+            }
+        }
+
+        private bool Move(Vector2Int currentIndex, Vector2Int direction, out Vector2Int farthestIndex) {
+            var nextIndex = currentIndex + direction;
+            Block block = m_currentLevel.getBlock(nextIndex);
+            
+            if (IsWall(block)) {
+                farthestIndex = nextIndex;
+                return true;
+            }
+            
+            farthestIndex = nextIndex;
+            return Move(nextIndex, direction, out farthestIndex);
+        }
+
+        private bool IsWall(Block block) {
+            return block.type == Block.BlockType.Wall;
         }
     }
 }
