@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7880161893219169292}
   - component: {fileID: 7880161893219169291}
   - component: {fileID: 7880161893219169290}
-  - component: {fileID: 7880161893219169289}
+  - component: {fileID: 425735309289002266}
   m_Layer: 2
   m_Name: PlayerVfx
   m_TagString: Untagged
@@ -103,7 +103,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &7880161893219169289
+--- !u!61 &425735309289002266
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,12 +120,12 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.12}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.12}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
