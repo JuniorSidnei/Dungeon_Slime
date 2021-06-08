@@ -1,12 +1,12 @@
 {
   "blocks": [
     { "type": 1 },  { "type": 1 },  { "type": 1 },  { "type": 1 },  { "type": 1 }, { "type": 1 }, { "type": 1 }, { "type": 1 },
+    { "type": 1 },  { "type": 0 },  { "type": 1 },  { "type": 1 },  { "type": 1 }, { "type": 1 }, { "type": 1 }, { "type": 1 },
+    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 1 },  { "type": 1 }, { "type": 1 }, { "type": 1 }, { "type": 1 },
+    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 1 }, { "type": 1 }, { "type": 1 }, { "type": 1 },
+    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 0 }, { "type": 1 }, { "type": 1 }, { "type": 1 },
+    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 1 }, { "type": 1 },
     { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 0 }, { "type": 1 },
-    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 0 }, { "type": 1 },
-    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 0 }, { "type": 1 },
-    { "type": 1 },  { "type": 0 },  { "type": 0 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 0 }, { "type": 1 },
-    { "type": 1 },  { "type": 1 },  { "type": 1 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 0 }, { "type": 1 },
-    { "type": 2 },  { "type": 2 },  { "type": 1 },  { "type": 0 },  { "type": 0 }, { "type": 0 }, { "type": 0 }, { "type": 1 },
-    { "type": 2 },  { "type": 2 },  { "type": 1 },  { "type": 1 },  { "type": 1 }, { "type": 1 }, { "type": 0 }, { "type": 1 }
+    { "type": 1 },  { "type": 1 },  { "type": 1 },  { "type": 1 },  { "type": 1 }, { "type": 1 }, { "type": 1 }, { "type": 1 }
   ]
 }
