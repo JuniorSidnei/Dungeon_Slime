@@ -23,7 +23,7 @@ namespace DungeonSlime.Managers {
         private Level m_currentLevel;
 
         public void LoadLevel(int levelIndex) {
-            //TODO:: load level by index
+            //TODO:: load level by index and the level must be: 22x11
             m_currentLevel = JsonUtility.FromJson<Level>(jsonFile.text);
             InstantiateLevel(m_currentLevel);
         }
