@@ -18,4 +18,12 @@ namespace DungeonSlime.Utils {
         public Vector2 CurrentDirection;
         public Action OnFinishAnimation;
     }
+
+    public class OnMove {
+        public OnMove(Vector2Int direction) {
+            Direction = direction;
+        }
+
+        public Vector2Int Direction;
+    }
 }
