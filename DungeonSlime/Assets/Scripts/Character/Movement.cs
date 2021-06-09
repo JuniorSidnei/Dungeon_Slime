@@ -9,62 +9,48 @@ using UnityEditor;
 using UnityEngine;
 
 namespace DungeonSlime.Character {
-    public class PlayerMovement : MonoBehaviour {
+    public class Movement : MonoBehaviour {
         
         [SerializeField] private float m_speed;
-        [SerializeField] private Rigidbody2D m_rb;
-        [SerializeField] private bool Moving;
-        private bool m_colliding;
-
-        private Vector2 m_currentDirection;
+        [SerializeField] private bool m_moving;
+        [SerializeField] private LevelManager m_levelManager;
         
-        private void OnCollisionEnter2D(Collision2D other) {
-            Debug.Log("bati");
-            
-            if (Moving) {
-                Debug.Log("lancei evento");
-                GameManager.Instance.GlobalDispatcher.Emit(new OnCollisionDetected(other.gameObject.layer, m_currentDirection,
-                    () => {
-                        m_rb.AddForce(m_currentDirection * m_speed, ForceMode2D.Impulse);
-                    }));
-            }
-            Moving = false;
+        private void Awake() {
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnMove>(OnMove);
         }
 
-        private void OnCollisionStay2D(Collision2D other) {
-            //todo:: check collision here and set moving false
+        private void OnMove(OnMove ev) {
+            if (m_moving) return;
             
-            //Debug.Log("estou colado na parede");
-        }
+            Vector2Int currentPlayerPosition = (Vector2Int) m_levelManager.wallMap.WorldToCell(transform.localPosition);
+            if (m_levelManager.GetFarthestBlock(currentPlayerPosition, ev.Direction, out Vector2Int toPosition)) {
+                m_moving = true;
 
-        private void OnTriggerEnter2D(Collider2D other) {
-            GameManager.Instance.GlobalDispatcher.Emit(new OnLoadNextScene());
-        }
-
-        private void Update() {
-            
-            if (Input.GetKeyDown(KeyCode.D) && !Moving && m_currentDirection != Vector2.right) {
-                m_currentDirection = Vector2.right;
-                m_rb.AddForce(m_currentDirection * m_speed, ForceMode2D.Impulse);
-                Moving = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.A) && !Moving && m_currentDirection != Vector2.left) {
-                m_currentDirection = Vector2.left;
-                m_rb.AddForce(m_currentDirection * m_speed, ForceMode2D.Impulse);
-                Moving = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.W) && !Moving && m_currentDirection != Vector2.up) {
-                m_currentDirection = Vector2.up;
-                m_rb.AddForce(m_currentDirection * m_speed, ForceMode2D.Impulse);
-                Moving = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.S) && !Moving && m_currentDirection != Vector2.down) {
-                m_currentDirection = Vector2.down;
-                m_rb.AddForce(m_currentDirection * m_speed, ForceMode2D.Impulse);
-                Moving = true;
+                var cellSizeX = m_levelManager.wallMap.cellSize.x;
+                var cellSizeY = m_levelManager.wallMap.cellSize.y;
+ 
+                if (ev.Direction == Vector2Int.right) {
+                    //para direita é: -0.5f
+                    transform.DOMoveX(toPosition.x - cellSizeX / 2, m_speed).SetEase(Ease.InOutQuart).OnComplete(() => {
+                        m_moving = false;
+                        Debug.Log("movi pra: " + toPosition);
+                    }); //para esquedaé: +1.5f
+                } else if (ev.Direction == Vector2Int.left) {
+                    transform.DOMoveX(toPosition.x + (cellSizeX + 0.5f), m_speed).SetEase(Ease.InOutQuart).OnComplete(() => {
+                        m_moving = false;
+                        Debug.Log("movi pra: " + toPosition);
+                    });//para baixo é: + 1.5f
+                } else if (ev.Direction == Vector2Int.down) {
+                    transform.DOMoveY(toPosition.y + (cellSizeY + 0.5f), m_speed).SetEase(Ease.InOutQuart).OnComplete(() => {
+                        m_moving = false;
+                        Debug.Log("movi pra: " + toPosition);
+                    });//para cima é: -0.5f
+                } else if (ev.Direction == Vector2Int.up) {
+                    transform.DOMoveY(toPosition.y - cellSizeY / 2, m_speed).SetEase(Ease.InOutQuart).OnComplete(() => {
+                        m_moving = false;
+                        Debug.Log("movi pra: " + toPosition);
+                    });
+                }
             }
         }
     }
