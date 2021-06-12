@@ -48,18 +48,20 @@ namespace DungeonSlime.Managers {
             return new Vector2Int(index % columnCount, index / columnCount);
         }
         
-        public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, out Vector2Int farthestIndex) {
+        public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, out Vector2Int farthestIndex, out Block farthestBlock) {
             Vector2Int nextIndex = currentIndex + direction;
            
             Block block = m_currentLevel.getBlock(nextIndex);
             
             if (IsWall(block)) {
                 farthestIndex = nextIndex;
+                farthestBlock = block;
                 return true;
             }
             
             farthestIndex = nextIndex;
-            return GetFarthestBlock(nextIndex, direction, out farthestIndex);
+            farthestBlock = block;
+            return GetFarthestBlock(nextIndex, direction, out farthestIndex, out block);
         }
 
         private bool IsWall(Block block) {
