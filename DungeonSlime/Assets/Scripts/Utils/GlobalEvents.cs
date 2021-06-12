@@ -7,16 +7,14 @@ namespace DungeonSlime.Utils {
 
     public class OnLoadNextScene {  }
 
-    public class OnCollisionDetected {
-        public OnCollisionDetected(int objectLayer, Vector2 currentDirection, Action onFinishAnimation) {
-            ObjectLayer = objectLayer;
+    public class OnFinishMovement {
+        public OnFinishMovement(Block block, Vector2 currentDirection) {
+            Block = block;
             CurrentDirection = currentDirection;
-            OnFinishAnimation = onFinishAnimation;
         }
 
-        public int ObjectLayer;
+        public Block Block;
         public Vector2 CurrentDirection;
-        public Action OnFinishAnimation;
     }
 
     public class OnMove {
