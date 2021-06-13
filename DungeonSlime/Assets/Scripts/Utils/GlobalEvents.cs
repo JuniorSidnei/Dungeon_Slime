@@ -24,4 +24,12 @@ namespace DungeonSlime.Utils {
 
         public Vector2Int Direction;
     }
+
+    public class OnUpdateSprite {
+        public OnUpdateSprite(Sprite currentSprite) {
+            CurrentSprite = currentSprite;
+        }
+
+        public Sprite CurrentSprite;
+    }
 }
