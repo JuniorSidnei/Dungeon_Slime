@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DungeonSlime.Utils;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -16,6 +17,7 @@ namespace DungeonSlime.Managers {
         public TileBase empty;
         public Tilemap wallMap;
         public Tilemap floorMap;
+        public TextMeshProUGUI textInfo;
         
         [Header("json file")]
         public TextAsset jsonFile;
@@ -23,7 +25,6 @@ namespace DungeonSlime.Managers {
         private Level m_currentLevel;
 
         public void LoadLevel(int levelIndex) {
-            //TODO:: load level by index and the level must be: 22x11
             m_currentLevel = JsonUtility.FromJson<Level>(jsonFile.text);
             InstantiateLevel(m_currentLevel);
         }
@@ -41,6 +42,8 @@ namespace DungeonSlime.Managers {
                 else {
                     floorMap.SetTile(new Vector3Int(position.x, position.y, 0), empty);
                 }
+                //textInfo.SetText(position.x + " / " + position.y);
+                //Instantiate(textInfo, new Vector3(position.x, position.y, 0), quaternion.identity, transform);
             }
         }
 

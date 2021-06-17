@@ -20,34 +20,22 @@ namespace DungeonSlime.Character {
         
         private void Awake() {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMove>(OnMove);
-            //GameManager.Instance.GlobalDispatcher.Subscribe<OnUpdateSprite>(OnUpdateSprite);
         }
 
-//        private void OnUpdateSprite(OnUpdateSprite ev) {
-//            m_sprite = ev.CurrentSprite;
-//        }
-        
         private void OnMove(OnMove ev) {
             if (m_moving) return;
+            
             
             var currentPlayerPosition = (Vector2Int) m_levelManager.wallMap.WorldToCell(transform.localPosition);
             if (m_levelManager.GetFarthestBlock(currentPlayerPosition, ev.Direction, out Vector2Int toPosition, out Block farthestBlock)) {
                 m_moving = true;
                 
-                
                 m_sprite = m_playerStates.GetNextSpriteToMovement(ev.Direction);
+               
                 var cellSize = m_levelManager.wallMap.cellSize;
                 var spriteHalfSize = m_sprite.bounds.size / 2;
-                
-                //TODO:: maybe change speed based on distance? 
-                //more close = faster, more far = slower
-                var distanceAmount = Vector2.Distance(toPosition, currentPlayerPosition);
-                
-                if (distanceAmount < 0) {
-                    distanceAmount *= -1;
-                }
-
-                m_speed = distanceAmount / 10;
+           
+                m_speed = Vector2.Distance(toPosition, currentPlayerPosition) / 15;
 
                 if (ev.Direction == Vector2Int.right) {
                     //para direita é: -0.5f (cellSizeX / 2) = 1/2
@@ -61,12 +49,12 @@ namespace DungeonSlime.Character {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(farthestBlock, ev.Direction));
                     });//para baixo é: + 1.5f (cellSizeY + 0.5f) = 1 + 0.5
                 } else if (ev.Direction == Vector2Int.down) {
-                    transform.DOMoveY(toPosition.y + (spriteHalfSize.y + cellSize.x), m_speed).SetEase(Ease.OutBounce).OnComplete(() => {
+                    transform.DOMoveY(toPosition.y + (spriteHalfSize.y + cellSize.x), m_speed).SetEase(ease).OnComplete(() => {
                         m_moving = false;
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(farthestBlock, ev.Direction));
                     });//para cima é: -0.5f cellSizeY / 2 = 1/2
                 } else if (ev.Direction == Vector2Int.up) {
-                    transform.DOMoveY(toPosition.y - spriteHalfSize.y, m_speed).SetEase(Ease.OutBounce).OnComplete(() => {
+                    transform.DOMoveY(toPosition.y - spriteHalfSize.y, m_speed).SetEase(ease).OnComplete(() => {
                         m_moving = false;
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(farthestBlock, ev.Direction));
                     });
