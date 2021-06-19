@@ -17,8 +17,7 @@ namespace DungeonSlime.Managers {
         public TileBase empty;
         public Tilemap wallMap;
         public Tilemap floorMap;
-        public TextMeshProUGUI textInfo;
-        
+
         [Header("json file")]
         public TextAsset jsonFile;
 
@@ -42,8 +41,9 @@ namespace DungeonSlime.Managers {
                 else {
                     floorMap.SetTile(new Vector3Int(position.x, position.y, 0), empty);
                 }
-                //textInfo.SetText(position.x + " / " + position.y);
-                //Instantiate(textInfo, new Vector3(position.x, position.y, 0), quaternion.identity, transform);
+
+                var text = WorldCanvas.Instance.CreateTextAt(wallMap.CellToWorld((Vector3Int)position));
+                text.SetText(string.Format("{0}/{1}", position.x, position.y));
             }
         }
 

@@ -7,10 +7,10 @@ namespace DungeonSlime.Utils {
     [System.Serializable]
     public class Level {
         public Block[] blocks;
-        public int columnCount = 40;
+        public int columnCount = 78;
 
         public Block getBlock(Vector2Int position) {
-            return blocks[position.x + position.y * columnCount];
+            return blocks[position.x + position.y * (columnCount - 1)];
         }
     }
 }
