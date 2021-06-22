@@ -38,6 +38,8 @@ namespace DungeonSlime.Character {
             var spriteHalfSize = m_sprite.bounds.size / 2;
             
             var newPos = m_levelManager.wallMap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
+
+            m_moving = true;
             
             if (ev.Direction == Vector2Int.right) {
                 //para direita é: -0.5f (cellSizeX / 2) = 1/2
@@ -101,8 +103,8 @@ namespace DungeonSlime.Character {
 
         
         private void CalculateInitialPos() {
-            var valueX = (transform.position.x - (0.5f * m_sprite.bounds.size.x));// + 0.25f;
-            var valueY = (transform.position.y + (0.25f * m_sprite.bounds.size.y));// - 0.15f;
+            var valueX = (transform.position.x - (0.5f * m_sprite.bounds.size.x));
+            var valueY = (transform.position.y + (0.2f * m_sprite.bounds.size.y));
             m_initialPos = new Vector3(valueX, valueY);
         }
         
@@ -143,7 +145,7 @@ namespace DungeonSlime.Character {
                             m_speed = (float) (distance / 45);
                         }
 
-                        currentPlayerPosition.x += i;
+                        currentPlayerPosition.x += 1;
                     }
                 }
             }

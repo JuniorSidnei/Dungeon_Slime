@@ -25,16 +25,16 @@ namespace DungeonSlime.Character {
             {SlimeForms.NORMAL, 3},
             {SlimeForms.SEMI_STRETCHED_H, 7},
             {SlimeForms.FULL_STRETCHED_H, 9},
-            {SlimeForms.SEMI_STRETCHED_V, 6},
-            {SlimeForms.FULL_STRETCHED_V, 8},
+            {SlimeForms.SEMI_STRETCHED_V, 2},
+            {SlimeForms.FULL_STRETCHED_V, 1},
         };
         
         private Dictionary <SlimeForms, int> m_slotsOnGridY = new Dictionary<SlimeForms, int> {
             {SlimeForms.NORMAL, 3},
-            {SlimeForms.SEMI_STRETCHED_H, 1},
+            {SlimeForms.SEMI_STRETCHED_H, 2},
             {SlimeForms.FULL_STRETCHED_H, 1},
-            {SlimeForms.SEMI_STRETCHED_V, 2},
-            {SlimeForms.FULL_STRETCHED_V, 1},
+            {SlimeForms.SEMI_STRETCHED_V, 5},
+            {SlimeForms.FULL_STRETCHED_V, 8},
         };
         
         private void Awake() {

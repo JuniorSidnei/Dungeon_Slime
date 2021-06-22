@@ -10,7 +10,7 @@ namespace DungeonSlime.Utils {
         public int columnCount = 78;
 
         public Block getBlock(Vector2Int position) {
-            return blocks[position.x + position.y * (columnCount - 1)];
+            return blocks[position.x + position.y * (columnCount)];
         }
     }
 }
