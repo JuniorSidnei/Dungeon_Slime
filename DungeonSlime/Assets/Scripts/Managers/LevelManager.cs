@@ -22,7 +22,7 @@ namespace DungeonSlime.Managers {
         public TextAsset jsonFile;
 
         private Level m_currentLevel;
-
+   
         public void LoadLevel(int levelIndex) {
             m_currentLevel = JsonUtility.FromJson<Level>(jsonFile.text);
             InstantiateLevel(m_currentLevel);
@@ -66,7 +66,27 @@ namespace DungeonSlime.Managers {
             farthestBlock = block;
             return GetFarthestBlock(nextIndex, direction, out farthestIndex, out block);
         }
+        
+        public void GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth, int currentAvailableBlocks,
+            out int totalAvailableBlocks) {
+            if (depth == 0) {
+                totalAvailableBlocks = currentAvailableBlocks;
+                return;
+            }
+            
+            Vector2Int nextIndex = currentIndex + direction;
+            Block block = m_currentLevel.getBlock(nextIndex);
 
+            if (IsWall(block)) {
+                totalAvailableBlocks = currentAvailableBlocks;
+                return;
+            }
+
+            currentAvailableBlocks++;
+            totalAvailableBlocks = currentAvailableBlocks;
+            GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth -1, currentAvailableBlocks, out totalAvailableBlocks);
+        }
+        
         private bool IsWall(Block block) {
             return block.type == Block.BlockType.Wall;
         }
