@@ -133,12 +133,12 @@ TextureImporter:
       name: Forma1_40_0
       rect:
         serializedVersion: 2
-        x: 104
+        x: 106
         y: 20
-        width: 30
+        width: 27
         height: 198
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.08581204, y: 0.0077683805}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
