@@ -21,28 +21,12 @@ namespace DungeonSlime.Character {
         [SerializeField] private List<Sprite> m_slimeSprites;
         private SlimeForms m_slimeForm;
         
-        private Dictionary <SlimeForms, Vector2> m_slotsOnGrid = new Dictionary<SlimeForms, Vector2> {
-            {SlimeForms.NORMAL, new Vector2(4, 4)},
-            {SlimeForms.SEMI_STRETCHED_H, new Vector2(7, 2)},
-            {SlimeForms.FULL_STRETCHED_H, new Vector2(9, 1)},
-            {SlimeForms.SEMI_STRETCHED_V,  new Vector2(2, 5)},
-            {SlimeForms.FULL_STRETCHED_V, new Vector2(1, 8)},
-        };
-        
-//        private Dictionary <SlimeForms, int> m_slotsOnGridY = new Dictionary<SlimeForms, int> {
-//            {SlimeForms.NORMAL, 4},
-//            {SlimeForms.SEMI_STRETCHED_H, 2},
-//            {SlimeForms.FULL_STRETCHED_H, 1},
-//            {SlimeForms.SEMI_STRETCHED_V, 5},
-//            {SlimeForms.FULL_STRETCHED_V, 8},
-//        };
-        
-        private Dictionary<SlimeForms, Vector2Int> m_topLeftCorner = new Dictionary<SlimeForms, Vector2Int> {
-            {SlimeForms.NORMAL, new Vector2Int(-1, 2)},     
-            {SlimeForms.SEMI_STRETCHED_H, new Vector2Int(-2, 1)},     
-            {SlimeForms.FULL_STRETCHED_H, new Vector2Int(-3, 0)},     
-            {SlimeForms.SEMI_STRETCHED_V, new Vector2Int(0, 3)},     
-            {SlimeForms.FULL_STRETCHED_V, new Vector2Int(0, 4)},     
+        private Dictionary <SlimeForms, Vector2Int> m_slotsOnGrid = new Dictionary<SlimeForms, Vector2Int> {
+            {SlimeForms.NORMAL, new Vector2Int(4, 4)},
+            {SlimeForms.SEMI_STRETCHED_H, new Vector2Int(7, 2)},
+            {SlimeForms.FULL_STRETCHED_H, new Vector2Int(9, 1)},
+            {SlimeForms.SEMI_STRETCHED_V,  new Vector2Int(2, 6)},
+            {SlimeForms.FULL_STRETCHED_V, new Vector2Int(1, 8)},
         };
         
         private void Awake() {
@@ -61,6 +45,11 @@ namespace DungeonSlime.Character {
         public Sprite GetNextSpriteToMovement(Vector2 nextDirection) {
             var index = GetIndexForm(nextDirection);
             return m_slimeSprites[index];
+        }
+
+        public Vector2Int GetPlayerNextSize(Vector2 nextDirection) {
+            var index = GetIndexForm(nextDirection);
+            return GetCurrentSize((SlimeForms) index);
         }
         
         private int GetIndexForm(Vector2 direction, SlimeForms forms = SlimeForms.NORMAL) {
@@ -109,16 +98,8 @@ namespace DungeonSlime.Character {
             return index;
         }
 
-        public Vector2 getSlotsOnGrid(SlimeForms currentForm) {
+        public Vector2Int GetCurrentSize(SlimeForms currentForm) {
             return m_slotsOnGrid[currentForm];
-        }
-
-//        public int getSlotsOnGridY(SlimeForms currentForm) {
-//            return m_slotsOnGridY[currentForm];
-//        }
-
-        public Vector2Int getTopLeftCornerPosition(SlimeForms currentForm) {
-            return m_topLeftCorner[currentForm];
         }
         
         public SlimeForms GetCurrentForm() {
