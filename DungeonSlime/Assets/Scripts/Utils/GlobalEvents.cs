@@ -32,4 +32,6 @@ namespace DungeonSlime.Utils {
 
         public Sprite CurrentSprite;
     }
+    
+    
 }

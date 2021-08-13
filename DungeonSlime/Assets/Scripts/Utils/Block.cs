@@ -9,7 +9,9 @@ namespace DungeonSlime.Utils {
         public enum BlockType {
             Floor = 0,
             Wall = 1,
-            Black = 2
+            Empty = 2,
+            InitialPosition = 3,
+            Endgame = 4
         }
         
         public BlockType type;

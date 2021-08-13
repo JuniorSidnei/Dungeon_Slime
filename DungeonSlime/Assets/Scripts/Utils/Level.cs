@@ -8,8 +8,10 @@ namespace DungeonSlime.Utils {
     public class Level {
         public Block[] blocks;
         public int columnCount = 78;
+        public int height;
+        public int width;
 
-        public Block getBlock(Vector2Int position) {
+        public Block GetBlock(Vector2Int position) {
             return blocks[position.x + position.y * (columnCount)];
         }
     }
