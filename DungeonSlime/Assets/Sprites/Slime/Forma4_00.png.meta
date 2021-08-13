@@ -133,10 +133,10 @@ TextureImporter:
       name: Forma4_00_0
       rect:
         serializedVersion: 2
-        x: 46
-        y: 93
-        width: 148
-        height: 54
+        x: 47
+        y: 94
+        width: 147
+        height: 53
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
