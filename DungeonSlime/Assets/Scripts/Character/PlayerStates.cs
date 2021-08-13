@@ -23,8 +23,8 @@ namespace DungeonSlime.Character {
         
         private Dictionary <SlimeForms, Vector2Int> m_slotsOnGrid = new Dictionary<SlimeForms, Vector2Int> {
             {SlimeForms.NORMAL, new Vector2Int(4, 4)},
-            {SlimeForms.SEMI_STRETCHED_H, new Vector2Int(7, 2)},
-            {SlimeForms.FULL_STRETCHED_H, new Vector2Int(9, 1)},
+            {SlimeForms.SEMI_STRETCHED_H, new Vector2Int(6, 2)},
+            {SlimeForms.FULL_STRETCHED_H, new Vector2Int(8, 1)},
             {SlimeForms.SEMI_STRETCHED_V,  new Vector2Int(2, 6)},
             {SlimeForms.FULL_STRETCHED_V, new Vector2Int(1, 8)},
         };
@@ -41,12 +41,7 @@ namespace DungeonSlime.Character {
             m_anim.SetInteger("form", index);
             GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[index]));
         }
-
-        public Sprite GetNextSpriteToMovement(Vector2 nextDirection) {
-            var index = GetIndexForm(nextDirection);
-            return m_slimeSprites[index];
-        }
-
+        
         public Vector2Int GetPlayerNextSize(Vector2 nextDirection) {
             var index = GetIndexForm(nextDirection);
             return GetCurrentSize((SlimeForms) index);
