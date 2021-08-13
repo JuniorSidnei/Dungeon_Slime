@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
+using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
-using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,37 +8,36 @@ namespace DungeonSlime.Managers {
     public class LevelManager : MonoBehaviour {
 
         [Header("tile settings")]
-        public TileBase wallTile;
-        public TileBase floorTile;
-        public TileBase empty;
-        public Tilemap wallMap;
-        public Tilemap floorMap;
+        public LevelDataTiles levelDataTiles;
+        public Tilemap tilemap;
 
-        [Header("json file")]
-        public TextAsset jsonFile;
-
+        [Header("Level Data")]
+        public LevelData LevelData;
+        
         private Level m_currentLevel;
-   
-        public void LoadLevel(int levelIndex) {
-            m_currentLevel = JsonUtility.FromJson<Level>(jsonFile.text);
+        
+        private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
+
+        private void Awake() {
+            m_tiles.Add(Block.BlockType.Floor, levelDataTiles.GetFloorTile());
+            m_tiles.Add(Block.BlockType.Wall, levelDataTiles.GetWallTile());
+            m_tiles.Add(Block.BlockType.Empty, levelDataTiles.GetEmptyTile());
+            m_tiles.Add(Block.BlockType.InitialPosition, levelDataTiles.GetInitialPositionTile());
+            m_tiles.Add(Block.BlockType.Endgame, levelDataTiles.GetEndPointTile());
+            LoadLevel();
+        }
+
+        private void LoadLevel() {
+            m_currentLevel = JsonUtility.FromJson<Level>(LevelData.LevelJson.text);
             InstantiateLevel(m_currentLevel);
         }
 
         private void InstantiateLevel(Level level) {
             for (var i = 0; i < level.blocks.Length; i++) {
                 var position = GetPositionForIndex(i, level.columnCount);
+                tilemap.SetTile(new Vector3Int(position.x, position.y, 0), m_tiles[level.blocks[i].type]);
 
-                if (level.blocks[i].type == Block.BlockType.Floor) {
-                    floorMap.SetTile(new Vector3Int(position.x, position.y, 0), floorTile);    
-                }
-                else if(level.blocks[i].type == Block.BlockType.Wall) {
-                    wallMap.SetTile(new Vector3Int(position.x, position.y, 0), wallTile);
-                }
-                else {
-                    floorMap.SetTile(new Vector3Int(position.x, position.y, 0), empty);
-                }
-
-                var text = WorldCanvas.Instance.CreateTextAt(wallMap.CellToWorld((Vector3Int)position));
+                var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int)position));
                 text.SetText(string.Format("{0}/{1}", position.x, position.y));
             }
         }
@@ -51,10 +46,21 @@ namespace DungeonSlime.Managers {
             return new Vector2Int(index % columnCount, index / columnCount);
         }
         
-        public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, out Vector2Int farthestIndex, out Block farthestBlock) {
+        public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
+            out Vector2Int farthestIndex, out Block farthestBlock) {
+            
             Vector2Int nextIndex = currentIndex + direction;
+            Block block = m_currentLevel.GetBlock(nextIndex);
+            
+            if (depth == 0) {
+                farthestIndex = nextIndex;
+                farthestBlock = block;
+                return false;
+            } 
            
-            Block block = m_currentLevel.getBlock(nextIndex);
+            if (IsEndGame(block)) {
+                GameManager.Instance.LoadNextScene(LevelData.NextLevelData);
+            }
             
             if (IsWall(block)) {
                 farthestIndex = nextIndex;
@@ -64,31 +70,54 @@ namespace DungeonSlime.Managers {
             
             farthestIndex = nextIndex;
             farthestBlock = block;
-            return GetFarthestBlock(nextIndex, direction, out farthestIndex, out block);
+            return GetFarthestBlock(nextIndex, direction, depth - 1, out farthestIndex, out block);
         }
         
-        public void GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth, int currentAvailableBlocks,
+        public bool GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth,
+            int currentAvailableBlocks,
             out int totalAvailableBlocks) {
+            
             if (depth == 0) {
                 totalAvailableBlocks = currentAvailableBlocks;
-                return;
+                return true;
             }
             
             Vector2Int nextIndex = currentIndex + direction;
-            Block block = m_currentLevel.getBlock(nextIndex);
-
+            Block block = m_currentLevel.GetBlock(nextIndex);
+            
             if (IsWall(block)) {
                 totalAvailableBlocks = currentAvailableBlocks;
-                return;
+                return false;
             }
 
             currentAvailableBlocks++;
             totalAvailableBlocks = currentAvailableBlocks;
-            GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth -1, currentAvailableBlocks, out totalAvailableBlocks);
+            return GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth - 1, currentAvailableBlocks, out totalAvailableBlocks);
+        }
+
+        public Vector2Int GetPlayerInitialPosition() {
+            for (var i = 0; i < m_currentLevel.height; i++) {
+                for (var j = 0; j < m_currentLevel.width; j++) {
+                    Block block = m_currentLevel.GetBlock(new Vector2Int(j, i));
+
+                    if (IsPlayerInitialPosition(block)) {
+                        return new Vector2Int(j, i);
+                    }
+                }
+            }
+            return Vector2Int.zero;
         }
         
         private bool IsWall(Block block) {
             return block.type == Block.BlockType.Wall;
+        }
+
+        private bool IsPlayerInitialPosition(Block block) {
+            return block.type == Block.BlockType.InitialPosition;
+        }
+
+        private bool IsEndGame(Block block) {
+            return block.type == Block.BlockType.Endgame;
         }
     }
 }
