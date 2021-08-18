@@ -10,49 +10,43 @@ namespace DungeonSlime.Managers {
 
     public class LevelGenerator : MonoBehaviour {
 
-        //public Texture2D LevelInfo;
-        //public int levelId;
-
-        //public List<TilesData> PixelMappings;
-
-        public LevelData levelData;
-        public LevelDataTiles LevelDataTiles;
-        private List<int> m_pixelMappingsId = new List<int>();
-        private Level m_level = new Level();
+        public LevelDataHolder levelDataHolder;
+        private List<int> m_pixelMappingsId;
+        private Level m_level;
+        public int currentLevelIndex;
         
-        private void Start() {
-            GenerateJsonFromTexture();
-        }
-
         [ContextMenu("Generate Json From Texture")]
-        private void GenerateJsonFromTexture() {
-            var width = levelData.LevelTexture.width;
-            var height = levelData.LevelTexture.height;
+        public void GenerateJsonFromTexture() {
+            var currentData = levelDataHolder.GetLevelDataAt(currentLevelIndex);
+            var levelDataTiles = levelDataHolder.GetLevelDataTiles();
             
-            m_level.height = height;
-            m_level.width = width;
+            var width = currentData.LevelTexture.width;
+            var height = currentData.LevelTexture.height;
             
-            m_level.blocks = new Block[width * height];
+            m_pixelMappingsId = new List<int>();
+            
+            m_level = new Level {height = height, width = width, blocks = new Block[width * height]};
+
             var index = 0;
             for (var i = 0; i < height; i++) {
                 for (var j = 0; j < width; j++) {
-                    GenerateTile(j, i, index);
+                    GenerateTile(currentData, levelDataTiles, j, i, index);
                     index++;
                 }
             }
             
             var json = JsonUtility.ToJson(m_level);
-            using (var fs = new FileStream(string.Format("Assets/LevelJsons/level_{0}.json", levelData.CurrentLevelData), FileMode.Create)) {
+            using (var fs = new FileStream(string.Format("Assets/LevelJsons/level_{0}.json", currentLevelIndex), FileMode.Create)) {
                 using (var writer = new StreamWriter(fs)) {
                     writer.Write(json);
                 }
             }
         }
 
-        private void GenerateTile(int x, int y, int index) {
-            var pixelColor = levelData.LevelTexture.GetPixel(x, y);
+        private void GenerateTile(LevelData currentData, LevelDataTiles levelDataTiles, int x, int y, int index) {
+            var pixelColor = currentData.LevelTexture.GetPixel(x, y);
             
-            foreach (var pixel in LevelDataTiles.tileDatas) {
+            foreach (var pixel in levelDataTiles.tileDatas) {
                 if (pixel.TileColor.Equals(pixelColor)) {
                     m_pixelMappingsId.Add(pixel.TileId);
                     m_level.blocks[index] = new Block {type = (Block.BlockType) pixel.TileId};
