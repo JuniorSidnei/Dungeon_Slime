@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DungeonSlime.Managers;
+using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
 using UnityEditor;
@@ -19,20 +20,20 @@ namespace DungeonSlime.Character {
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
         private Block m_farthestBlock;
+        private bool m_isLevelFinished = false;
         public Ease ease;
        
         private void Awake() {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMove>(OnMove);
             
+            m_currentSize = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm());
             m_currentPos = m_levelManager.GetPlayerInitialPosition();
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
             transform.position = position;
-        }
 
-        private void Start() {
-            m_currentSize = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm());
+            m_isLevelFinished = false;
         }
-
+        
         private void OnMove(OnMove ev) {
             if (m_moving || ev.Direction == Vector2Int.zero) return;
 
@@ -84,7 +85,7 @@ namespace DungeonSlime.Character {
                 if (m_levelManager.GetFarthestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Block farthestBlock)) {
                     var newDistance = Vector2.Distance(toPosition, adjustedPos);
 
-                    if (newDistance <= 1 || newDistance <= amount) {
+                    if (newDistance <= 1) {
                         return false;
                     }
                     
@@ -92,7 +93,7 @@ namespace DungeonSlime.Character {
                         distance = newDistance;
                         m_finalPos = toPosition;
                         m_farthestBlock = farthestBlock;
-                        m_speed = (float) (distance / 80);
+                        m_speed = (float) (distance / 30);
                     }
 
                     adjustedPos += guidingVector;
@@ -113,11 +114,15 @@ namespace DungeonSlime.Character {
                     out var totalAvailableBlocksDown);
                 var distanceY = newPlayerSize.y - m_currentSize.y;
 
+                if (distanceY <= 0) {
+                    distanceY = 1;
+                }
+                
                 if (!positiveY && negativeY) {
                     newPositionOnAxis.y = m_currentPos.y - distanceY;
                 }
                 else if (positiveY && negativeY) {
-                    newPositionOnAxis.y -= distanceY;
+                    newPositionOnAxis.y -= distanceY - 1;
                 }
                 else if (!positiveY && !negativeY) {
                     newPositionOnAxis.y -= distanceY;
@@ -128,14 +133,24 @@ namespace DungeonSlime.Character {
                 var negativeX = CanFitInPositionX(newPositionOnAxis, newPlayerSize, Vector2Int.left,
                     out var totalAvailableBlocksDown);
                 var distanceX = newPlayerSize.x - m_currentSize.x;
+                var positionDistance = newPositionOnAxis.x - m_currentPos.x;
 
+                if (distanceX <= 0) {
+                    distanceX = 1;
+                }
+                
                 if (!positiveX && negativeX) {
                     newPositionOnAxis.x = m_currentPos.x - distanceX;
-                }
-                else if (positiveX && negativeX) {
-                    newPositionOnAxis.x -= distanceX;
-                }
-                else if (!positiveX && !negativeX) {
+                } else if (positiveX && negativeX) {
+                    if (positionDistance > 0) {
+                        newPositionOnAxis.x = m_currentPos.x;
+                    }
+                    else {
+                        newPositionOnAxis.x -= distanceX - 1;
+                    }
+                } else if (positiveX) {
+                    newPositionOnAxis.x = m_currentPos.x;
+                }  else {
                     newPositionOnAxis.x -= distanceX;
                 }
             }
