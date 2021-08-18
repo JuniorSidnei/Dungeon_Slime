@@ -1,7 +1,10 @@
 fileFormatVersion: 2
 guid: f8549e3aba537bb408e288622ee7bef1
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 7986464818509582273
+    second: Forma5_01_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -125,7 +128,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Forma5_01_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 105
+        width: 195
+        height: 28
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cf0b66307f95de60800000000000000
+      internalID: 7986464818509582273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

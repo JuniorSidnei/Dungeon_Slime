@@ -24,11 +24,11 @@ MonoBehaviour:
   - Name: Endpoint
     TileColor: {r: 1, g: 0, b: 0, a: 1}
     TileId: 4
-    Tile: {fileID: 11400000, guid: 2ab4b4ef68ebdd542ae3e8be4775c466, type: 2}
+    Tile: {fileID: 11400000, guid: e53dff46243b1c04eae347ceca341b5d, type: 2}
   - Name: Initial position
     TileColor: {r: 0, g: 0.14901961, b: 1, a: 1}
     TileId: 3
-    Tile: {fileID: 11400000, guid: 2ab4b4ef68ebdd542ae3e8be4775c466, type: 2}
+    Tile: {fileID: 11400000, guid: 8df5d35d278e7994dbc0ef70fed06486, type: 2}
   - Name: 'Empty '
     TileColor: {r: 0, g: 0, b: 0, a: 1}
     TileId: 2
