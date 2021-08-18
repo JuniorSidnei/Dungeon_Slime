@@ -8,14 +8,13 @@ namespace DungeonSlime.Managers {
     public class LevelManager : MonoBehaviour {
 
         [Header("tile settings")]
-        public LevelDataTiles levelDataTiles;
         public Tilemap tilemap;
-
-        [Header("Level Data")]
-        public LevelData LevelData;
+        
+        public LevelDataTiles levelDataTiles;
+        public LevelData levelData;
         
         private Level m_currentLevel;
-        
+
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
 
         private void Awake() {
@@ -24,11 +23,12 @@ namespace DungeonSlime.Managers {
             m_tiles.Add(Block.BlockType.Empty, levelDataTiles.GetEmptyTile());
             m_tiles.Add(Block.BlockType.InitialPosition, levelDataTiles.GetInitialPositionTile());
             m_tiles.Add(Block.BlockType.Endgame, levelDataTiles.GetEndPointTile());
+            
             LoadLevel();
         }
 
         private void LoadLevel() {
-            m_currentLevel = JsonUtility.FromJson<Level>(LevelData.LevelJson.text);
+            m_currentLevel = JsonUtility.FromJson<Level>(levelData.LevelJson.text);
             InstantiateLevel(m_currentLevel);
         }
 
@@ -58,9 +58,9 @@ namespace DungeonSlime.Managers {
                 return false;
             } 
            
-            if (IsEndGame(block)) {
-                GameManager.Instance.LoadNextScene(LevelData.NextLevelData);
-            }
+//            if (IsEndGame(block)) {
+//                //GameManager.Instance.GlobalDispatcher.Emit(new OnLoadNextScene());
+//            }
             
             if (IsWall(block)) {
                 farthestIndex = nextIndex;
