@@ -887,11 +887,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e729efa37f8d0b46a297faa4a933b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 1
+  m_speedMultiplier: 35
   m_moving: 0
   m_levelManager: {fileID: 40119390}
   m_playerStates: {fileID: 1873744262}
-  ease: 14
+  ease: 33
 --- !u!4 &1873744260
 Transform:
   m_ObjectHideFlags: 0
