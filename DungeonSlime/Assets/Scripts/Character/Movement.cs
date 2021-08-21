@@ -11,11 +11,13 @@ using UnityEngine;
 
 namespace DungeonSlime.Character {
     public class Movement : MonoBehaviour {
-        [SerializeField] private float m_speed;
+        
+        [SerializeField] private float m_speedMultiplier;
         [SerializeField] private bool m_moving;
         [SerializeField] private LevelManager m_levelManager;
         [SerializeField] private PlayerStates m_playerStates;
         
+        private float m_speed;
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
@@ -46,13 +48,24 @@ namespace DungeonSlime.Character {
             
             ResolveCollision(m_finalPos, ev.Direction);
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
-            
-            transform.DOMove(newPos, m_speed).SetEase(ease).OnComplete(() => {
-                m_moving = false;
-                //transform.DOMoveY(newPos.y, 0.01f);
-                GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
-                m_currentPos = m_finalPos;
-            });
+
+            if (ev.Direction == Vector2.right || ev.Direction == Vector2.left) {
+                transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() => {
+                    m_moving = false;
+                    transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));    
+                    });
+                    m_currentPos = m_finalPos;
+                });
+            } else if(ev.Direction == Vector2.up || ev.Direction == Vector2.down) {
+                transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
+                    m_moving = false;
+                    transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction)); 
+                    });
+                    m_currentPos = m_finalPos;
+                });
+            }
         }
         
         private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
@@ -93,7 +106,7 @@ namespace DungeonSlime.Character {
                         distance = newDistance;
                         m_finalPos = toPosition;
                         m_farthestBlock = farthestBlock;
-                        m_speed = (float) (distance / 30);
+                        m_speed = (float) (distance / m_speedMultiplier);
                     }
 
                     adjustedPos += guidingVector;
@@ -113,18 +126,30 @@ namespace DungeonSlime.Character {
                 var negativeY = CanFitInPositionY(newPositionOnAxis, newPlayerSize, Vector2Int.down,
                     out var totalAvailableBlocksDown);
                 var distanceY = newPlayerSize.y - m_currentSize.y;
-
-                if (distanceY <= 0) {
-                    distanceY = 1;
-                }
+                var positionDistance = newPositionOnAxis.y - m_currentPos.y;
+                
+//                if (distanceY <= 0) {
+//                    distanceY = 1;
+//                }
                 
                 if (!positiveY && negativeY) {
-                    newPositionOnAxis.y = m_currentPos.y - distanceY;
+                    if (m_currentSize.y >= 8) {
+                        newPositionOnAxis.y = m_currentPos.y;
+                    }
+                    else {
+                        newPositionOnAxis.y = m_currentPos.y - distanceY;    
+                    }
                 }
                 else if (positiveY && negativeY) {
-                    newPositionOnAxis.y -= distanceY - 1;
-                }
-                else if (!positiveY && !negativeY) {
+                    if (positionDistance > 0) {
+                        newPositionOnAxis.y = m_currentPos.y;
+                    }
+                    else {
+                        newPositionOnAxis.y -= distanceY;
+                    }
+                } else if (positiveY) {
+                    newPositionOnAxis.y = m_currentPos.y;
+                } else {
                     newPositionOnAxis.y -= distanceY;
                 }
             } else if(nextDirection == Vector2.up || nextDirection == Vector2.down)  {
@@ -135,18 +160,33 @@ namespace DungeonSlime.Character {
                 var distanceX = newPlayerSize.x - m_currentSize.x;
                 var positionDistance = newPositionOnAxis.x - m_currentPos.x;
 
-                if (distanceX <= 0) {
-                    distanceX = 1;
-                }
+//                if (distanceX <= 0) {
+//                    distanceX = 1;
+//                }
                 
                 if (!positiveX && negativeX) {
-                    newPositionOnAxis.x = m_currentPos.x - distanceX;
-                } else if (positiveX && negativeX) {
-                    if (positionDistance > 0) {
+                    if (m_currentSize.x >= 8) {
                         newPositionOnAxis.x = m_currentPos.x;
                     }
                     else {
-                        newPositionOnAxis.x -= distanceX - 1;
+                        newPositionOnAxis.x = m_currentPos.x - distanceX;   
+                    }
+                } else if (positiveX && negativeX) {
+                    if (positionDistance > 0) {
+                        if (m_currentSize.x >= 8) {
+                            newPositionOnAxis.x = m_currentPos.x;
+                        }
+                        else {
+                            newPositionOnAxis.x = m_currentPos.x - 1;    
+                        }
+                    }
+                    else {
+                        if (m_currentSize.x >= 8) {
+                            newPositionOnAxis.x = m_currentPos.x;
+                        }
+                        else {
+                            newPositionOnAxis.x -= distanceX - 1;    
+                        }
                     }
                 } else if (positiveX) {
                     newPositionOnAxis.x = m_currentPos.x;
@@ -182,7 +222,7 @@ namespace DungeonSlime.Character {
             var availableBlocks = 0;
             for (var i = 0; i < newPlayerSize.x; i++) {
                 if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, newPlayerSize.y,
-                    1, out availableBlocks)) {
+                    0, out availableBlocks)) {
                     newPositionOnAxis.x += 1;
                 }
                 else {
