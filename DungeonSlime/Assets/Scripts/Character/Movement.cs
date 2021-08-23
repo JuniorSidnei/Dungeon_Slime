@@ -185,6 +185,10 @@ namespace DungeonSlime.Character {
                             newPositionOnAxis.x = m_currentPos.x;
                         }
                         else {
+                            if (distanceX <= 1) {
+                                distanceX = 2;
+                            }
+                            
                             newPositionOnAxis.x -= distanceX - 1;    
                         }
                     }
