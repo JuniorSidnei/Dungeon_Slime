@@ -137,7 +137,7 @@ namespace DungeonSlime.Character {
                         newPositionOnAxis.y = m_currentPos.y;
                     }
                     else {
-                        newPositionOnAxis.y = m_currentPos.y - distanceY;    
+                        newPositionOnAxis.y = m_currentPos.y - distanceY;  
                     }
                 }
                 else if (positiveY && negativeY) {
@@ -145,10 +145,16 @@ namespace DungeonSlime.Character {
                         newPositionOnAxis.y = m_currentPos.y;
                     }
                     else {
-                        newPositionOnAxis.y -= distanceY;
+                        //newPositionOnAxis.y -= distanceY;
+                        newPositionOnAxis.y -= 1;
                     }
                 } else if (positiveY) {
-                    newPositionOnAxis.y = m_currentPos.y;
+                    //if (m_currentSize.y >= 6) {
+                        newPositionOnAxis.y = m_currentPos.y;
+                    //}
+                    //else {
+                    //    newPositionOnAxis.y = m_currentPos.y - 1;
+                    //}
                 } else {
                     newPositionOnAxis.y -= distanceY;
                 }
