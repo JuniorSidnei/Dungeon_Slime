@@ -45,7 +45,7 @@ namespace DungeonSlime.Managers {
         private static Vector2Int GetPositionForIndex(int index, int columnCount) {
             return new Vector2Int(index % columnCount, index / columnCount);
         }
-        
+
         public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
             out Vector2Int farthestIndex, out Block farthestBlock) {
             
@@ -57,10 +57,6 @@ namespace DungeonSlime.Managers {
                 farthestBlock = block;
                 return false;
             } 
-           
-//            if (IsEndGame(block)) {
-//                //GameManager.Instance.GlobalDispatcher.Emit(new OnLoadNextScene());
-//            }
             
             if (IsWall(block)) {
                 farthestIndex = nextIndex;
@@ -74,11 +70,10 @@ namespace DungeonSlime.Managers {
         }
         
         public bool GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth,
-            int currentAvailableBlocks,
-            out int totalAvailableBlocks) {
+            int currentAvailableBlocks) {
             
             if (depth == 0) {
-                totalAvailableBlocks = currentAvailableBlocks;
+                //totalAvailableBlocks = currentAvailableBlocks;
                 return true;
             }
             
@@ -86,13 +81,13 @@ namespace DungeonSlime.Managers {
             Block block = m_currentLevel.GetBlock(nextIndex);
             
             if (IsWall(block)) {
-                totalAvailableBlocks = currentAvailableBlocks;
+                //totalAvailableBlocks = currentAvailableBlocks;
                 return false;
             }
 
             currentAvailableBlocks++;
-            totalAvailableBlocks = currentAvailableBlocks;
-            return GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth - 1, currentAvailableBlocks, out totalAvailableBlocks);
+           // totalAvailableBlocks = currentAvailableBlocks;
+            return GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth - 1, currentAvailableBlocks);
         }
 
         public Vector2Int GetPlayerInitialPosition() {
