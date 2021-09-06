@@ -22,7 +22,7 @@ namespace DungeonSlime.Character {
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
         private Block m_farthestBlock;
-        private bool m_isLevelFinished = false;
+        private bool m_isPositionAdjusted = false;
         public Ease ease;
        
         private void Awake() {
@@ -32,8 +32,6 @@ namespace DungeonSlime.Character {
             m_currentPos = m_levelManager.GetPlayerInitialPosition();
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
             transform.position = position;
-
-            m_isLevelFinished = false;
         }
         
         private void OnMove(OnMove ev) {
@@ -85,7 +83,6 @@ namespace DungeonSlime.Character {
                 adjustedPos = currentPos;
             }
             
-            
             if (direction == Vector2Int.right || direction == Vector2Int.left) {
                 guidingVector = Vector2Int.up;
                 amount = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm()).y;
@@ -94,6 +91,44 @@ namespace DungeonSlime.Character {
                 amount = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm()).x;
             }
 
+            //verificar forma semi_v
+            //verificar direção cima/baixo
+            //canFit pra direita
+            //canFit pra esquerda
+            //if direita ajusta posicao direita
+            //if esquerda ajusta posicao esquerda
+            if (m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.SEMI_STRETCHED_V)  {
+                if (direction == Vector2.up || direction == Vector2.down) {
+                    var newAdjustedPosX = adjustedPos.x -1;
+                    amount = 4;
+                    adjustedPos.x = newAdjustedPosX;
+                    m_isPositionAdjusted = true;
+                    // var isRightFree = CanFitInPositionX(new Vector2Int(newAdjustedPosXRight, adjustedPos.y),
+                    //     m_currentSize, Vector2Int.right);
+                    // var isLeftFree = CanFitInPositionX(adjustedPos, m_currentSize, Vector2Int.left);
+                    //
+                    //
+                    // if (isLeftFree)
+                    // {
+                    //     newPos = adjustedPos.x - 1;
+                    // }
+                    // else if (isRightFree)
+                    // {
+                    //     newPos = adjustedPos.x + 2;
+                    // }
+                    //
+                    // adjustedPos.x = newPos;
+
+                }
+            } else if (m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.SEMI_STRETCHED_H) {
+                if (direction == Vector2.right || direction == Vector2.left) {
+                    var newAdjustedPosY = adjustedPos.y - 1;
+                    amount = 4;
+                    adjustedPos.y = newAdjustedPosY;
+                    m_isPositionAdjusted = true;
+                }
+            }
+            
             for (var i = 0; i < amount; i++) {
                 //var blocksPositions = new List<Vector2Int>();
                 
@@ -101,11 +136,14 @@ namespace DungeonSlime.Character {
                     var newDistance = Vector2.Distance(toPosition, adjustedPos);
 
                     //blocksPositions.Add(toPosition);
-                    
                     if (newDistance <= 1) {
-                        return false;
+                        if (!m_isPositionAdjusted) return false;
+                        
+                        newDistance = (float) distance;
+                        toPosition = m_finalPos;
+                        farthestBlock = m_farthestBlock;
                     }
-                    
+
                     if (newDistance <= distance) {
                         distance = newDistance;
                         m_finalPos = toPosition;
@@ -117,6 +155,7 @@ namespace DungeonSlime.Character {
                 adjustedPos += guidingVector;
             }
 
+            m_isPositionAdjusted = false;
             return true;
         }
         
@@ -168,26 +207,6 @@ namespace DungeonSlime.Character {
                     else {
                         newPositionOnAxis.x = m_currentPos.x - 1;   
                     }
-//                    if (positionDistance > 0) {
-//                        if (m_currentSize.x >= 8) {
-//                            newPositionOnAxis.x = m_currentPos.x;
-//                        }
-//                        else {
-//                            newPositionOnAxis.x = m_currentPos.x - 1;    
-//                        }
-//                    }
-//                    else {
-//                        if (m_currentSize.x >= 8) {
-//                            newPositionOnAxis.x = m_currentPos.x;
-//                        }
-//                        else {
-//                            if (distanceX <= 1) {
-//                                distanceX = 2;
-//                            }
-//                            
-//                            newPositionOnAxis.x -= distanceX - 1;    
-//                        }
-//                    }
                 } else if (positiveX) {
                     newPositionOnAxis.x = m_currentPos.x;
                 }  else {
