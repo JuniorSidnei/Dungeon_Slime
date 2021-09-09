@@ -168,49 +168,72 @@ namespace DungeonSlime.Character {
                 var positiveY = CanFitInPositionY(newPositionOnAxis, newPlayerSize, Vector2Int.up);
                 var negativeY = CanFitInPositionY(new Vector2Int(newPositionOnAxis.x, m_currentPos.y), newPlayerSize, Vector2Int.down);
                 
-                if (!positiveY && negativeY) {
-                    if (m_currentSize.y >= 8) {
+                switch (positiveY)
+                {
+                    case false when negativeY:
+                    {
+                        if (m_currentSize.y >= 8) {
+                            newPositionOnAxis.y = m_currentPos.y;
+                        }
+                        else {
+                            newPositionOnAxis.y = m_currentPos.y - distanceY;
+                        }
+
+                        break;
+                    }
+                    case true when negativeY:
+                    {
+                        if (m_currentSize.y >= 8 || m_currentSize.y <= 1) {
+                            newPositionOnAxis.y = m_currentPos.y;
+                        }
+                        else {
+                            newPositionOnAxis.y = m_currentPos.y - 1;   
+                        }
+
+                        break;
+                    }
+                    case true:
                         newPositionOnAxis.y = m_currentPos.y;
-                    }
-                    else {
-                        newPositionOnAxis.y = m_currentPos.y - distanceY;  
-                    }
-                }
-                else if (positiveY && negativeY) {
-                    if (m_currentSize.y >= 8 || m_currentSize.y <= 1) {
-                        newPositionOnAxis.y = m_currentPos.y;
-                    }
-                    else {
-                        newPositionOnAxis.y = m_currentPos.y - 1;   
-                    }
-                } else if (positiveY) {
-                    newPositionOnAxis.y = m_currentPos.y;
-                } else {
-                    newPositionOnAxis.y -= distanceY;
+                        break;
+                    default:
+                        newPositionOnAxis.y -= distanceY;
+                        break;
                 }
             } else if(nextDirection == Vector2.up || nextDirection == Vector2.down)  {
                 var distanceX = newPlayerSize.x - m_currentSize.x;
                 var positiveX = CanFitInPositionX(newPositionOnAxis, newPlayerSize, Vector2Int.right);
                 var negativeX = CanFitInPositionX(new Vector2Int(m_currentPos.x, newPositionOnAxis.y), newPlayerSize, Vector2Int.left);
                 
-                if (!positiveX && negativeX) {
-                    if (m_currentSize.x >= 8) {
+                switch (positiveX)
+                {
+                    case false when negativeX:
+                    {
+                        if (m_currentSize.x >= 8) {
+                            newPositionOnAxis.x = m_currentPos.x;
+                        }
+                        else {
+                            newPositionOnAxis.x = m_currentPos.x - distanceX;   
+                        }
+
+                        break;
+                    }
+                    case true when negativeX:
+                    {
+                        if (m_currentSize.x >= 8 || m_currentSize.x <= 1) {
+                            newPositionOnAxis.x = m_currentPos.x;
+                        }
+                        else {
+                            newPositionOnAxis.x = m_currentPos.x - 1;   
+                        }
+
+                        break;
+                    }
+                    case true:
                         newPositionOnAxis.x = m_currentPos.x;
-                    }
-                    else {
-                        newPositionOnAxis.x = m_currentPos.x - distanceX;   
-                    }
-                } else if (positiveX && negativeX) {
-                    if (m_currentSize.x >= 8 || m_currentSize.x <= 1) {
-                        newPositionOnAxis.x = m_currentPos.x;
-                    }
-                    else {
-                        newPositionOnAxis.x = m_currentPos.x - 1;   
-                    }
-                } else if (positiveX) {
-                    newPositionOnAxis.x = m_currentPos.x;
-                }  else {
-                    newPositionOnAxis.x -= distanceX;
+                        break;
+                    default:
+                        newPositionOnAxis.x -= distanceX;
+                        break;
                 }
             }
             
