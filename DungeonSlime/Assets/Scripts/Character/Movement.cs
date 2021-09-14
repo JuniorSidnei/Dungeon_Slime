@@ -8,6 +8,7 @@ using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DungeonSlime.Character {
     public class Movement : MonoBehaviour {
@@ -22,7 +23,7 @@ namespace DungeonSlime.Character {
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
         private Block m_farthestBlock;
-        private bool m_isPositionAdjusted = false;
+        private bool m_isDead = false;
         public Ease ease;
        
         private void Awake() {
@@ -33,7 +34,7 @@ namespace DungeonSlime.Character {
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
             transform.position = position;
         }
-        
+
         private void OnMove(OnMove ev) {
             if (m_moving || ev.Direction == Vector2Int.zero) return;
 
@@ -54,6 +55,10 @@ namespace DungeonSlime.Character {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));    
                     });
                     m_currentPos = m_finalPos;
+                    
+                    if (m_levelManager.IsPlayerDead()) {
+                        SceneManager.LoadScene("level_07");
+                    }
                 });
             } else if(ev.Direction == Vector2.up || ev.Direction == Vector2.down) {
                 transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
@@ -62,6 +67,10 @@ namespace DungeonSlime.Character {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction)); 
                     });
                     m_currentPos = m_finalPos;
+                    
+                    if (m_levelManager.IsPlayerDead()) {
+                        SceneManager.LoadScene("level_07");
+                    }
                 });
             }
         }
@@ -91,57 +100,14 @@ namespace DungeonSlime.Character {
                 amount = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm()).x;
             }
 
-            //verificar forma semi_v
-            //verificar direção cima/baixo
-            //canFit pra direita
-            //canFit pra esquerda
-            //if direita ajusta posicao direita
-            //if esquerda ajusta posicao esquerda
-            if (m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.SEMI_STRETCHED_V)  {
-                if (direction == Vector2.up || direction == Vector2.down) {
-                    var newAdjustedPosX = adjustedPos.x -1;
-                    amount = 4;
-                    adjustedPos.x = newAdjustedPosX;
-                    m_isPositionAdjusted = true;
-                    // var isRightFree = CanFitInPositionX(new Vector2Int(newAdjustedPosXRight, adjustedPos.y),
-                    //     m_currentSize, Vector2Int.right);
-                    // var isLeftFree = CanFitInPositionX(adjustedPos, m_currentSize, Vector2Int.left);
-                    //
-                    //
-                    // if (isLeftFree)
-                    // {
-                    //     newPos = adjustedPos.x - 1;
-                    // }
-                    // else if (isRightFree)
-                    // {
-                    //     newPos = adjustedPos.x + 2;
-                    // }
-                    //
-                    // adjustedPos.x = newPos;
-
-                }
-            } else if (m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.SEMI_STRETCHED_H) {
-                if (direction == Vector2.right || direction == Vector2.left) {
-                    var newAdjustedPosY = adjustedPos.y - 1;
-                    amount = 4;
-                    adjustedPos.y = newAdjustedPosY;
-                    m_isPositionAdjusted = true;
-                }
-            }
-            
             for (var i = 0; i < amount; i++) {
                 //var blocksPositions = new List<Vector2Int>();
-                
                 if (m_levelManager.GetFarthestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Block farthestBlock)) {
                     var newDistance = Vector2.Distance(toPosition, adjustedPos);
 
                     //blocksPositions.Add(toPosition);
                     if (newDistance <= 1) {
-                        if (!m_isPositionAdjusted) return false;
-                        
-                        newDistance = (float) distance;
-                        toPosition = m_finalPos;
-                        farthestBlock = m_farthestBlock;
+                        return false;
                     }
 
                     if (newDistance <= distance) {
@@ -154,9 +120,9 @@ namespace DungeonSlime.Character {
                 
                 adjustedPos += guidingVector;
             }
-
-            m_isPositionAdjusted = false;
+            
             return true;
+            
         }
         
         private void ResolveCollision(Vector2Int currentPosition, Vector2 nextDirection) {
@@ -165,11 +131,11 @@ namespace DungeonSlime.Character {
             
             if (nextDirection == Vector2.right || nextDirection == Vector2.left) {
                 var distanceY = newPlayerSize.y - m_currentSize.y;
-                var positiveY = CanFitInPositionY(newPositionOnAxis, newPlayerSize, Vector2Int.up);
-                var negativeY = CanFitInPositionY(new Vector2Int(newPositionOnAxis.x, m_currentPos.y), newPlayerSize, Vector2Int.down);
+                var positiveY = CanFitInPosition(newPositionOnAxis, newPlayerSize, Vector2Int.up, true);
+                var negativeY = CanFitInPosition(new Vector2Int(newPositionOnAxis.x, m_currentPos.y), newPlayerSize, Vector2Int.down, true);
                 
-                switch (positiveY)
-                {
+                switch (positiveY) {
+                        
                     case false when negativeY:
                     {
                         if (m_currentSize.y >= 8) {
@@ -184,12 +150,17 @@ namespace DungeonSlime.Character {
                     case true when negativeY:
                     {
                         if (m_currentSize.y >= 8 || m_currentSize.y <= 1) {
-                            newPositionOnAxis.y = m_currentPos.y;
+                            if (newPlayerSize.y >= 8 || newPlayerSize.y <= 1) {
+                                newPositionOnAxis.y = m_currentPos.y;
+                            }
+                            else {
+                                newPositionOnAxis.y = m_currentPos.y - 1;
+                            }
                         }
                         else {
-                            newPositionOnAxis.y = m_currentPos.y - 1;   
+                            //need to fix this shit! fuck
+                            newPositionOnAxis.y = m_currentPos.y - 1;
                         }
-
                         break;
                     }
                     case true:
@@ -201,8 +172,8 @@ namespace DungeonSlime.Character {
                 }
             } else if(nextDirection == Vector2.up || nextDirection == Vector2.down)  {
                 var distanceX = newPlayerSize.x - m_currentSize.x;
-                var positiveX = CanFitInPositionX(newPositionOnAxis, newPlayerSize, Vector2Int.right);
-                var negativeX = CanFitInPositionX(new Vector2Int(m_currentPos.x, newPositionOnAxis.y), newPlayerSize, Vector2Int.left);
+                var positiveX = CanFitInPosition(newPositionOnAxis, newPlayerSize, Vector2Int.right, false);
+                var negativeX = CanFitInPosition(new Vector2Int(m_currentPos.x, newPositionOnAxis.y), newPlayerSize, Vector2Int.left, false);
                 
                 switch (positiveX)
                 {
@@ -219,13 +190,14 @@ namespace DungeonSlime.Character {
                     }
                     case true when negativeX:
                     {
-                        if (m_currentSize.x >= 8 || m_currentSize.x <= 1) {
+                        if (m_currentSize.x >= 8) {
                             newPositionOnAxis.x = m_currentPos.x;
+                        } else if (m_currentSize.x <= 1) {
+                            newPositionOnAxis.x = m_currentPos.x - 1;
                         }
                         else {
-                            newPositionOnAxis.x = m_currentPos.x - 1;   
+                            newPositionOnAxis.x = m_currentPos.x - 1;
                         }
-
                         break;
                     }
                     case true:
@@ -245,7 +217,7 @@ namespace DungeonSlime.Character {
             var newY = currentFinalPos.y;
             
             if (nextDirection == Vector2.right) {
-               newX = currentFinalPos.x - nextPlayerSize.x;
+                newX = currentFinalPos.x - nextPlayerSize.x;
             } else if (nextDirection == Vector2.left) {
                 newX = currentFinalPos.x + 1;
             } else if (nextDirection == Vector2.up) {
@@ -257,42 +229,67 @@ namespace DungeonSlime.Character {
             return new Vector2Int(newX, newY);
         }
 
-    
-        private bool CanFitInPositionY(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize,
-            Vector2Int nextDirection) {
-            //var availableBlocks = 0;
-            for (var i = 0; i < newPlayerSize.x; i++) {
-                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, 1,
-                    0)) {
-                    newPositionOnAxis.x += 1;
-                }
-                else {
-                    //totalAvailableBlocks = 0;
-                    return false;
-                }
-            }
-            
-            //totalAvailableBlocks = availableBlocks;
-            return true;
-        }
+        private bool CanFitInPosition(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize, Vector2Int nextDirection, bool isHorizontal) {
 
-        private bool CanFitInPositionX(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize,
-            Vector2Int nextDirection) {
-            //var availableBlocks = 0;
-            for (var i = 0; i < newPlayerSize.y; i++) {
-                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, 1,
-                    1)) {
-                    newPositionOnAxis.y += 1;
+            var axisSize = 0;
+            var axisMovement = 0;
+            
+            if (isHorizontal) {
+                axisSize = newPlayerSize.x;
+                axisMovement = newPositionOnAxis.x;
+            } else {
+                axisSize = newPlayerSize.y;
+                axisMovement = newPositionOnAxis.y;
+            }
+            
+            for (var i = 0; i < axisSize; i++) {
+                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, 1, 0)) {
+                    axisMovement += 1;
                 }
                 else {
-                    //totalAvailableBlocks = 0;
                     return false;
                 }
             }
-            
-            //totalAvailableBlocks = availableBlocks;
             return true;
         }
+        
+    
+//        private bool CanFitInPositionY(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize,
+//            Vector2Int nextDirection) {
+//            //var availableBlocks = 0;
+//            for (var i = 0; i < newPlayerSize.x; i++) {
+//                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, 1,
+//                    0)) {
+//                    newPositionOnAxis.x += 1;
+//                }
+//                else {
+//                    //totalAvailableBlocks = 0;
+//                    return false;
+//                }
+//                
+//            }
+//            
+//            //totalAvailableBlocks = availableBlocks;
+//            return true;
+//        }
+//
+//        private bool CanFitInPositionX(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize,
+//            Vector2Int nextDirection) {
+//            //var availableBlocks = 0;
+//            for (var i = 0; i < newPlayerSize.y; i++) {
+//                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, 1,
+//                    1)) {
+//                    newPositionOnAxis.y += 1;
+//                }
+//                else {
+//                    //totalAvailableBlocks = 0;
+//                    return false;
+//                }
+//            }
+//            
+//            //totalAvailableBlocks = availableBlocks;
+//            return true;
+//        }
 
         private void SetPlayerPositionAndSize(Vector2Int pos, Vector2Int size) {
             m_finalPos = pos;

@@ -14,6 +14,7 @@ namespace DungeonSlime.Managers {
         public LevelData levelData;
         
         private Level m_currentLevel;
+        private bool m_isDead = false;
 
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
 
@@ -23,6 +24,7 @@ namespace DungeonSlime.Managers {
             m_tiles.Add(Block.BlockType.Empty, levelDataTiles.GetEmptyTile());
             m_tiles.Add(Block.BlockType.InitialPosition, levelDataTiles.GetInitialPositionTile());
             m_tiles.Add(Block.BlockType.Endgame, levelDataTiles.GetEndPointTile());
+            m_tiles.Add(Block.BlockType.Spikes, levelDataTiles.GetSpikesTile());
             
             LoadLevel();
         }
@@ -46,6 +48,10 @@ namespace DungeonSlime.Managers {
             return new Vector2Int(index % columnCount, index / columnCount);
         }
 
+        public bool IsPlayerDead() {
+            return m_isDead;
+        }
+        
         public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
             out Vector2Int farthestIndex, out Block farthestBlock) {
             
@@ -63,6 +69,11 @@ namespace DungeonSlime.Managers {
                 farthestBlock = block;
                 return true;
             }
+            
+            if(IsSpike(block)) {
+                m_isDead = true;
+            }
+            
             
             farthestIndex = nextIndex;
             farthestBlock = block;
@@ -83,6 +94,10 @@ namespace DungeonSlime.Managers {
             if (IsWall(block)) {
                 //totalAvailableBlocks = currentAvailableBlocks;
                 return false;
+            }
+
+            if (IsSpike(block)) {
+                m_isDead = true;
             }
 
             currentAvailableBlocks++;
@@ -113,6 +128,10 @@ namespace DungeonSlime.Managers {
 
         private bool IsEndGame(Block block) {
             return block.type == Block.BlockType.Endgame;
+        }
+
+        private bool IsSpike(Block block) {
+            return block.type == Block.BlockType.Spikes;
         }
     }
 }
