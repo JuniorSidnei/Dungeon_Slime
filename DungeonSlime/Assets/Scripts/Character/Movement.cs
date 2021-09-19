@@ -22,8 +22,10 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
+        private Vector2Int m_basePositionOnAxis;
         private Block m_farthestBlock;
         private bool m_isDead = false;
+        private int m_movementOffset = 0;
         public Ease ease;
        
         private void Awake() {
@@ -101,16 +103,14 @@ namespace DungeonSlime.Character {
             }
 
             for (var i = 0; i < amount; i++) {
-                //var blocksPositions = new List<Vector2Int>();
                 if (m_levelManager.GetFarthestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Block farthestBlock)) {
                     var newDistance = Vector2.Distance(toPosition, adjustedPos);
 
-                    //blocksPositions.Add(toPosition);
                     if (newDistance <= 1) {
                         return false;
                     }
 
-                    if (newDistance <= distance) {
+                    if (newDistance < distance) {
                         distance = newDistance;
                         m_finalPos = toPosition;
                         m_farthestBlock = farthestBlock;
@@ -122,7 +122,6 @@ namespace DungeonSlime.Character {
             }
             
             return true;
-            
         }
         
         private void ResolveCollision(Vector2Int currentPosition, Vector2 nextDirection) {
@@ -130,86 +129,160 @@ namespace DungeonSlime.Character {
             var newPositionOnAxis = GetNewPositionOnAxis(currentPosition, nextDirection, newPlayerSize);
             
             if (nextDirection == Vector2.right || nextDirection == Vector2.left) {
-                var distanceY = newPlayerSize.y - m_currentSize.y;
-                var positiveY = CanFitInPosition(newPositionOnAxis, newPlayerSize, Vector2Int.up, true);
-                var negativeY = CanFitInPosition(new Vector2Int(newPositionOnAxis.x, m_currentPos.y), newPlayerSize, Vector2Int.down, true);
-                
-                switch (positiveY) {
-                        
-                    case false when negativeY:
-                    {
-                        if (m_currentSize.y >= 8) {
-                            newPositionOnAxis.y = m_currentPos.y;
-                        }
-                        else {
-                            newPositionOnAxis.y = m_currentPos.y - distanceY;
-                        }
+                //var distanceY = newPlayerSize.y - m_currentSize.y;
 
-                        break;
+                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, Vector2Int.down, 1, 0, true)) {
+                    
+                    if (newPlayerSize.y >= 8) {
+                        m_currentPos.y += 1;
                     }
-                    case true when negativeY:
-                    {
-                        if (m_currentSize.y >= 8 || m_currentSize.y <= 1) {
-                            if (newPlayerSize.y >= 8 || newPlayerSize.y <= 1) {
-                                newPositionOnAxis.y = m_currentPos.y;
-                            }
-                            else {
-                                newPositionOnAxis.y = m_currentPos.y - 1;
-                            }
-                        }
-                        else {
-                            //need to fix this shit! fuck
-                            newPositionOnAxis.y = m_currentPos.y - 1;
-                        }
-                        break;
+
+                    if (CanFitInPosition(new Vector2Int(newPositionOnAxis.x, m_currentPos.y - 1),
+                        newPlayerSize,
+                        Vector2Int.up,
+                        false, true,
+                        Vector2Int.down,
+                        100)) {
+                        Debug.Log("i can move");
                     }
-                    case true:
-                        newPositionOnAxis.y = m_currentPos.y;
-                        break;
-                    default:
-                        newPositionOnAxis.y -= distanceY;
-                        break;
+                    else {
+                        SetPlayerPositionAndSize(m_currentPos, m_currentSize);
+                    }
                 }
+                else {
+                    if (CanFitInPosition(new Vector2Int(newPositionOnAxis.x, m_currentPos.y),
+                        newPlayerSize,
+                        Vector2Int.up,
+                        false, true,
+                        Vector2Int.down,
+                        100)) {
+                        Debug.Log("i can move");
+                    }
+                    else {
+                        SetPlayerPositionAndSize(m_currentPos, m_currentSize);
+                    }
+                }
+
+                
+//                else {
+//                    SetPlayerPositionAndSize(m_currentPos, newPlayerSize);    
+//                }
+
+//                switch (positiveY) {
+//                        
+//                    case false when negativeY:
+//                    {
+//                        if (m_currentSize.y >= 8) {
+//                            newPositionOnAxis.y = m_currentPos.y;
+//                        }
+//                        else {
+//                            newPositionOnAxis.y = m_currentPos.y - distanceY;
+//                        }
+//
+//                        break;
+//                    }
+//                    case true when negativeY:
+//                    {
+//                        if (m_currentSize.y >= 8 || m_currentSize.y <= 1) {
+//                            if (newPlayerSize.y >= 8 || newPlayerSize.y <= 1) {
+//                                newPositionOnAxis.y = m_currentPos.y;
+//                            }
+//                            else {
+//                                newPositionOnAxis.y = m_currentPos.y - 1;
+//                            }
+//                        }
+//                        else {
+//                            //need to fix this shit! fuck
+//                            newPositionOnAxis.y = m_currentPos.y - 1;
+//                        }
+//                        break;
+//                    }
+//                    case true:
+//                        newPositionOnAxis.y = m_currentPos.y;
+//                        break;
+//                    default:
+//                        newPositionOnAxis.y -= distanceY;
+//                        break;
+//                }
             } else if(nextDirection == Vector2.up || nextDirection == Vector2.down)  {
-                var distanceX = newPlayerSize.x - m_currentSize.x;
-                var positiveX = CanFitInPosition(newPositionOnAxis, newPlayerSize, Vector2Int.right, false);
-                var negativeX = CanFitInPosition(new Vector2Int(m_currentPos.x, newPositionOnAxis.y), newPlayerSize, Vector2Int.left, false);
-                
-                switch (positiveX)
-                {
-                    case false when negativeX:
-                    {
-                        if (m_currentSize.x >= 8) {
-                            newPositionOnAxis.x = m_currentPos.x;
-                        }
-                        else {
-                            newPositionOnAxis.x = m_currentPos.x - distanceX;   
-                        }
 
-                        break;
+//                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, Vector2Int.right, 1, 0)) {
+//                   
+//                }
+
+                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, Vector2Int.left, 1, 0, true)) {
+
+                    if (newPlayerSize.x >= 8) {
+                        newPositionOnAxis.x += 1;
                     }
-                    case true when negativeX:
-                    {
-                        if (m_currentSize.x >= 8) {
-                            newPositionOnAxis.x = m_currentPos.x;
-                        } else if (m_currentSize.x <= 1) {
-                            newPositionOnAxis.x = m_currentPos.x - 1;
-                        }
-                        else {
-                            newPositionOnAxis.x = m_currentPos.x - 1;
-                        }
-                        break;
+                    
+                    if(CanFitInPosition(new Vector2Int(newPositionOnAxis.x - 1, newPositionOnAxis.y),
+                        newPlayerSize,
+                        Vector2Int.right,
+                        true, true,
+                        Vector2Int.left,
+                        100)) {
+                        Debug.Log("i can move");
                     }
-                    case true:
-                        newPositionOnAxis.x = m_currentPos.x;
-                        break;
-                    default:
-                        newPositionOnAxis.x -= distanceX;
-                        break;
+                    else {
+                        SetPlayerPositionAndSize(m_currentPos, m_currentSize);
+                    }
                 }
+                else {
+                    if (CanFitInPosition(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y),
+                        newPlayerSize,
+                        Vector2Int.right,
+                        true, true,
+                        Vector2Int.left,
+                        100)) {
+                        Debug.Log("i can move");
+                    }
+                    else {
+                        SetPlayerPositionAndSize(m_currentPos, m_currentSize);
+                    }
+                }
+                
+                
+//                var distanceX = newPlayerSize.x - m_currentSize.x;
+//                var positiveX = CanFitInPosition(newPositionOnAxis, newPlayerSize, Vector2Int.right, false);
+//                var negativeX = CanFitInPosition(new Vector2Int(m_currentPos.x, newPositionOnAxis.y), newPlayerSize, Vector2Int.left, false);
+//                
+//                switch (positiveX)
+//                {
+//                    case false when negativeX:
+//                    {
+//                        if (m_currentSize.x >= 8) {
+//                            newPositionOnAxis.x = m_currentPos.x;
+//                        }
+//                        else {
+//                            newPositionOnAxis.x = m_currentPos.x - distanceX;   
+//                        }
+//
+//                        break;
+//                    }
+//                    case true when negativeX:
+//                    {
+//                        if (m_currentSize.x >= 8) {
+//                            newPositionOnAxis.x = m_currentPos.x;
+//                        } else if (m_currentSize.x <= 1) {
+//                            newPositionOnAxis.x = m_currentPos.x - 1;
+//                        }
+//                        else {
+//                            newPositionOnAxis.x = m_currentPos.x - 1;
+//                        }
+//                        break;
+//                    }
+//                    case true:
+//                        newPositionOnAxis.x = m_currentPos.x;
+//                        break;
+//                    default:
+//                        newPositionOnAxis.x -= distanceX;
+//                        break;
+//                }
             }
             
-            SetPlayerPositionAndSize(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y), newPlayerSize);
+            //atualizar nova posição com os valores do canFit
+            //SetPlayerPositionAndSize(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y), newPlayerSize);
         }
 
         private Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
@@ -229,25 +302,57 @@ namespace DungeonSlime.Character {
             return new Vector2Int(newX, newY);
         }
 
-        private bool CanFitInPosition(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize, Vector2Int nextDirection, bool isHorizontal) {
+        private bool CanFitInPosition(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize, Vector2Int nextDirection,
+            bool isHorizontal, bool needUpdateBasePosition, Vector2Int invertedDirection, int depth) {
 
+            if (depth == 0) {
+                return false;
+            }
+
+           
+            
             var axisSize = 0;
-            var axisMovement = 0;
+            var countSize = 0;
+            Vector2Int axisMovement;
+
+            if (needUpdateBasePosition) {
+                m_basePositionOnAxis = newPositionOnAxis;
+            }
+
+            SetPlayerPositionAndSize(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y), newPlayerSize);
             
             if (isHorizontal) {
                 axisSize = newPlayerSize.x;
-                axisMovement = newPositionOnAxis.x;
+                countSize = newPlayerSize.y;
+                axisMovement = Vector2Int.up;
             } else {
                 axisSize = newPlayerSize.y;
-                axisMovement = newPositionOnAxis.y;
+                countSize = newPlayerSize.x;
+                axisMovement = Vector2Int.right;
             }
             
-            for (var i = 0; i < axisSize; i++) {
-                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, 1, 0)) {
-                    axisMovement += 1;
+            
+            for (var i = 0; i < countSize; i++) {
+                if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, axisSize, 0, false)) {
+                    newPositionOnAxis += axisMovement;
                 }
                 else {
-                    return false;
+                    if (i <= 0) {
+                        if (isHorizontal) {
+                            CanFitInPosition(new Vector2Int(newPositionOnAxis.x - 1, newPositionOnAxis.y), newPlayerSize, nextDirection, true, false, invertedDirection, depth - 1);
+                        }
+                        else {
+                            CanFitInPosition(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y - 1), newPlayerSize, nextDirection, false, false, invertedDirection, depth - 1);
+                        }
+                    }
+                    else {
+                        if (isHorizontal) {
+                            CanFitInPosition(new Vector2Int(m_basePositionOnAxis.x + 1, m_basePositionOnAxis.y), newPlayerSize, nextDirection, true, true, invertedDirection, depth - 1);
+                        }
+                        else {
+                            CanFitInPosition(new Vector2Int(m_basePositionOnAxis.x, m_basePositionOnAxis.y - 1), newPlayerSize, nextDirection, false, true, invertedDirection, depth - 1);
+                        }
+                    }
                 }
             }
             return true;
