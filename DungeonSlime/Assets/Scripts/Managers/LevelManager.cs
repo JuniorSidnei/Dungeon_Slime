@@ -81,10 +81,10 @@ namespace DungeonSlime.Managers {
         }
         
         public bool GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth,
-            int currentAvailableBlocks, bool isCheckingValidPosition) {
+            int currentAvailableBlocks, bool isCheckingValidPosition, out int totalAvailableBlocks) {
             
             if (depth == 0) {
-                //totalAvailableBlocks = currentAvailableBlocks;
+                totalAvailableBlocks = currentAvailableBlocks;
                 return true;
             }
 
@@ -97,13 +97,12 @@ namespace DungeonSlime.Managers {
             }
             else {
                 nextIndex = currentIndex + direction;
-                Debug.Log("index: " + nextIndex);
                 block = m_currentLevel.GetBlock(nextIndex);
             }
             
             
             if (IsWall(block)) {
-                //totalAvailableBlocks = currentAvailableBlocks;
+                totalAvailableBlocks = currentAvailableBlocks;
                 return false;
             }
 
@@ -112,8 +111,8 @@ namespace DungeonSlime.Managers {
             }
 
             currentAvailableBlocks++;
-           // totalAvailableBlocks = currentAvailableBlocks;
-            return GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth - 1, currentAvailableBlocks, isCheckingValidPosition);
+            totalAvailableBlocks = currentAvailableBlocks;
+            return GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth - 1, currentAvailableBlocks, isCheckingValidPosition, out totalAvailableBlocks);
         }
 
         public Vector2Int GetPlayerInitialPosition() {
