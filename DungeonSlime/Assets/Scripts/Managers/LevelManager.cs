@@ -69,10 +69,10 @@ namespace DungeonSlime.Managers {
                 farthestBlock = block;
                 return true;
             }
-            
-            if(IsSpike(block)) {
-                m_isDead = true;
-            }
+//            
+//            if(IsSpike(block)) {
+//                m_isDead = true;
+//            }
             
             
             farthestIndex = nextIndex;
