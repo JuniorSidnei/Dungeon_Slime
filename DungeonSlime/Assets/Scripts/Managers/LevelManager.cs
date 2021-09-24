@@ -69,10 +69,13 @@ namespace DungeonSlime.Managers {
                 farthestBlock = block;
                 return true;
             }
-//            
-//            if(IsSpike(block)) {
-//                m_isDead = true;
-//            }
+            
+            if(IsSpike(block)) {
+                //m_isDead = true;
+                //todo:: pegar a posição do spike e deixar guardada
+                //verificar com a posição do block que vou mover
+                //se a distância do spike for menor, eu morri
+            }
             
             
             farthestIndex = nextIndex;
