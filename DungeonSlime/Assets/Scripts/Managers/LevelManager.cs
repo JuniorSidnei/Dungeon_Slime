@@ -52,35 +52,34 @@ namespace DungeonSlime.Managers {
             return m_isDead;
         }
         
-        public bool GetFarthestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
-            out Vector2Int farthestIndex, out Block farthestBlock) {
+        public bool GetNearestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
+            out Vector2Int nearestIndex, out Vector2Int nearestSpikeIndex) {
+
+            m_isDead = false;
             
             Vector2Int nextIndex = currentIndex + direction;
             Block block = m_currentLevel.GetBlock(nextIndex);
             
             if (depth == 0) {
-                farthestIndex = nextIndex;
-                farthestBlock = block;
+                nearestIndex = nextIndex;
+                nearestSpikeIndex = Vector2Int.zero;
                 return false;
             } 
             
             if (IsWall(block)) {
-                farthestIndex = nextIndex;
-                farthestBlock = block;
+                nearestIndex = nextIndex;
+                nearestSpikeIndex = Vector2Int.zero;
+                return true;
+            }
+
+            if (IsSpike(block)) {
+                nearestIndex = nextIndex;
+                nearestSpikeIndex = nearestIndex;
                 return true;
             }
             
-            if(IsSpike(block)) {
-                //m_isDead = true;
-                //todo:: pegar a posição do spike e deixar guardada
-                //verificar com a posição do block que vou mover
-                //se a distância do spike for menor, eu morri
-            }
-            
-            
-            farthestIndex = nextIndex;
-            farthestBlock = block;
-            return GetFarthestBlock(nextIndex, direction, depth - 1, out farthestIndex, out block);
+            nearestIndex = nextIndex;
+            return GetNearestBlock(nextIndex, direction, depth - 1, out nearestIndex, out nearestSpikeIndex);
         }
         
         public bool GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth,

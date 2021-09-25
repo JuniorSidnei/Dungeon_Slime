@@ -15,7 +15,7 @@ namespace DungeonSlime.Managers {
         private AsyncOperation m_loadScene;
 
         private void OnEnable()  {
-            StartCoroutine(WaitToFadeOut(2));
+            StartCoroutine(WaitToFadeOut(0.5f));
         }
         
         private void Update() {
@@ -24,13 +24,13 @@ namespace DungeonSlime.Managers {
         
         public void LoadNextScene(int nextLevelIndex) {
             transitionController.DoTransitionIn(0.5f, () => {
-                StartCoroutine(LoadScene(string.Format("Level_0{0}", nextLevelIndex)));    
+                StartCoroutine(LoadScene(string.Format("Level_0{0}", nextLevelIndex)));
             });
         }
 
         IEnumerator WaitToFadeOut(float time) {
             yield return new WaitForSeconds(time);
-            transitionController.DoTransitionOut(2f);
+            transitionController.DoTransitionOut(1f);
         }
         
         IEnumerator LoadScene(string sceneToLoad) {
