@@ -186,30 +186,37 @@ namespace DungeonSlime.Character {
             
             if (nextDirection == Vector2.right) {
                 newX = currentFinalPos.x - nextPlayerSize.x;
-
                 newY = FixCurrentPosition(m_currentSize, m_currentPos.y, true, nextPlayerSize);
             } else if (nextDirection == Vector2.left) {
                 newX = currentFinalPos.x + 1;
                 newY = FixCurrentPosition(m_currentSize, m_currentPos.y, true, nextPlayerSize);
             } else if (nextDirection == Vector2.up) {
                 newY = currentFinalPos.y - nextPlayerSize.y;
-                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, isSpecialCase, nextPlayerSize);
+                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, true, nextPlayerSize);
             } else if (nextDirection == Vector2.down) {
                 newY = currentFinalPos.y + 1;
-                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, isSpecialCase, nextPlayerSize);
+                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, true, nextPlayerSize);
             }
             
             return new Vector2Int(newX, newY);
         }
 
         private int FixCurrentPosition(Vector2Int size, int currentValue, bool isSpecialCase, Vector2Int nextSize) {
-            if (size.x < 8 || size.y < 8) {
+            if (size.x >= 8 || size.y >= 8) {
                 if (nextSize.x >= 8 || nextSize.y >= 8) {
                     return currentValue;
                 }
-                
+
                 return currentValue - 1;
             }
+            
+//            if (size.x < 8 || size.y < 8) {
+//                if (nextSize.x >= 8 || nextSize.y >= 8) {
+//                    return currentValue;
+//                }
+//
+//                return currentValue - 1;
+//            }
             
             if (isSpecialCase) {
                 return currentValue - 1;
