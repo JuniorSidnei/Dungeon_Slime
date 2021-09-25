@@ -21,6 +21,7 @@ namespace DungeonSlime.Character {
         private float m_speed;
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
+        private Vector2Int m_deadPos;
         private Vector2Int m_currentSize;
         private Vector2Int m_basePositionOnAxis;
         private Block m_farthestBlock;
@@ -47,38 +48,53 @@ namespace DungeonSlime.Character {
                 return;
             }
             
+            if(PlayerDied(m_finalPos, m_deadPos)) {
+                m_isDead = true;
+            }
+            
             ResolveCollision(m_finalPos, ev.Direction);
+
+            if (m_levelManager.IsPlayerDead()) {
+                m_isDead = true;
+            }
+            
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
 
             if (ev.Direction == Vector2.right || ev.Direction == Vector2.left) {
                 transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() => {
-                    m_moving = false;
-                    transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));    
-                    });
-                    m_currentPos = m_finalPos;
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
                     
-                    if (m_levelManager.IsPlayerDead()) {
+                    if (m_isDead) {
                         SceneManager.LoadScene("level_07");
                     }
+                    
+                    transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
+                        m_moving = false;        
+                    });
+                    m_currentPos = m_finalPos;
                 });
             } else if(ev.Direction == Vector2.up || ev.Direction == Vector2.down) {
                 transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-                    m_moving = false;
-                    transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction)); 
-                    });
-                    m_currentPos = m_finalPos;
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
                     
-                    if (m_levelManager.IsPlayerDead()) {
+                    if (m_isDead) {
                         SceneManager.LoadScene("level_07");
                     }
+                    
+                    transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
+                        m_moving = false;     
+                    });
+                    m_currentPos = m_finalPos;
                 });
             }
         }
+
+        private bool PlayerDied(Vector2Int finalPos, Vector2Int deadPos) {
+            return finalPos.x == deadPos.x || finalPos.y == deadPos.y;
+        }
         
         private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
-            var distance = 5000.0;
+            var oldWallDistance = 5000.0;
 
             var amount = 0;
             var adjustedPos = Vector2Int.zero;
@@ -103,18 +119,21 @@ namespace DungeonSlime.Character {
             }
 
             for (var i = 0; i < amount; i++) {
-                if (m_levelManager.GetFarthestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Block farthestBlock)) {
-                    var newDistance = Vector2.Distance(toPosition, adjustedPos);
-
-                    if (newDistance <= 1) {
+                if (m_levelManager.GetNearestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Vector2Int nearestSpikeIndex)) {
+                    var wallDistance = Vector2.Distance(toPosition, adjustedPos);
+                    
+                    if (wallDistance <= 1) {
                         return false;
                     }
 
-                    if (newDistance < distance) {
-                        distance = newDistance;
+                    if (wallDistance < oldWallDistance) {
+                        oldWallDistance = wallDistance;
                         m_finalPos = toPosition;
-                        m_farthestBlock = farthestBlock;
-                        m_speed = (float) (distance / m_speedMultiplier);
+                        m_speed = (float) (oldWallDistance / m_speedMultiplier);
+                    }
+
+                    if (nearestSpikeIndex.x > 0 && nearestSpikeIndex.y > 0) {
+                        m_deadPos = nearestSpikeIndex;
                     }
                 }
                 
@@ -136,17 +155,6 @@ namespace DungeonSlime.Character {
                     false,
                     true,
                     50);
-//                if (CanFitInPosition(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y),
-//                    newPlayerSize,
-//                    Vector2Int.up,
-//                    false, true,
-//                    Vector2Int.down,
-//                    100)) {
-//                    SetPlayerPositionAndSize(new Vector2Int(m_basePositionOnAxis.x, m_basePositionOnAxis.y), newPlayerSize);
-//                }
-//                else {
-//                    SetPlayerPositionAndSize(m_currentPos, m_currentSize);
-//                }
             } else if(nextDirection == Vector2.up || nextDirection == Vector2.down)  {
                 SetupCanFitPosition(newPositionOnAxis,
                      newPlayerSize, 
@@ -155,17 +163,6 @@ namespace DungeonSlime.Character {
                     true,
                     true,
                     50);
-//                if(CanFitInPosition(new Vector2Int(newPositionOnAxis.x, newPositionOnAxis.y),
-//                    newPlayerSize,
-//                    Vector2Int.right,
-//                    true, true,
-//                    Vector2Int.left, 
-//                    100)) {
-//                    SetPlayerPositionAndSize(new Vector2Int(m_basePositionOnAxis.x, m_basePositionOnAxis.y), newPlayerSize);
-//                }
-//                else {
-//                    SetPlayerPositionAndSize(m_currentPos, m_currentSize);
-//                }
             }
         }
 
@@ -251,6 +248,7 @@ namespace DungeonSlime.Character {
             for (var i = 0; i < countSize; i++) {
                 if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, axisSize, 0, false, out var totalAvailableBlocks)) {
                     newPositionOnAxis += axisMovement;
+                    
                 }
                 else {
                     //if the first index is wall, change direction
