@@ -39,8 +39,8 @@ namespace DungeonSlime.Managers {
                 var position = GetPositionForIndex(i, level.columnCount);
                 tilemap.SetTile(new Vector3Int(position.x, position.y, 0), m_tiles[level.blocks[i].type]);
 
-                var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int)position));
-                text.SetText(string.Format("{0}/{1}", position.x, position.y));
+                //var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int)position));
+                //text.SetText(string.Format("{0}/{1}", position.x, position.y));
             }
         }
 
