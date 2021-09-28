@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionController: {fileID: 229392573}
+  LevelManager: {fileID: 40119390}
 --- !u!4 &229392572
 Transform:
   m_ObjectHideFlags: 0
@@ -485,7 +486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33dedff7dc9008d489d84f16b3fe8c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelData: {fileID: 11400000, guid: a0232628af1634b47b6eeb46a9522f0a, type: 2}
 --- !u!4 &785874059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7880161893219169292, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}

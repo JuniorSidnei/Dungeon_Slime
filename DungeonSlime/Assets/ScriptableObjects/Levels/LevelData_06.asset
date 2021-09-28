@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d56581ac6b1dd94bb8eb3067a4a6e71, type: 3}
   m_Name: LevelData_06
   m_EditorClassIdentifier: 
-  LevelTexture: {fileID: 2800000, guid: 39c2745f88f558e45bbe91a9d76705ba, type: 3}
-  CurrentLevelData: 6
-  NextLevelData: 7
-  LevelJson: {fileID: 4900000, guid: 380b5930d94096440913a3221afa492e, type: 3}
+  levelTexture: {fileID: 2800000, guid: 39c2745f88f558e45bbe91a9d76705ba, type: 3}
+  currentLevelData: 6
+  nextLevelData: 7
+  levelJson: {fileID: 4900000, guid: 380b5930d94096440913a3221afa492e, type: 3}

@@ -12,6 +12,7 @@ namespace DungeonSlime.Managers {
 
         public QueuedEventDispatcher GlobalDispatcher = new QueuedEventDispatcher();
         public DoTransitionController transitionController;
+        public LevelManager LevelManager;
         private AsyncOperation m_loadScene;
 
         private void OnEnable()  {
@@ -21,19 +22,25 @@ namespace DungeonSlime.Managers {
         private void Update() {
             GlobalDispatcher.DispatchAll();
         }
-        
-        public void LoadNextScene(int nextLevelIndex) {
+
+        public void LoadCurrentScene() {
             transitionController.DoTransitionIn(0.5f, () => {
-                StartCoroutine(LoadScene(string.Format("Level_0{0}", nextLevelIndex)));
+                StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.currentLevelData)));
+            });
+        }
+        
+        public void LoadNextScene() {
+            transitionController.DoTransitionIn(0.5f, () => {
+                StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.nextLevelData)));
             });
         }
 
-        IEnumerator WaitToFadeOut(float time) {
+        private IEnumerator WaitToFadeOut(float time) {
             yield return new WaitForSeconds(time);
             transitionController.DoTransitionOut(1f);
         }
-        
-        IEnumerator LoadScene(string sceneToLoad) {
+
+        private IEnumerator LoadScene(string sceneToLoad) {
             m_loadScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Single);
             
             while (!m_loadScene.isDone) {

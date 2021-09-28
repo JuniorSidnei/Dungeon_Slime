@@ -14,7 +14,7 @@ namespace DungeonSlime.Managers {
         public LevelData levelData;
         
         private Level m_currentLevel;
-        private bool m_isDead = false;
+        private bool m_isDead;
 
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
 
@@ -30,7 +30,7 @@ namespace DungeonSlime.Managers {
         }
 
         private void LoadLevel() {
-            m_currentLevel = JsonUtility.FromJson<Level>(levelData.LevelJson.text);
+            m_currentLevel = JsonUtility.FromJson<Level>(levelData.levelJson.text);
             InstantiateLevel(m_currentLevel);
         }
 

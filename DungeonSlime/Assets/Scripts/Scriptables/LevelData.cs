@@ -8,9 +8,9 @@ namespace DungeonSlime.Scriptables {
     public class LevelData : ScriptableObject {
         
         [Header("Level infos")]
-        public Texture2D LevelTexture;
-        public int CurrentLevelData;
-        public int NextLevelData;
-        public TextAsset LevelJson;
+        public Texture2D levelTexture;
+        public int currentLevelData;
+        public int nextLevelData;
+        public TextAsset levelJson;
     }
 }

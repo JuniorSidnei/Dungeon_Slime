@@ -65,7 +65,7 @@ namespace DungeonSlime.Character {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
                     
                     if (m_isDead) {
-                        SceneManager.LoadScene("level_07");
+                        GameManager.Instance.LoadCurrentScene();
                     }
                     
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
@@ -73,12 +73,13 @@ namespace DungeonSlime.Character {
                     });
                     m_currentPos = m_finalPos;
                 });
+                
             } else if(ev.Direction == Vector2.up || ev.Direction == Vector2.down) {
                 transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
                     
                     if (m_isDead) {
-                        SceneManager.LoadScene("level_07");
+                        GameManager.Instance.LoadCurrentScene();
                     }
                     
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
@@ -88,7 +89,7 @@ namespace DungeonSlime.Character {
                 });
             }
         }
-
+        
         private bool PlayerDied(Vector2Int finalPos, Vector2Int deadPos) {
             return finalPos.x == deadPos.x || finalPos.y == deadPos.y;
         }
@@ -154,7 +155,7 @@ namespace DungeonSlime.Character {
                     Vector2Int.down, 
                     false,
                     true,
-                    50);
+                    20);
             } else if(nextDirection == Vector2.up || nextDirection == Vector2.down)  {
                 SetupCanFitPosition(newPositionOnAxis,
                      newPlayerSize, 
@@ -162,7 +163,7 @@ namespace DungeonSlime.Character {
                     Vector2Int.left,
                     true,
                     true,
-                    50);
+                    20);
             }
         }
 

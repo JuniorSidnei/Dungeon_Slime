@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionController: {fileID: 229392573}
+  LevelManager: {fileID: 419522944}
 --- !u!4 &229392572
 Transform:
   m_ObjectHideFlags: 0
@@ -434,7 +435,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33dedff7dc9008d489d84f16b3fe8c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelData: {fileID: 11400000, guid: dc71be0359964f54d9c7d60a14569fa1, type: 2}
 --- !u!58 &672365070
 CircleCollider2D:
   m_ObjectHideFlags: 0

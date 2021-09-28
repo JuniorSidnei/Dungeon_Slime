@@ -20,8 +20,8 @@ namespace DungeonSlime.Managers {
             var currentData = levelDataHolder.GetLevelDataAt(currentLevelIndex);
             var levelDataTiles = levelDataHolder.GetLevelDataTiles();
             
-            var width = currentData.LevelTexture.width;
-            var height = currentData.LevelTexture.height;
+            var width = currentData.levelTexture.width;
+            var height = currentData.levelTexture.height;
             
             m_pixelMappingsId = new List<int>();
             
@@ -44,7 +44,7 @@ namespace DungeonSlime.Managers {
         }
 
         private void GenerateTile(LevelData currentData, LevelDataTiles levelDataTiles, int x, int y, int index) {
-            var pixelColor = currentData.LevelTexture.GetPixel(x, y);
+            var pixelColor = currentData.levelTexture.GetPixel(x, y);
             
             foreach (var pixel in levelDataTiles.tileDatas) {
                 if (pixel.TileColor.Equals(pixelColor)) {
