@@ -35,5 +35,9 @@ namespace DungeonSlime.Scriptables {
         public TileBase GetSpikesTile() {
             return tileDatas[5].Tile;
         }
+        
+        public TileBase GetBlockWallTile() {
+            return tileDatas[6].Tile;
+        }
     }
 }

@@ -12,6 +12,10 @@ namespace DungeonSlime.Utils {
         public Color TileColor;
         public int TileId;
         public TileBase Tile;
+
+        public TileBase GetTileBase() {
+            return Tile;
+        }
     }
 }
 

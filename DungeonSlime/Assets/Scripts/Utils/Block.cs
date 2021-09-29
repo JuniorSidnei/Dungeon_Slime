@@ -12,7 +12,8 @@ namespace DungeonSlime.Utils {
             Empty = 2,
             InitialPosition = 3,
             Endgame = 4,
-            Spikes = 5
+            Spikes = 5,
+            BlockWall = 6
         }
         
         public BlockType type;

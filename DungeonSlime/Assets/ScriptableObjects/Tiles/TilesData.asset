@@ -37,3 +37,7 @@ MonoBehaviour:
     TileColor: {r: 1, g: 1, b: 1, a: 1}
     TileId: 5
     Tile: {fileID: 11400000, guid: 7ace9d14363862b4e8661d9c0f209c24, type: 2}
+  - Name: BlockWall
+    TileColor: {r: 1, g: 0.84705883, b: 0, a: 1}
+    TileId: 6
+    Tile: {fileID: 11400000, guid: 47e48b3133fe52b4f8d445a322c43036, type: 2}

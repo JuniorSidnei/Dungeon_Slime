@@ -25,6 +25,7 @@ namespace DungeonSlime.Managers {
             m_tiles.Add(Block.BlockType.InitialPosition, levelDataTiles.GetInitialPositionTile());
             m_tiles.Add(Block.BlockType.Endgame, levelDataTiles.GetEndPointTile());
             m_tiles.Add(Block.BlockType.Spikes, levelDataTiles.GetSpikesTile());
+            m_tiles.Add(Block.BlockType.BlockWall, levelDataTiles.GetBlockWallTile());
             
             LoadLevel();
         }
@@ -66,7 +67,7 @@ namespace DungeonSlime.Managers {
                 return false;
             } 
             
-            if (IsWall(block)) {
+            if (IsWall(block) || IsBlockWall(block)) {
                 nearestIndex = nextIndex;
                 nearestSpikeIndex = Vector2Int.zero;
                 return true;
@@ -103,7 +104,7 @@ namespace DungeonSlime.Managers {
             }
             
             
-            if (IsWall(block)) {
+            if (IsWall(block) || IsBlockWall(block)) {
                 totalAvailableBlocks = currentAvailableBlocks;
                 return false;
             }
@@ -144,6 +145,10 @@ namespace DungeonSlime.Managers {
 
         private bool IsSpike(Block block) {
             return block.type == Block.BlockType.Spikes;
+        }
+        
+        private bool IsBlockWall(Block block) {
+            return block.type == Block.BlockType.BlockWall;
         }
     }
 }
