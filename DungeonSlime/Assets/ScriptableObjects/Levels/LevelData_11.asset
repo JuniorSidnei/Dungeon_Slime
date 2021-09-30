@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d56581ac6b1dd94bb8eb3067a4a6e71, type: 3}
-  m_Name: LevelData_10
+  m_Name: LevelData_11
   m_EditorClassIdentifier: 
-  levelTexture: {fileID: 2800000, guid: eda60ac833ffd1b4fb3f547cceccf4f7, type: 3}
-  currentLevelData: 10
-  nextLevelData: 11
-  levelJson: {fileID: 4900000, guid: 91cf86b776a0670438de6ab4b191bc83, type: 3}
+  levelTexture: {fileID: 2800000, guid: 40970562b4b62bf4c9ce1c83cd889aae, type: 3}
+  currentLevelData: 11
+  nextLevelData: 1
+  levelJson: {fileID: 4900000, guid: 2d0822b3a4079e84e928ce03759817a0, type: 3}

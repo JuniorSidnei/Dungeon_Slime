@@ -48,15 +48,15 @@ namespace DungeonSlime.Character {
                 return;
             }
             
-            if(PlayerDied(m_finalPos, m_deadPos)) {
-                m_isDead = true;
-            }
+//            if(PlayerDied(m_finalPos, m_deadPos)) {
+//                m_isDead = true;
+//            }
             
             ResolveCollision(m_finalPos, ev.Direction);
 
-            if (m_levelManager.IsPlayerDead()) {
-                m_isDead = true;
-            }
+//            if (m_levelManager.IsPlayerDead()) {
+//                m_isDead = true;
+//            }
             
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
 
@@ -64,7 +64,7 @@ namespace DungeonSlime.Character {
                 transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() => {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
                     
-                    if (m_isDead) {
+                    if (m_levelManager.IsPlayerDead() || m_isDead) {
                         GameManager.Instance.LoadCurrentScene();
                     }
                     
@@ -78,7 +78,7 @@ namespace DungeonSlime.Character {
                 transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
                     
-                    if (m_isDead) {
+                    if (m_levelManager.IsPlayerDead() || m_isDead) {
                         GameManager.Instance.LoadCurrentScene();
                     }
                     
@@ -120,7 +120,7 @@ namespace DungeonSlime.Character {
             }
 
             for (var i = 0; i < amount; i++) {
-                if (m_levelManager.GetNearestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Vector2Int nearestSpikeIndex)) {
+                if (m_levelManager.GetNearestBlock(adjustedPos, direction, 150, out Vector2Int toPosition, out Block nearestBlock)) {
                     var wallDistance = Vector2.Distance(toPosition, adjustedPos);
                     
                     if (wallDistance <= 1) {
@@ -131,11 +131,15 @@ namespace DungeonSlime.Character {
                         oldWallDistance = wallDistance;
                         m_finalPos = toPosition;
                         m_speed = (float) (oldWallDistance / m_speedMultiplier);
+                        
+                        m_isDead = nearestBlock.type == Block.BlockType.Spikes;
+                        
                     }
 
-                    if (nearestSpikeIndex.x > 0 && nearestSpikeIndex.y > 0) {
-                        m_deadPos = nearestSpikeIndex;
-                    }
+                   
+//                    if (nearestSpikeIndex.x > 0 && nearestSpikeIndex.y > 0) {
+//                        m_deadPos = nearestSpikeIndex;
+//                    }
                 }
                 
                 adjustedPos += guidingVector;

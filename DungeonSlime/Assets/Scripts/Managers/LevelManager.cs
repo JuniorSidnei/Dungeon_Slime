@@ -40,8 +40,8 @@ namespace DungeonSlime.Managers {
                 var position = GetPositionForIndex(i, level.columnCount);
                 tilemap.SetTile(new Vector3Int(position.x, position.y, 0), m_tiles[level.blocks[i].type]);
 
-                //var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int)position));
-                //text.SetText(string.Format("{0}/{1}", position.x, position.y));
+                var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int)position));
+                text.SetText(string.Format("{0}/{1}", position.x, position.y));
             }
         }
 
@@ -54,33 +54,31 @@ namespace DungeonSlime.Managers {
         }
         
         public bool GetNearestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
-            out Vector2Int nearestIndex, out Vector2Int nearestSpikeIndex) {
+            out Vector2Int nearestIndex, out Block nearestBlock) {
 
-            m_isDead = false;
-            
             Vector2Int nextIndex = currentIndex + direction;
             Block block = m_currentLevel.GetBlock(nextIndex);
             
             if (depth == 0) {
                 nearestIndex = nextIndex;
-                nearestSpikeIndex = Vector2Int.zero;
+                nearestBlock = block;
                 return false;
             } 
             
             if (IsWall(block) || IsBlockWall(block)) {
                 nearestIndex = nextIndex;
-                nearestSpikeIndex = Vector2Int.zero;
+                nearestBlock = block;
                 return true;
             }
 
             if (IsSpike(block)) {
                 nearestIndex = nextIndex;
-                nearestSpikeIndex = nearestIndex;
+                nearestBlock = block;
                 return true;
             }
             
             nearestIndex = nextIndex;
-            return GetNearestBlock(nextIndex, direction, depth - 1, out nearestIndex, out nearestSpikeIndex);
+            return GetNearestBlock(nextIndex, direction, depth - 1, out nearestIndex, out nearestBlock);
         }
         
         public bool GetTotalAvailableBlockWithinDepth(Vector2Int currentIndex, Vector2Int direction, int depth,
@@ -112,7 +110,7 @@ namespace DungeonSlime.Managers {
             if (IsSpike(block)) {
                 m_isDead = true;
             }
-
+            
             currentAvailableBlocks++;
             totalAvailableBlocks = currentAvailableBlocks;
             return GetTotalAvailableBlockWithinDepth(nextIndex, direction, depth - 1, currentAvailableBlocks, isCheckingValidPosition, out totalAvailableBlocks);
