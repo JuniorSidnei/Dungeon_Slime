@@ -36,7 +36,9 @@ namespace DungeonSlime.Managers {
             }
             
             var json = JsonUtility.ToJson(m_level);
-            using (var fs = new FileStream(string.Format("Assets/LevelJsons/level_{0}.json", ++currentLevelIndex), FileMode.Create)) {
+            var levelIndex = currentLevelIndex;
+            levelIndex += 1;
+            using (var fs = new FileStream(string.Format("Assets/LevelJsons/level_{0}.json", levelIndex), FileMode.Create)) {
                 using (var writer = new StreamWriter(fs)) {
                     writer.Write(json);
                 }
