@@ -36,7 +36,7 @@ MonoBehaviour:
   - Name: Spikes
     TileColor: {r: 1, g: 1, b: 1, a: 1}
     TileId: 5
-    Tile: {fileID: 11400000, guid: e53dff46243b1c04eae347ceca341b5d, type: 2}
+    Tile: {fileID: 11400000, guid: 7ace9d14363862b4e8661d9c0f209c24, type: 2}
   - Name: BlockWall
     TileColor: {r: 1, g: 0.84705883, b: 0, a: 1}
     TileId: 6

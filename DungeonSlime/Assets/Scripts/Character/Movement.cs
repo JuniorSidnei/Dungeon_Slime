@@ -48,15 +48,7 @@ namespace DungeonSlime.Character {
                 return;
             }
             
-//            if(PlayerDied(m_finalPos, m_deadPos)) {
-//                m_isDead = true;
-//            }
-            
             ResolveCollision(m_finalPos, ev.Direction);
-
-//            if (m_levelManager.IsPlayerDead()) {
-//                m_isDead = true;
-//            }
             
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
 
@@ -133,13 +125,7 @@ namespace DungeonSlime.Character {
                         m_speed = (float) (oldWallDistance / m_speedMultiplier);
                         
                         m_isDead = nearestBlock.type == Block.BlockType.Spikes;
-                        
                     }
-
-                   
-//                    if (nearestSpikeIndex.x > 0 && nearestSpikeIndex.y > 0) {
-//                        m_deadPos = nearestSpikeIndex;
-//                    }
                 }
                 
                 adjustedPos += guidingVector;
