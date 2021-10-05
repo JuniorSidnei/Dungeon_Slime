@@ -15,4 +15,4 @@ MonoBehaviour:
   levelTexture: {fileID: 2800000, guid: e42ebcd58dd8efc40a711b5a7da570f4, type: 3}
   currentLevelData: 3
   nextLevelData: 4
-  levelJson: {fileID: 4900000, guid: d05de88f798e7e64d830df40717cb67a, type: 3}
+  levelJson: {fileID: 4900000, guid: 33f73098fec76384c93c46c7c98b4d78, type: 3}

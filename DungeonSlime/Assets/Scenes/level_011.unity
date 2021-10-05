@@ -472,7 +472,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &669793588
 GameObject:
@@ -605,7 +605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &672365069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,25 +720,25 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 0
-      e01: -5.6026233e-18
-      e02: -5.602243e-18
-      e03: -5.602243e-18
-      e10: 0
-      e11: 2.47e-43
-      e12: 2.47e-43
-      e13: 2.47e-43
-      e20: -5.899448e+12
-      e21: 1.6354197e+29
-      e22: -0.0000000018612925
-      e23: 1.6354197e+29
-      e30: 4.5904e-41
-      e31: 8.06e-43
-      e32: 8.03e-43
-      e33: 8.06e-43
+      e00: 2.5244127e-29
+      e01: -5.175543e-13
+      e02: -5.1750444e-13
+      e03: -5.1750444e-13
+      e10: 9.39e-43
+      e11: 2.24e-43
+      e12: 2.24e-43
+      e13: 2.24e-43
+      e20: -2.0542817e-11
+      e21: -2.7135534e-29
+      e22: -9.32876e-10
+      e23: -2.7135534e-29
+      e30: 4.5905e-41
+      e31: 9.4e-43
+      e32: 9.37e-43
+      e33: 9.4e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 1.6750483e+29, g: 1.6750483e+29, b: 1.6750483e+29, a: 1.6750483e+29}
+    m_Data: {r: -2.8058873e-29, g: -2.8058873e-29, b: -2.8058873e-29, a: -2.8058873e-29}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1099,7 +1099,7 @@ Transform:
   m_Children:
   - {fileID: 912062437}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1873744257
 GameObject:
@@ -1496,7 +1496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 45, y: 130, z: 90}
 --- !u!1001 &7880161892905420935
 PrefabInstance:
