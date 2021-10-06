@@ -49,10 +49,9 @@ namespace DungeonSlime.Managers {
             var pixelColor = currentData.levelTexture.GetPixel(x, y);
             
             foreach (var pixel in levelDataTiles.tileDatas) {
-                if (pixel.TileColor.Equals(pixelColor)) {
-                    m_pixelMappingsId.Add(pixel.TileId);
-                    m_level.blocks[index] = new Block {type = (Block.BlockType) pixel.TileId};
-                }
+                if (!pixel.TileColor.Equals(pixelColor)) continue;
+                m_pixelMappingsId.Add(pixel.TileId);
+                m_level.blocks[index] = new Block {type = (Block.BlockType) pixel.TileId};
             }
         }
     }

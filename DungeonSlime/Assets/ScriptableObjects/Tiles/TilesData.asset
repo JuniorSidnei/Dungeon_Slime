@@ -22,7 +22,7 @@ MonoBehaviour:
     TileId: 1
     Tile: {fileID: 11400000, guid: d60579ed501fa8545945bcb83c2c9e2b, type: 2}
   - Name: Endpoint
-    TileColor: {r: 1, g: 0, b: 0, a: 1}
+    TileColor: {r: 0.5660378, g: 0.21626917, b: 0.21626917, a: 1}
     TileId: 4
     Tile: {fileID: 11400000, guid: e53dff46243b1c04eae347ceca341b5d, type: 2}
   - Name: Initial position
@@ -41,3 +41,7 @@ MonoBehaviour:
     TileColor: {r: 1, g: 0.84705883, b: 0, a: 1}
     TileId: 6
     Tile: {fileID: 11400000, guid: 47e48b3133fe52b4f8d445a322c43036, type: 2}
+  - Name: FakeSpikes
+    TileColor: {r: 1, g: 0, b: 0, a: 1}
+    TileId: 7
+    Tile: {fileID: 11400000, guid: 7ace9d14363862b4e8661d9c0f209c24, type: 2}

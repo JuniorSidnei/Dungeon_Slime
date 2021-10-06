@@ -26,6 +26,7 @@ namespace DungeonSlime.Managers {
             m_tiles.Add(Block.BlockType.Endgame, levelDataTiles.GetEndPointTile());
             m_tiles.Add(Block.BlockType.Spikes, levelDataTiles.GetSpikesTile());
             m_tiles.Add(Block.BlockType.BlockWall, levelDataTiles.GetBlockWallTile());
+            m_tiles.Add(Block.BlockType.FakeSpikes, levelDataTiles.GetFakeSpikesTile());
             
             LoadLevel();
         }
