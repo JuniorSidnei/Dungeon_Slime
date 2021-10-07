@@ -1,14 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using DungeonSlime.Managers;
-using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
-using GameToBeNamed.Utils;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Utils;
 
 namespace DungeonSlime.Character {
     public class Movement : MonoBehaviour {
@@ -16,22 +11,25 @@ namespace DungeonSlime.Character {
         [SerializeField] private float m_speedMultiplier;
         [SerializeField] private bool m_moving;
         [SerializeField] private LevelManager m_levelManager;
-        [SerializeField] private PlayerStates m_playerStates;
+        [SerializeField] private CharacterStates m_playerStates;
         
         private float m_speed;
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
-        private Vector2Int m_deadPos;
         private Vector2Int m_currentSize;
         private Vector2Int m_basePositionOnAxis;
         private Block m_farthestBlock;
         private bool m_isDead;
         private bool m_alreadyFindPosition;
         public Ease ease;
-       
+        public bool willExpandShape;
+
         private void Awake() {
+
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMove>(OnMove);
-            
+        }
+
+        private void Start() {
             m_currentSize = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm());
             m_currentPos = m_levelManager.GetPlayerInitialPosition();
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
@@ -83,11 +81,7 @@ namespace DungeonSlime.Character {
                 });
             }
         }
-        
-//        private bool PlayerDied(Vector2Int finalPos, Vector2Int deadPos) {
-//            return finalPos.x == deadPos.x || finalPos.y == deadPos.y;
-//        }
-        
+
         private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
             var oldWallDistance = 5000.0;
 
@@ -137,7 +131,7 @@ namespace DungeonSlime.Character {
         }
         
         private void ResolveCollision(Vector2Int currentPosition, Vector2 nextDirection) {
-            var newPlayerSize = m_playerStates.GetPlayerNextSize(nextDirection);
+            var newPlayerSize = m_playerStates.GetNextSize(nextDirection);
             var newPositionOnAxis = GetNewPositionOnAxis(currentPosition, nextDirection, newPlayerSize);
             
             if (nextDirection == Vector2.right || nextDirection == Vector2.left) {
@@ -174,44 +168,33 @@ namespace DungeonSlime.Character {
         private Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
             var newX = currentFinalPos.x;
             var newY = currentFinalPos.y;
-            
-            //var isSpecialCase = m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.FULL_STRETCHED_V;
-            var nextForm = m_playerStates.GetPlayerNextForm(nextDirection);
-//            var isSpecialCase = nextForm == PlayerStates.SlimeForms.NORMAL ||
-//                                nextForm == PlayerStates.SlimeForms.SEMI_STRETCHED_H ||
-//                                nextForm == PlayerStates.SlimeForms.SEMI_STRETCHED_V ||
-//                                nextForm == PlayerStates.SlimeForms.FULL_STRETCHED_V ||;
 
             if (nextDirection == Vector2.right) {
                 newX = currentFinalPos.x - nextPlayerSize.x;
-                newY = FixCurrentPosition(m_currentSize, m_currentPos.y, true, nextPlayerSize);
+                newY = FixCurrentPosition(m_currentSize, m_currentPos.y, nextPlayerSize);
             } else if (nextDirection == Vector2.left) {
                 newX = currentFinalPos.x + 1;
-                newY = FixCurrentPosition(m_currentSize, m_currentPos.y, true, nextPlayerSize);
+                newY = FixCurrentPosition(m_currentSize, m_currentPos.y, nextPlayerSize);
             } else if (nextDirection == Vector2.up) {
                 newY = currentFinalPos.y - nextPlayerSize.y;
-                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, true, nextPlayerSize);
+                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, nextPlayerSize);
             } else if (nextDirection == Vector2.down) {
                 newY = currentFinalPos.y + 1;
-                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, true, nextPlayerSize);
+                newX = FixCurrentPosition(m_currentSize, m_currentPos.x, nextPlayerSize);
             }
             
             return new Vector2Int(newX, newY);
         }
 
-        private int FixCurrentPosition(Vector2Int size, int currentValue, bool isSpecialCase, Vector2Int nextSize) {
-            if (size.x >= 12 || size.y >= 12) {
-                if (nextSize.x >= 12 || nextSize.y >= 12) {
-                    return currentValue;
-                }
-
-                //return currentValue - 1;
+        private int FixCurrentPosition(Vector2Int size, int currentValue, Vector2Int nextSize) {
+            if (!willExpandShape) return currentValue;
+            
+            if (size.x < 12 && size.y < 12) return currentValue - 1;
+            
+            if (nextSize.x >= 12 || nextSize.y >= 12) {
+                return currentValue;
             }
 
-//            if (isSpecialCase) {
-//                return currentValue - 1;
-//            }
-          
             return currentValue - 1;
         }
         
@@ -278,7 +261,6 @@ namespace DungeonSlime.Character {
                         }
                         else {
                             newPositionOnAxis.y--;
-                            //investigate why is returning to this point after true
                             m_basePositionOnAxis.y--;
                         }
 

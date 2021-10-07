@@ -7,116 +7,106 @@ using UnityEngine;
 
 namespace DungeonSlime.Character {
 
-    public class PlayerStates : MonoBehaviour {
-        public enum SlimeForms {
-            NORMAL,
-            SEMI_STRETCHED_H,
-            FULL_STRETCHED_H,
-            SEMI_STRETCHED_V,
-            FULL_STRETCHED_V
-        }
-        
-        
-        [SerializeField] private Animator m_anim;
+    public class PlayerStates : CharacterStates {
         [SerializeField] private List<Sprite> m_slimeSprites;
-        private SlimeForms m_slimeForm;
         
-        private Dictionary <SlimeForms, Vector2Int> m_slotsOnGrid = new Dictionary<SlimeForms, Vector2Int> {
-            {SlimeForms.NORMAL, new Vector2Int(6, 6)},
-            {SlimeForms.SEMI_STRETCHED_H, new Vector2Int(9, 3)},
-            {SlimeForms.FULL_STRETCHED_H, new Vector2Int(12, 1)},
-            {SlimeForms.SEMI_STRETCHED_V,  new Vector2Int(3, 9)},
-            {SlimeForms.FULL_STRETCHED_V, new Vector2Int(1, 12)},
+        private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
+            {CharacterForms.NORMAL, new Vector2Int(6, 6)},
+            {CharacterForms.SEMI_STRETCHED_H, new Vector2Int(9, 3)},
+            {CharacterForms.FULL_STRETCHED_H, new Vector2Int(12, 1)},
+            {CharacterForms.SEMI_STRETCHED_V,  new Vector2Int(3, 9)},
+            {CharacterForms.FULL_STRETCHED_V, new Vector2Int(1, 12)},
         };
-        
-        private void Awake() {
-            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[(int)SlimeForms.NORMAL]));
+
+        protected override void Awake() {
+            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[(int)CharacterForms.NORMAL]));
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
-            m_slimeForm = SlimeForms.NORMAL;
+            CharacterForm = CharacterForms.NORMAL;
         }
         
         private void OnFinishMovement(OnFinishMovement ev) {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
-            m_slimeForm = slimeForm;
-            m_anim.SetInteger("form", i);
+            CharacterForm = (CharacterForms) slimeForm;
+            animator.SetInteger("form", i);
             GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[i]));
         }
-        
-        
-        public Vector2Int GetPlayerNextSize(Vector2 nextDirection) {
+
+        public override Vector2Int GetNextSize(Vector2 nextDirection) {
             var (slimeForm, i) = GetIndexAndForm(nextDirection);
             return GetCurrentSize(slimeForm);
         }
 
-        public SlimeForms GetPlayerNextForm(Vector2 nextDirection) {
-            var (slimeForm, i) = GetIndexAndForm(nextDirection);
-            return slimeForm;
-        }
-        
-        
-        private Tuple<SlimeForms, int> GetIndexAndForm(Vector2 direction, SlimeForms forms = SlimeForms.NORMAL) {
+        protected override Tuple<CharacterForms, int> GetIndexAndForm(Vector2 direction, CharacterForms forms = CharacterForms.NORMAL) {
             var index = 0;
    
-            switch (m_slimeForm) {
-                case SlimeForms.NORMAL:
+            switch (CharacterForm) {
+                case CharacterForms.NORMAL:
                     if (direction == Vector2.right || direction == Vector2.left) {
-                        index = (int)SlimeForms.SEMI_STRETCHED_V;
-                        forms = SlimeForms.SEMI_STRETCHED_V;
+                        index = (int)CharacterForms.SEMI_STRETCHED_V;
+                        forms = CharacterForms.SEMI_STRETCHED_V;
                     } else if (direction == Vector2.up || direction == Vector2.down) {
-                       index = (int)SlimeForms.SEMI_STRETCHED_H;
-                       forms = SlimeForms.SEMI_STRETCHED_H;
+                       index = (int)CharacterForms.SEMI_STRETCHED_H;
+                       forms = CharacterForms.SEMI_STRETCHED_H;
                     }
                     break;
-                case SlimeForms.SEMI_STRETCHED_H:
+                case CharacterForms.SEMI_STRETCHED_H:
                     if (direction == Vector2.right || direction == Vector2.left) {
-                       index = (int)SlimeForms.NORMAL;
-                       forms  = SlimeForms.NORMAL;
+                       index = (int)CharacterForms.NORMAL;
+                       forms  = CharacterForms.NORMAL;
                     } else if (direction == Vector2.up || direction == Vector2.down) {
-                       index = (int)SlimeForms.FULL_STRETCHED_H;
-                       forms = SlimeForms.FULL_STRETCHED_H;
+                       index = (int)CharacterForms.FULL_STRETCHED_H;
+                       forms = CharacterForms.FULL_STRETCHED_H;
                     }
                     break;
-                case SlimeForms.FULL_STRETCHED_H:
+                case CharacterForms.FULL_STRETCHED_H:
                     if (direction == Vector2.right || direction == Vector2.left) {
-                        index = (int)SlimeForms.SEMI_STRETCHED_H;
-                        forms = SlimeForms.SEMI_STRETCHED_H;
+                        index = (int)CharacterForms.SEMI_STRETCHED_H;
+                        forms = CharacterForms.SEMI_STRETCHED_H;
                     } else if (direction == Vector2.up || direction == Vector2.down) {
-                        index = (int)SlimeForms.FULL_STRETCHED_H;
-                        forms = SlimeForms.FULL_STRETCHED_H;
+                        index = (int)CharacterForms.FULL_STRETCHED_H;
+                        forms = CharacterForms.FULL_STRETCHED_H;
                     }
                     break;
-                case SlimeForms.SEMI_STRETCHED_V:
+                case CharacterForms.SEMI_STRETCHED_V:
                     if (direction == Vector2.right || direction == Vector2.left) {
-                        index = (int)SlimeForms.FULL_STRETCHED_V;
-                        forms = SlimeForms.FULL_STRETCHED_V;
+                        index = (int)CharacterForms.FULL_STRETCHED_V;
+                        forms = CharacterForms.FULL_STRETCHED_V;
                     } else if (direction == Vector2.up || direction == Vector2.down) {
-                        index = (int)SlimeForms.NORMAL;
-                        forms = SlimeForms.NORMAL;
+                        index = (int)CharacterForms.NORMAL;
+                        forms = CharacterForms.NORMAL;
                     }
                     break;
-                case SlimeForms.FULL_STRETCHED_V:
+                case CharacterForms.FULL_STRETCHED_V:
                     if (direction == Vector2.right || direction == Vector2.left) {
-                        index = (int)SlimeForms.FULL_STRETCHED_V;
-                        forms = SlimeForms.FULL_STRETCHED_V;
+                        index = (int)CharacterForms.FULL_STRETCHED_V;
+                        forms = CharacterForms.FULL_STRETCHED_V;
                     } else if (direction == Vector2.up || direction == Vector2.down) {
-                        index = (int)SlimeForms.SEMI_STRETCHED_V;
-                        forms = SlimeForms.SEMI_STRETCHED_V;
+                        index = (int)CharacterForms.SEMI_STRETCHED_V;
+                        forms = CharacterForms.SEMI_STRETCHED_V;
                     }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            var formAndIndex = new Tuple<SlimeForms, int>(forms, index);
+            var formAndIndex = new Tuple<CharacterForms, int>(forms, index);
             return formAndIndex;
         }
 
-        public Vector2Int GetCurrentSize(SlimeForms currentForm) {
+        protected override void OnCollisionEnter2D(Collision2D other) {
+
+            if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
+            
+            //stop movement if its a block and change shape and do all the stuff need
+            //just simple call resolveCollision with the correct parameters
+        }
+
+        public override Vector2Int GetCurrentSize(CharacterForms currentForm) {  
             return m_slotsOnGrid[currentForm];
         }
         
-        public SlimeForms GetCurrentForm() {
-            return m_slimeForm;
+        public override CharacterForms GetCurrentForm() {
+            return CharacterForm;
         }
     }
 }
