@@ -25,8 +25,8 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentSize;
         private Vector2Int m_basePositionOnAxis;
         private Block m_farthestBlock;
-        private bool m_isDead = false;
-        private int m_movementOffset = 0;
+        private bool m_isDead;
+        private bool m_alreadyFindPosition;
         public Ease ease;
        
         private void Awake() {
@@ -61,7 +61,8 @@ namespace DungeonSlime.Character {
                     }
                     
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
-                        m_moving = false;        
+                        m_moving = false;
+                        m_alreadyFindPosition = false;
                     });
                     m_currentPos = m_finalPos;
                 });
@@ -75,16 +76,17 @@ namespace DungeonSlime.Character {
                     }
                     
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
-                        m_moving = false;     
+                        m_moving = false;
+                        m_alreadyFindPosition = false;
                     });
                     m_currentPos = m_finalPos;
                 });
             }
         }
         
-        private bool PlayerDied(Vector2Int finalPos, Vector2Int deadPos) {
-            return finalPos.x == deadPos.x || finalPos.y == deadPos.y;
-        }
+//        private bool PlayerDied(Vector2Int finalPos, Vector2Int deadPos) {
+//            return finalPos.x == deadPos.x || finalPos.y == deadPos.y;
+//        }
         
         private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
             var oldWallDistance = 5000.0;
@@ -173,8 +175,13 @@ namespace DungeonSlime.Character {
             var newX = currentFinalPos.x;
             var newY = currentFinalPos.y;
             
-            var isSpecialCase = m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.FULL_STRETCHED_V;
-            
+            //var isSpecialCase = m_playerStates.GetCurrentForm() == PlayerStates.SlimeForms.FULL_STRETCHED_V;
+            var nextForm = m_playerStates.GetPlayerNextForm(nextDirection);
+//            var isSpecialCase = nextForm == PlayerStates.SlimeForms.NORMAL ||
+//                                nextForm == PlayerStates.SlimeForms.SEMI_STRETCHED_H ||
+//                                nextForm == PlayerStates.SlimeForms.SEMI_STRETCHED_V ||
+//                                nextForm == PlayerStates.SlimeForms.FULL_STRETCHED_V ||;
+
             if (nextDirection == Vector2.right) {
                 newX = currentFinalPos.x - nextPlayerSize.x;
                 newY = FixCurrentPosition(m_currentSize, m_currentPos.y, true, nextPlayerSize);
@@ -193,27 +200,19 @@ namespace DungeonSlime.Character {
         }
 
         private int FixCurrentPosition(Vector2Int size, int currentValue, bool isSpecialCase, Vector2Int nextSize) {
-            if (size.x >= 8 || size.y >= 8) {
-                if (nextSize.x >= 8 || nextSize.y >= 8) {
+            if (size.x >= 12 || size.y >= 12) {
+                if (nextSize.x >= 12 || nextSize.y >= 12) {
                     return currentValue;
                 }
 
-                return currentValue - 1;
+                //return currentValue - 1;
             }
-            
-//            if (size.x < 8 || size.y < 8) {
-//                if (nextSize.x >= 8 || nextSize.y >= 8) {
-//                    return currentValue;
-//                }
-//
+
+//            if (isSpecialCase) {
 //                return currentValue - 1;
 //            }
-            
-            if (isSpecialCase) {
-                return currentValue - 1;
-            }
           
-            return currentValue;
+            return currentValue - 1;
         }
         
         private bool CanFitInPosition(Vector2Int newPositionOnAxis, Vector2Int newPlayerSize, Vector2Int nextDirection,
@@ -246,9 +245,17 @@ namespace DungeonSlime.Character {
             for (var i = 0; i < countSize; i++) {
                 if (m_levelManager.GetTotalAvailableBlockWithinDepth(newPositionOnAxis, nextDirection, axisSize, 0, false, out var totalAvailableBlocks)) {
                     newPositionOnAxis += axisMovement;
-                    
                 }
                 else {
+
+                    if (depth == 0) {
+                        return true;
+                    }
+
+                    if (m_alreadyFindPosition) {
+                        continue;
+                    }
+                    
                     //if the first index is wall, change direction
                     if (totalAvailableBlocks <= 1) {
                         if (isHorizontal) {
@@ -271,6 +278,7 @@ namespace DungeonSlime.Character {
                         }
                         else {
                             newPositionOnAxis.y--;
+                            //investigate why is returning to this point after true
                             m_basePositionOnAxis.y--;
                         }
 
@@ -279,6 +287,8 @@ namespace DungeonSlime.Character {
                     }
                 }
             }
+
+            m_alreadyFindPosition = true;
             return true;
         }
 

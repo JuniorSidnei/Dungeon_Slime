@@ -7,7 +7,7 @@ namespace DungeonSlime.Utils {
     [System.Serializable]
     public class Level {
         public Block[] blocks;
-        public int columnCount = 78;
+        public int columnCount = 89;
         public int height;
         public int width;
 
