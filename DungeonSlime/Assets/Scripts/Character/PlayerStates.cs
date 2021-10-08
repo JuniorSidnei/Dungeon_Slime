@@ -20,22 +20,32 @@ namespace DungeonSlime.Character {
 
         protected override void Awake() {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveCharacter>(OnMove);
-            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[(int)CharacterForms.NORMAL], 0));
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnCharacterCollision>(OnCharacterCollision);
             CharacterForm = CharacterForms.NORMAL;
         }
 
         private void OnMove(OnMoveCharacter ev) {
-            characterMovement.OnMove(ev);
+            characterMovement.OnMove(ev.Direction);
         }
         
         private void OnFinishMovement(OnFinishMovement ev) {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
-            CharacterForm = (CharacterForms) slimeForm;
+            CharacterForm = slimeForm;
             animator.SetInteger("form", i);
             GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[i], i));
         }
 
+        private void OnCharacterCollision(OnCharacterCollision ev) {
+            characterMovement.StopMovement();
+            //rock need to now his position on grid
+            //the direction that player is moving
+            //receive the rock game object that has been hitted
+            //set the direction in the event and launch to him
+            //need update currentPos to make on move work
+            //characterMovement.OnMove(characterMovement.CurrentDirection);
+        }
+        
         public override Vector2Int GetNextSize(Vector2 nextDirection) {
             var (slimeForm, i) = GetIndexAndForm(nextDirection);
             return GetCurrentSize(slimeForm);

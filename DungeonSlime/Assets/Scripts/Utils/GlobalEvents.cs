@@ -8,12 +8,10 @@ namespace DungeonSlime.Utils {
     public class OnLoadNextScene {  }
 
     public class OnFinishMovement {
-        public OnFinishMovement(Block block, Vector2 currentDirection) {
-            Block = block;
+        public OnFinishMovement(Vector2 currentDirection) {
             CurrentDirection = currentDirection;
         }
-
-        public Block Block;
+        
         public Vector2 CurrentDirection;
     }
 
@@ -25,6 +23,8 @@ namespace DungeonSlime.Utils {
         public Vector2Int Direction;
     }
 
+    public class OnCharacterCollision { }
+    
     public class OnUpdateSprite {
         public OnUpdateSprite(Sprite currentSprite, int spriteColliderIndex) {
             CurrentSprite = currentSprite;
@@ -34,6 +34,4 @@ namespace DungeonSlime.Utils {
         public Sprite CurrentSprite;
         public int SpriteColliderIndex;
     }
-    
-    
 }

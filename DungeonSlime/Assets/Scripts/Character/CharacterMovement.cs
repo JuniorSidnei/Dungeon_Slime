@@ -13,67 +13,107 @@ namespace DungeonSlime.Character {
         [SerializeField] private bool m_willExpandShape;
         [SerializeField] private LevelManager m_levelManager;
         [SerializeField] private CharacterStates m_characterStates;
-        
+        public Ease ease;
         private float m_speed;
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
         private Vector2Int m_basePositionOnAxis;
-        private Block m_farthestBlock;
+        private Vector2Int m_currentDirection;
+        //private Block m_farthestBlock;
         private bool m_isDead;
         private bool m_alreadyFindPosition;
-        public Ease ease;
-        
+        private Sequence m_movementSequence;
+
+        public Vector2Int CurrentDirection {
+            get => m_currentDirection;
+            set => m_currentDirection = value;
+        }
+
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
+            if (!m_willExpandShape) return;
+            
             m_currentPos = m_levelManager.GetPlayerInitialPosition();
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
             transform.position = position;
         }
 
-        public void OnMove(OnMoveCharacter ev) {
-            if (m_moving || ev.Direction == Vector2Int.zero) return;
+        public void OnMove(Vector2Int movementDirection) {
+            if (m_moving || movementDirection == Vector2Int.zero) return;
 
+            m_currentDirection = movementDirection;
             m_moving = true;
 
-            if (!GetNextPositionOnGrid(ev.Direction, m_currentPos)) {
+            if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
                 m_moving = false;
                 return;
             }
             
-            ResolveCollision(m_finalPos, ev.Direction);
+            ResolveCollision(m_finalPos, m_currentDirection);
             
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
 
-            if (ev.Direction == Vector2.right || ev.Direction == Vector2.left) {
-                transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() => {
-                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
+            m_movementSequence = DOTween.Sequence();
+            
+            if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
+                m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
                     
                     if (m_levelManager.IsPlayerDead() || m_isDead) {
                         GameManager.Instance.LoadCurrentScene();
                     }
-                    
+
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
+                        m_currentPos = m_finalPos;
                     });
-                    m_currentPos = m_finalPos;
-                });
+                }));
+
+//                transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() => {
+//                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
+//                    
+//                    if (m_levelManager.IsPlayerDead() || m_isDead) {
+//                        GameManager.Instance.LoadCurrentScene();
+//                    }
+//                    
+//                    transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
+//                        m_moving = false;
+//                        m_alreadyFindPosition = false;
+//                    });
+//                    m_currentPos = m_finalPos;
+//                });
                 
-            } else if(ev.Direction == Vector2.up || ev.Direction == Vector2.down) {
-                transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_farthestBlock, ev.Direction));
-                    
+            } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
+
+                m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
+
                     if (m_levelManager.IsPlayerDead() || m_isDead) {
                         GameManager.Instance.LoadCurrentScene();
                     }
-                    
+
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
+                        m_currentPos = m_finalPos;
                     });
-                    m_currentPos = m_finalPos;
-                });
+                }));
+                
+//                transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
+//                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
+//                    
+//                    if (m_levelManager.IsPlayerDead() || m_isDead) {
+//                        GameManager.Instance.LoadCurrentScene();
+//                    }
+//                    
+//                    transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
+//                        m_moving = false;
+//                        m_alreadyFindPosition = false;
+//                    });
+//                    m_currentPos = m_finalPos;
+//                });
             }
         }
 
@@ -272,6 +312,10 @@ namespace DungeonSlime.Character {
         private void SetPlayerPositionAndSize(Vector2Int pos, Vector2Int size) {
             m_finalPos = pos;
             m_currentSize = size;
+        }
+
+        public void StopMovement() {
+            m_movementSequence.Kill();
         }
     }
 }
