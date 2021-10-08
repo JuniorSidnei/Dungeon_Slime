@@ -8,18 +8,22 @@ using UnityEngine;
 namespace DungeonSlime.Character {
 
   public class UpdateColliderMesh : MonoBehaviour {
+    public LayerMask objectLayer;
+    public SpriteRenderer sprite;
 
-    public List<BoxCollider2D> colliders;
-    private int m_currentColliderIndex = 0;
-    
-    private void Awake() {
-      GameManager.Instance.GlobalDispatcher.Subscribe<OnUpdateSprite>(OnUpdateSprite);
-    }
+    private void FixedUpdate() {
+      var spriteSize = sprite.bounds.size;
+      var spriteCenter = sprite.bounds.center;
+      var boxResult = Physics2D.BoxCast(new Vector2(spriteCenter.x, spriteCenter.y), new Vector2(spriteSize.x, spriteSize.y), 0f, Vector2.right, 0.1f, objectLayer);
 
-    private void OnUpdateSprite(OnUpdateSprite ev) {
-      colliders[m_currentColliderIndex].enabled = false;
-      m_currentColliderIndex = ev.SpriteColliderIndex;
-      colliders[m_currentColliderIndex].enabled = true;
+      if (boxResult.collider != null) {
+          Debug.Log("Bati");
+      }
     }
+//    void OnDrawGizmos()  {
+//      Gizmos.color = new Color(1, 0, 0, 0.5f);
+//      var spriteSize = sprite.bounds.center;
+//      Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(sprite.bounds.size.x, sprite.bounds.size.y, 0));
+//    }
   }
 }
