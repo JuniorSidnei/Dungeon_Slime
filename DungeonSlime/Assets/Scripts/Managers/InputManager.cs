@@ -13,7 +13,7 @@ namespace DungeonSlime.Managers {
             var ctxValue = ctx.ReadValue<Vector2>();
             
             Vector2Int inputValue = Vector2Int.RoundToInt(ctxValue);
-            GameManager.Instance.GlobalDispatcher.Emit(new OnMove(inputValue));
+            GameManager.Instance.GlobalDispatcher.Emit(new OnMoveCharacter(inputValue));
         }
     }
 }

@@ -6,12 +6,13 @@ using UnityEngine;
 using Utils;
 
 namespace DungeonSlime.Character {
-    public class Movement : MonoBehaviour {
+    public class CharacterMovement : MonoBehaviour {
         
         [SerializeField] private float m_speedMultiplier;
         [SerializeField] private bool m_moving;
+        [SerializeField] private bool m_willExpandShape;
         [SerializeField] private LevelManager m_levelManager;
-        [SerializeField] private CharacterStates m_playerStates;
+        [SerializeField] private CharacterStates m_characterStates;
         
         private float m_speed;
         private Vector2Int m_currentPos;
@@ -22,21 +23,15 @@ namespace DungeonSlime.Character {
         private bool m_isDead;
         private bool m_alreadyFindPosition;
         public Ease ease;
-        public bool willExpandShape;
-
-        private void Awake() {
-
-            GameManager.Instance.GlobalDispatcher.Subscribe<OnMove>(OnMove);
-        }
-
+        
         private void Start() {
-            m_currentSize = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm());
+            m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
             m_currentPos = m_levelManager.GetPlayerInitialPosition();
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
             transform.position = position;
         }
 
-        private void OnMove(OnMove ev) {
+        public void OnMove(OnMoveCharacter ev) {
             if (m_moving || ev.Direction == Vector2Int.zero) return;
 
             m_moving = true;
@@ -101,10 +96,10 @@ namespace DungeonSlime.Character {
             
             if (direction == Vector2Int.right || direction == Vector2Int.left) {
                 guidingVector = Vector2Int.up;
-                amount = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm()).y;
+                amount = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm()).y;
             } else if (direction == Vector2.up || direction == Vector2.down) {
                 guidingVector = Vector2Int.right;
-                amount = m_playerStates.GetCurrentSize(m_playerStates.GetCurrentForm()).x;
+                amount = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm()).x;
             }
 
             for (var i = 0; i < amount; i++) {
@@ -131,7 +126,7 @@ namespace DungeonSlime.Character {
         }
         
         private void ResolveCollision(Vector2Int currentPosition, Vector2 nextDirection) {
-            var newPlayerSize = m_playerStates.GetNextSize(nextDirection);
+            var newPlayerSize = m_characterStates.GetNextSize(nextDirection);
             var newPositionOnAxis = GetNewPositionOnAxis(currentPosition, nextDirection, newPlayerSize);
             
             if (nextDirection == Vector2.right || nextDirection == Vector2.left) {
@@ -187,7 +182,7 @@ namespace DungeonSlime.Character {
         }
 
         private int FixCurrentPosition(Vector2Int size, int currentValue, Vector2Int nextSize) {
-            if (!willExpandShape) return currentValue;
+            if (!m_willExpandShape) return currentValue;
             
             if (size.x < 12 && size.y < 12) return currentValue - 1;
             

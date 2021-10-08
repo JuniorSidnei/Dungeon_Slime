@@ -33,8 +33,13 @@ namespace DungeonSlime.Enviroment {
         }
 
         protected override void OnCollisionEnter2D(Collision2D other) {
+            
+            if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
+            
+            Debug.Log("player me bateu kk");
             //throw event to move the rock
             //with the same direction that player was moving
+            //the mask must be the player layer
         }
     }
 }

@@ -17,8 +17,8 @@ namespace DungeonSlime.Utils {
         public Vector2 CurrentDirection;
     }
 
-    public class OnMove {
-        public OnMove(Vector2Int direction) {
+    public class OnMoveCharacter {
+        public OnMoveCharacter(Vector2Int direction) {
             Direction = direction;
         }
 
@@ -26,11 +26,13 @@ namespace DungeonSlime.Utils {
     }
 
     public class OnUpdateSprite {
-        public OnUpdateSprite(Sprite currentSprite) {
+        public OnUpdateSprite(Sprite currentSprite, int spriteColliderIndex) {
             CurrentSprite = currentSprite;
+            SpriteColliderIndex = spriteColliderIndex;
         }
 
         public Sprite CurrentSprite;
+        public int SpriteColliderIndex;
     }
     
     

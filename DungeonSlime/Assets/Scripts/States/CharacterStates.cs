@@ -10,6 +10,8 @@ namespace DungeonSlime.Character {
     public abstract class CharacterStates : MonoBehaviour {
         public Animator animator;
         public LayerMask objectLayer;
+        public CharacterMovement characterMovement;
+        
         public enum CharacterForms {
             NORMAL,
             SEMI_STRETCHED_H,

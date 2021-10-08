@@ -19,16 +19,21 @@ namespace DungeonSlime.Character {
         };
 
         protected override void Awake() {
-            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[(int)CharacterForms.NORMAL]));
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveCharacter>(OnMove);
+            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[(int)CharacterForms.NORMAL], 0));
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
             CharacterForm = CharacterForms.NORMAL;
+        }
+
+        private void OnMove(OnMoveCharacter ev) {
+            characterMovement.OnMove(ev);
         }
         
         private void OnFinishMovement(OnFinishMovement ev) {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = (CharacterForms) slimeForm;
             animator.SetInteger("form", i);
-            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[i]));
+            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[i], i));
         }
 
         public override Vector2Int GetNextSize(Vector2 nextDirection) {
@@ -95,8 +100,10 @@ namespace DungeonSlime.Character {
 
         protected override void OnCollisionEnter2D(Collision2D other) {
 
-            if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
-            
+//            if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
+//            
+//            Debug.Log("bati na pedra kk");
+            //this mask must be the rock layer
             //stop movement if its a block and change shape and do all the stuff need
             //just simple call resolveCollision with the correct parameters
         }
