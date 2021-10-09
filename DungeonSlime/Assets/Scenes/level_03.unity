@@ -801,6 +801,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   characterMovement: {fileID: 818075968}
+  m_id: 1
+  m_initialPosition: {x: 30, y: 7}
 --- !u!114 &818075963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e729efa37f8d0b46a297faa4a933b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speedMultiplier: 45
+  m_speedMultiplier: 60
   m_moving: 0
   m_willExpandShape: 0
   m_levelManager: {fileID: 419522944}
@@ -1571,6 +1573,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   characterMovement: {fileID: 1938850884}
+  m_id: 0
   m_slimeSprites:
   - {fileID: 8575522406564139427, guid: 0890103d7fc0a7746b2add8ab4580fcb, type: 3}
   - {fileID: -3159012446235715585, guid: 26233cd5c56d8844799546061733f124, type: 3}

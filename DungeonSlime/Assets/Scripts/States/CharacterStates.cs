@@ -11,6 +11,13 @@ namespace DungeonSlime.Character {
         public Animator animator;
         public LayerMask objectLayer;
         public CharacterMovement characterMovement;
+        [SerializeField] private int m_id;
+        
+        
+        public int Id {
+            get => m_id;
+            set => m_id = value;
+        }
         
         public enum CharacterForms {
             NORMAL,
@@ -32,6 +39,6 @@ namespace DungeonSlime.Character {
         
         protected abstract Tuple<CharacterForms, int> GetIndexAndForm(Vector2 direction, CharacterForms forms = CharacterForms.NORMAL);
 
-        protected abstract void OnCollisionEnter2D(Collision2D other);
+        //protected abstract void OnCollisionEnter2D(Collision2D other);
     }
 }

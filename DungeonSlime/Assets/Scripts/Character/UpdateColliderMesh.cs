@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using DungeonSlime.Enviroment;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
 using UnityEngine;
@@ -11,6 +10,14 @@ namespace DungeonSlime.Character {
       public SpriteRenderer sprite;
       private bool m_isColliding;
 
+      private void Awake() {
+          GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
+      }
+
+      private void OnFinishMovement(OnFinishMovement ev) {
+          m_isColliding = false;
+      }
+      
       private void FixedUpdate() {
         var spriteSize = sprite.bounds.size;
         var spriteCenter = sprite.bounds.center;
@@ -19,9 +26,11 @@ namespace DungeonSlime.Character {
         if (boxResult.collider == null || m_isColliding) return;
         
         m_isColliding = true;
-        //pass game object to event to set that he is the one to move
-        GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision());
-        Debug.Log("Bati");
+        var objectCollider = boxResult.collider.gameObject.GetComponent<RockStates>();
+        var currentDirection =  gameObject.GetComponent<CharacterMovement>().CurrentDirection;
+        var collisionPosition = objectCollider.GetPivotPosition(currentDirection);
+        GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(objectCollider.Id, collisionPosition));
+        
       }
       
   //    void OnDrawGizmos()  {

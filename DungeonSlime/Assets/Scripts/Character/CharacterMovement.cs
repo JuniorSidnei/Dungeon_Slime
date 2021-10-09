@@ -24,12 +24,23 @@ namespace DungeonSlime.Character {
         private bool m_isDead;
         private bool m_alreadyFindPosition;
         private Sequence m_movementSequence;
+        private int m_id;
 
         public Vector2Int CurrentDirection {
             get => m_currentDirection;
             set => m_currentDirection = value;
         }
 
+        public Vector2Int CurrentPosition {
+            get => m_currentPos;
+            set => m_currentPos = value;
+        }
+
+        public Vector2Int CurrentFinalPosition {
+            get => m_finalPos;
+            set => m_finalPos = value;
+        }
+        
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
             if (!m_willExpandShape) return;
@@ -39,17 +50,29 @@ namespace DungeonSlime.Character {
             transform.position = position;
         }
 
-        public void OnMove(Vector2Int movementDirection) {
+        public void SetInitialPosition(Vector2Int initialPositionOnGrid) {
+            m_currentPos = initialPositionOnGrid;
+            var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);
+            transform.position = position;
+        }
+
+        public void SetCharacterId(int id) {
+            m_id = id;
+        }
+        
+        public void OnMove(Vector2Int movementDirection, bool alreadyHasPosition) {
             if (m_moving || movementDirection == Vector2Int.zero) return;
 
             m_currentDirection = movementDirection;
             m_moving = true;
 
-            if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
-                m_moving = false;
-                return;
+            if (!alreadyHasPosition) {
+                if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
+                    m_moving = false;
+                    return;
+                }
             }
-            
+
             ResolveCollision(m_finalPos, m_currentDirection);
             
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
@@ -58,7 +81,7 @@ namespace DungeonSlime.Character {
             
             if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
-                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
                     
                     if (m_levelManager.IsPlayerDead() || m_isDead) {
                         GameManager.Instance.LoadCurrentScene();
@@ -70,25 +93,10 @@ namespace DungeonSlime.Character {
                         m_currentPos = m_finalPos;
                     });
                 }));
-
-//                transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() => {
-//                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
-//                    
-//                    if (m_levelManager.IsPlayerDead() || m_isDead) {
-//                        GameManager.Instance.LoadCurrentScene();
-//                    }
-//                    
-//                    transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
-//                        m_moving = false;
-//                        m_alreadyFindPosition = false;
-//                    });
-//                    m_currentPos = m_finalPos;
-//                });
-                
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
 
                 m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
 
                     if (m_levelManager.IsPlayerDead() || m_isDead) {
                         GameManager.Instance.LoadCurrentScene();
@@ -100,20 +108,6 @@ namespace DungeonSlime.Character {
                         m_currentPos = m_finalPos;
                     });
                 }));
-                
-//                transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-//                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection));
-//                    
-//                    if (m_levelManager.IsPlayerDead() || m_isDead) {
-//                        GameManager.Instance.LoadCurrentScene();
-//                    }
-//                    
-//                    transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
-//                        m_moving = false;
-//                        m_alreadyFindPosition = false;
-//                    });
-//                    m_currentPos = m_finalPos;
-//                });
             }
         }
 
@@ -200,7 +194,7 @@ namespace DungeonSlime.Character {
             }
         }
         
-        private Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
+        public Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
             var newX = currentFinalPos.x;
             var newY = currentFinalPos.y;
 
@@ -316,6 +310,7 @@ namespace DungeonSlime.Character {
 
         public void StopMovement() {
             m_movementSequence.Kill();
+            m_moving = false;
         }
     }
 }

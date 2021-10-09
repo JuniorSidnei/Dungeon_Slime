@@ -23,27 +23,28 @@ namespace DungeonSlime.Character {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnCharacterCollision>(OnCharacterCollision);
             CharacterForm = CharacterForms.NORMAL;
+            characterMovement.SetCharacterId(Id);
         }
 
         private void OnMove(OnMoveCharacter ev) {
-            characterMovement.OnMove(ev.Direction);
+            characterMovement.OnMove(ev.Direction, false);
         }
         
         private void OnFinishMovement(OnFinishMovement ev) {
+            if (ev.CharacterId != Id) return;
+            
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
             animator.SetInteger("form", i);
-            GameManager.Instance.GlobalDispatcher.Emit(new OnUpdateSprite(m_slimeSprites[i], i));
         }
 
         private void OnCharacterCollision(OnCharacterCollision ev) {
             characterMovement.StopMovement();
-            //rock need to now his position on grid
-            //the direction that player is moving
-            //receive the rock game object that has been hitted
-            //set the direction in the event and launch to him
-            //need update currentPos to make on move work
-            //characterMovement.OnMove(characterMovement.CurrentDirection);
+            var currentDirection = characterMovement.CurrentDirection;
+            var updatedPosition = characterMovement.GetNewPositionOnAxis(ev.CollisionPosition, currentDirection, GetNextSize(currentDirection));
+            characterMovement.CurrentFinalPosition = updatedPosition;
+            characterMovement.OnMove(characterMovement.CurrentDirection, true);
+            GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(ev.CharacterId, currentDirection));
         }
         
         public override Vector2Int GetNextSize(Vector2 nextDirection) {
@@ -108,7 +109,7 @@ namespace DungeonSlime.Character {
             return formAndIndex;
         }
 
-        protected override void OnCollisionEnter2D(Collision2D other) {
+        //protected override void OnCollisionEnter2D(Collision2D other) {
 
 //            if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
 //            
@@ -116,7 +117,7 @@ namespace DungeonSlime.Character {
             //this mask must be the rock layer
             //stop movement if its a block and change shape and do all the stuff need
             //just simple call resolveCollision with the correct parameters
-        }
+        //}
 
         public override Vector2Int GetCurrentSize(CharacterForms currentForm) {  
             return m_slotsOnGrid[currentForm];
