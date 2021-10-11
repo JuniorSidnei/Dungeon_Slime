@@ -12,6 +12,7 @@ namespace DungeonSlime.Managers {
         
         public LevelDataTiles levelDataTiles;
         public LevelData levelData;
+        public bool showTilesIndex;
         
         private Level m_currentLevel;
         private bool m_isDead;
@@ -41,7 +42,9 @@ namespace DungeonSlime.Managers {
                 var position = GetPositionForIndex(i, level.columnCount);
                 tilemap.SetTile(new Vector3Int(position.x, position.y, 0), m_tiles[level.blocks[i].type]);
 
-                var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int)position));
+                if (!showTilesIndex) continue;
+                
+                var text = WorldCanvas.Instance.CreateTextAt(tilemap.CellToWorld((Vector3Int) position));
                 text.SetText(string.Format("{0}/{1}", position.x, position.y));
             }
         }

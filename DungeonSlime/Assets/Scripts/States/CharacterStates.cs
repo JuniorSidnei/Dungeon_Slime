@@ -27,6 +27,11 @@ namespace DungeonSlime.Character {
             FULL_STRETCHED_V
         }
 
+        public enum CharacterType {
+            Slime,
+            Rock
+        }
+        
         protected abstract void Awake();
 
         protected CharacterForms CharacterForm { get; set; }

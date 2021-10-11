@@ -20,11 +20,12 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentSize;
         private Vector2Int m_basePositionOnAxis;
         private Vector2Int m_currentDirection;
-        //private Block m_farthestBlock;
         private bool m_isDead;
         private bool m_alreadyFindPosition;
         private Sequence m_movementSequence;
         private int m_id;
+        private int m_resetRockId = 0;
+        
 
         public Vector2Int CurrentDirection {
             get => m_currentDirection;
@@ -40,6 +41,10 @@ namespace DungeonSlime.Character {
             get => m_finalPos;
             set => m_finalPos = value;
         }
+
+        public Vector2Int CurrentSize => m_currentSize;
+
+        public bool CanIMove => m_moving;
         
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
@@ -60,21 +65,27 @@ namespace DungeonSlime.Character {
             m_id = id;
         }
         
-        public void OnMove(Vector2Int movementDirection, bool alreadyHasPosition) {
+        public void OnMove(Vector2Int movementDirection, bool alreadyHasPosition, CharacterStates.CharacterType charType) {
             if (m_moving || movementDirection == Vector2Int.zero) return;
 
             m_currentDirection = movementDirection;
-            m_moving = true;
-
+            
             if (!alreadyHasPosition) {
                 if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
                     m_moving = false;
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnRockUnableToMove(m_id));
                     return;
                 }
             }
+            else {
+                m_speed = 0.09f;
+            }
 
-            ResolveCollision(m_finalPos, m_currentDirection);
+            m_moving = true;
+            GameManager.Instance.GlobalDispatcher.Emit(new OnRockUnableToMove(m_resetRockId));
             
+            ResolveCollision(m_finalPos, m_currentDirection);
+            m_alreadyFindPosition = false;
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
 
             m_movementSequence = DOTween.Sequence();
@@ -111,7 +122,7 @@ namespace DungeonSlime.Character {
             }
         }
 
-        private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
+        public bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
             var oldWallDistance = 5000.0;
 
             var amount = 0;

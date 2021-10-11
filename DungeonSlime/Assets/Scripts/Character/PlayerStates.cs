@@ -9,7 +9,9 @@ namespace DungeonSlime.Character {
 
     public class PlayerStates : CharacterStates {
         [SerializeField] private List<Sprite> m_slimeSprites;
-        
+        private CharacterType m_charType = CharacterType.Slime;
+        private int m_rockObjectId;
+
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
             {CharacterForms.NORMAL, new Vector2Int(6, 6)},
             {CharacterForms.SEMI_STRETCHED_H, new Vector2Int(9, 3)},
@@ -21,13 +23,15 @@ namespace DungeonSlime.Character {
         protected override void Awake() {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveCharacter>(OnMove);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnRockUnableToMove>(OnRockUnableToMove);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnCharacterCollision>(OnCharacterCollision);
+            
             CharacterForm = CharacterForms.NORMAL;
             characterMovement.SetCharacterId(Id);
         }
 
         private void OnMove(OnMoveCharacter ev) {
-            characterMovement.OnMove(ev.Direction, false);
+            characterMovement.OnMove(ev.Direction, false, m_charType);
         }
         
         private void OnFinishMovement(OnFinishMovement ev) {
@@ -38,13 +42,19 @@ namespace DungeonSlime.Character {
             animator.SetInteger("form", i);
         }
 
+        private void OnRockUnableToMove(OnRockUnableToMove ev) {
+            m_rockObjectId = ev.RockId;
+        }
+        
         private void OnCharacterCollision(OnCharacterCollision ev) {
-            characterMovement.StopMovement();
+            if (m_rockObjectId == ev.CharacterId) return;
+            
+            
             var currentDirection = characterMovement.CurrentDirection;
-            var updatedPosition = characterMovement.GetNewPositionOnAxis(ev.CollisionPosition, currentDirection, GetNextSize(currentDirection));
-            characterMovement.CurrentFinalPosition = updatedPosition;
-            characterMovement.OnMove(characterMovement.CurrentDirection, true);
             GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(ev.CharacterId, currentDirection));
+            characterMovement.StopMovement();
+            characterMovement.CurrentFinalPosition = ev.CollisionPosition;
+            characterMovement.OnMove(characterMovement.CurrentDirection, true, m_charType);
         }
         
         public override Vector2Int GetNextSize(Vector2 nextDirection) {

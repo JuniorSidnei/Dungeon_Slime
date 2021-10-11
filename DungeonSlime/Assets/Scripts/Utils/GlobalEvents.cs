@@ -31,7 +31,7 @@ namespace DungeonSlime.Utils {
             CollisionPosition = collisionPosition;
         }
 
-        public int CharacterId;
+        public readonly int CharacterId;
         public Vector2Int CollisionPosition;
     }
 
@@ -42,7 +42,15 @@ namespace DungeonSlime.Utils {
         }
 
         public Vector2Int MovementDirection;
-        public int CharacterId;
+        public readonly int CharacterId;
+    }
+
+    public class OnRockUnableToMove {
+        public OnRockUnableToMove(int rockId) {
+            RockId = rockId;
+        }
+
+        public readonly int RockId;
     }
     
 //    public class OnUpdateSprite {
