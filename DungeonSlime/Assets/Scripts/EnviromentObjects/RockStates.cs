@@ -21,15 +21,19 @@ namespace DungeonSlime.Enviroment {
             {Vector2.left, new Vector2Int(-1, 0)},
             {Vector2.right, new Vector2Int(0, 0)},
         };
-//            
+  
         protected override void Awake() {
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveRockCharacterWithId>(OnMoveRockCharacterWithId);
+            characterMovement.SetLevelManager(levelManager);
+        }
+
+        protected override void Start() {
             CharacterForm = CharacterForms.NORMAL;
             charType = CharacterType.Rock;
             characterMovement.SetInitialPosition(m_initialPosition);
-            GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveRockCharacterWithId>(OnMoveRockCharacterWithId);
             characterMovement.SetCharacterId(Id);
         }
-
+        
         private void OnMoveRockCharacterWithId(OnMoveRockCharacterWithId ev) {
             if (ev.CharacterId != Id) return;
             
@@ -53,7 +57,7 @@ namespace DungeonSlime.Enviroment {
             return formAndIndex;
         }
 
-        public Vector2Int GetPivotPosition(Vector2 direction, Vector2Int slimeSize) {
+        public Vector2Int GetPivotPosition(Vector2 direction) {
             var position = characterMovement.CurrentPosition;
             return position + m_collisionOffsetPosition[direction];
         }
@@ -62,6 +66,8 @@ namespace DungeonSlime.Enviroment {
             if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
             
             characterMovement.StopMovement();
+            var newPosition = levelManager.tilemap.WorldToCell(transform.position);
+            characterMovement.CurrentPosition = new Vector2Int(newPosition.x, newPosition.y);
         }
     }
 }

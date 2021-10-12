@@ -11,7 +11,7 @@ namespace DungeonSlime.Character {
         [SerializeField] private float m_speedMultiplier;
         [SerializeField] private bool m_moving;
         [SerializeField] private bool m_willExpandShape;
-        [SerializeField] private LevelManager m_levelManager;
+        private LevelManager m_levelManager;
         [SerializeField] private CharacterStates m_characterStates;
         public Ease ease;
         private float m_speed;
@@ -55,6 +55,10 @@ namespace DungeonSlime.Character {
             transform.position = position;
         }
 
+        public void SetLevelManager(LevelManager levelManager) {
+            m_levelManager = levelManager;
+        }
+        
         public void SetInitialPosition(Vector2Int initialPositionOnGrid) {
             m_currentPos = initialPositionOnGrid;
             var position = m_levelManager.tilemap.CellToWorld((Vector3Int) m_currentPos);

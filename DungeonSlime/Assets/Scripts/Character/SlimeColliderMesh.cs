@@ -29,7 +29,7 @@ namespace DungeonSlime.Character {
         var objectCollider = boxResult.collider.gameObject.GetComponent<RockStates>();
         var slimeObject =  gameObject.GetComponent<CharacterMovement>();
         
-        var collisionPosition = objectCollider.GetPivotPosition(slimeObject.CurrentDirection, slimeObject.CurrentSize);
+        var collisionPosition = objectCollider.GetPivotPosition(slimeObject.CurrentDirection);
         GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(objectCollider.Id, collisionPosition, CanIMoveWithDirection(objectCollider, slimeObject.CurrentDirection)));
       }
 

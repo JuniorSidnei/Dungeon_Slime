@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlime.Managers;
 using TMPro;
 using UnityEditor.Compilation;
 using UnityEngine;
@@ -11,8 +12,8 @@ namespace DungeonSlime.Character {
         public Animator animator;
         public LayerMask objectLayer;
         public CharacterMovement characterMovement;
+        public LevelManager levelManager;
         [SerializeField] private int m_id;
-        
         
         public CharacterType charType;
         
@@ -35,6 +36,8 @@ namespace DungeonSlime.Character {
         }
         
         protected abstract void Awake();
+
+        protected abstract void Start();
 
         protected CharacterForms CharacterForm { get; set; }
         

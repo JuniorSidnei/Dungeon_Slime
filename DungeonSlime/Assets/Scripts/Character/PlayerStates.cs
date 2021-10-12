@@ -24,12 +24,15 @@ namespace DungeonSlime.Character {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnRockUnableToMove>(OnRockUnableToMove);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnCharacterCollision>(OnCharacterCollision);
-            
-            CharacterForm = CharacterForms.NORMAL;
-            characterMovement.SetCharacterId(Id);
-            charType = CharacterType.Slime;
+            characterMovement.SetLevelManager(levelManager);
         }
 
+        protected override void Start() {
+            CharacterForm = CharacterForms.NORMAL;
+            charType = CharacterType.Slime;
+            characterMovement.SetCharacterId(Id);
+        }
+        
         private void OnMove(OnMoveCharacter ev) {
             characterMovement.OnMove(ev.Direction, false, charType);
         }

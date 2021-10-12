@@ -412,7 +412,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 2d491f1bb319d67498a59b867827e45e, type: 2}
-  showTilesIndex: 0
+  showTilesIndex: 1
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0
@@ -802,6 +802,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   characterMovement: {fileID: 818075968}
+  levelManager: {fileID: 419522944}
   m_id: 1
   charType: 0
   m_initialPosition: {x: 41, y: 7}
@@ -937,7 +938,6 @@ MonoBehaviour:
   m_speedMultiplier: 60
   m_moving: 0
   m_willExpandShape: 0
-  m_levelManager: {fileID: 419522944}
   m_characterStates: {fileID: 818075962}
   ease: 33
 --- !u!4 &818075969
@@ -1259,6 +1259,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   characterMovement: {fileID: 1009438303}
+  levelManager: {fileID: 419522944}
   m_id: 2
   charType: 0
   m_initialPosition: {x: 35, y: 7}
@@ -1277,7 +1278,6 @@ MonoBehaviour:
   m_speedMultiplier: 60
   m_moving: 0
   m_willExpandShape: 0
-  m_levelManager: {fileID: 419522944}
   m_characterStates: {fileID: 1009438302}
   ease: 33
 --- !u!4 &1009438304
@@ -2009,6 +2009,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   characterMovement: {fileID: 1938850884}
+  levelManager: {fileID: 419522944}
   m_id: 0
   charType: 0
   m_slimeSprites:
@@ -2032,7 +2033,6 @@ MonoBehaviour:
   m_speedMultiplier: 45
   m_moving: 0
   m_willExpandShape: 1
-  m_levelManager: {fileID: 419522944}
   m_characterStates: {fileID: 1938850883}
   ease: 33
 --- !u!4 &1938850885
