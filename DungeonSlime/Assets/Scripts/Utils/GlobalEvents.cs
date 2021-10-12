@@ -26,13 +26,15 @@ namespace DungeonSlime.Utils {
     }
 
     public class OnCharacterCollision {
-        public OnCharacterCollision(int characterId, Vector2Int collisionPosition) {
+        public OnCharacterCollision(int characterId, Vector2Int collisionPosition, bool rockIsAbleToMove) {
             CharacterId = characterId;
             CollisionPosition = collisionPosition;
+            RockIsAbleToMove = rockIsAbleToMove;
         }
 
         public readonly int CharacterId;
         public Vector2Int CollisionPosition;
+        public bool RockIsAbleToMove;
     }
 
     public class OnMoveRockCharacterWithId {

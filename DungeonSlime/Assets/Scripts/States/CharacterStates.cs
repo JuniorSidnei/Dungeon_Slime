@@ -14,6 +14,8 @@ namespace DungeonSlime.Character {
         [SerializeField] private int m_id;
         
         
+        public CharacterType charType;
+        
         public int Id {
             get => m_id;
             set => m_id = value;
