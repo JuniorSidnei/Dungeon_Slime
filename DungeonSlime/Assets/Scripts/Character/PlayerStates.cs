@@ -10,6 +10,7 @@ namespace DungeonSlime.Character {
     public class PlayerStates : CharacterStates {
         [SerializeField] private List<Sprite> m_slimeSprites;
         private int m_rockObjectId;
+        public SlimeColliderMesh slimeColliderMesh;
 
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
             {CharacterForms.NORMAL, new Vector2Int(6, 6)},
@@ -34,9 +35,15 @@ namespace DungeonSlime.Character {
         }
         
         private void OnMove(OnMoveCharacter ev) {
+            if (!slimeColliderMesh.CanIMoveWithinDirection(ev.Direction)) {
+                slimeColliderMesh.IsPlayerMoving = false;
+                return;
+            }
+            
+            slimeColliderMesh.IsPlayerMoving = true;
             characterMovement.OnMove(ev.Direction, false, charType);
         }
-        
+
         private void OnFinishMovement(OnFinishMovement ev) {
             if (ev.CharacterId != Id) return;
             
@@ -52,14 +59,14 @@ namespace DungeonSlime.Character {
         private void OnCharacterCollision(OnCharacterCollision ev) {
             if (m_rockObjectId == ev.CharacterId) return;
 
-            if (ev.RockIsAbleToMove) {
-                var currentDirection = characterMovement.CurrentDirection;
-                GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(ev.CharacterId, currentDirection));
-            }
-
             characterMovement.StopMovement();
             characterMovement.CurrentFinalPosition = ev.CollisionPosition;
             characterMovement.OnMove(characterMovement.CurrentDirection, true, charType);
+
+            if (!ev.RockIsAbleToMove) return;
+            
+            var currentDirection = characterMovement.CurrentDirection;
+            GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(ev.CharacterId, currentDirection));
         }
         
         public override Vector2Int GetNextSize(Vector2 nextDirection) {

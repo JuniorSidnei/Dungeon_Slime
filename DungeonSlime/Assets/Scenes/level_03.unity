@@ -412,7 +412,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 2d491f1bb319d67498a59b867827e45e, type: 2}
-  showTilesIndex: 1
+  showTilesIndex: 0
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0
@@ -2018,6 +2018,7 @@ MonoBehaviour:
   - {fileID: -6599112088005192397, guid: 841af6e5a13d59b41ac124a07b533d1c, type: 3}
   - {fileID: 7086062701084481013, guid: d92375f0633ac344980297bd2dad9048, type: 3}
   - {fileID: 8631199698069197136, guid: 76069d0ce6836a04aa7197eb33de777c, type: 3}
+  slimeColliderMesh: {fileID: 1938850890}
 --- !u!114 &1938850884
 MonoBehaviour:
   m_ObjectHideFlags: 0
