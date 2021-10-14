@@ -50,11 +50,6 @@ namespace DungeonSlime.Character {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
             animator.SetInteger("form", i);
-            //todo make class to cast a box that is the entire slime to verify if will collide with an rock, and move the rock away
-            //todo the sprite is in the slimeMeshCollider
-            //var spriteSize = sprite.bounds.size;
-            //var spriteCenter = sprite.bounds.center;
-            //var boxResult = Physics2D.BoxCast(new Vector2(spriteCenter.x, spriteCenter.y), new Vector2(spriteSize.x, spriteSize.y), 0f, Vector2.right, 0.1f, objectLayer);  
         }
 
         private void OnRockUnableToMove(OnRockUnableToMove ev) {
