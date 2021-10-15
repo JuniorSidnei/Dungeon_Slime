@@ -412,7 +412,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 2d491f1bb319d67498a59b867827e45e, type: 2}
-  showTilesIndex: 0
+  showTilesIndex: 1
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0
@@ -802,8 +802,9 @@ MonoBehaviour:
   characterMovement: {fileID: 818075968}
   levelManager: {fileID: 419522944}
   m_id: 1
-  charType: 0
-  m_initialPosition: {x: 60, y: 55}
+  charType: 1
+  m_initialPosition: {x: 15, y: 25}
+  rockColliderMesh: {fileID: 0}
 --- !u!61 &818075963
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1088,7 +1089,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.16830492, y: 0.16083193}
+  m_Offset: {x: 0.17173147, y: 0.16083193}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1099,7 +1100,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.34735012, y: 0.30362225}
+  m_Size: {x: 0.2981825, y: 0.30362225}
   m_EdgeRadius: 0
 --- !u!50 &1009438299
 Rigidbody2D:
@@ -1141,8 +1142,9 @@ MonoBehaviour:
   characterMovement: {fileID: 1009438303}
   levelManager: {fileID: 419522944}
   m_id: 2
-  charType: 0
-  m_initialPosition: {x: 35, y: 7}
+  charType: 1
+  m_initialPosition: {x: 25, y: 25}
+  rockColliderMesh: {fileID: 0}
 --- !u!114 &1009438303
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ namespace DungeonSlime.Enviroment {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveRockCharacterWithId>(OnMoveRockCharacterWithId);
             characterMovement.SetLevelManager(levelManager);
         }
-
+        
         protected override void Start() {
             CharacterForm = CharacterForms.NORMAL;
             charType = CharacterType.Rock;
@@ -36,7 +36,7 @@ namespace DungeonSlime.Enviroment {
         
         private void OnMoveRockCharacterWithId(OnMoveRockCharacterWithId ev) {
             if (ev.CharacterId != Id) return;
-            
+
             characterMovement.OnMove(ev.MovementDirection, false, charType);
         }
         
@@ -62,6 +62,24 @@ namespace DungeonSlime.Enviroment {
             return position + m_collisionOffsetPosition[direction];
         }
 
+        public void MoveToDestination(Vector2Int slimeFinalPosition, Vector2Int slimeDirection, Vector2Int slimeFinalSize) {
+            var directionToMove = GetAxisToMove(slimeFinalPosition, slimeDirection);
+            var finalPosition = new Vector2Int(characterMovement.CurrentPosition.x, 0);
+
+            if (directionToMove == Vector2Int.up) {
+                //posição final da pedra = player final pos - tamanho do player + tamanho da pedra <calculo para subir a pedra>
+                finalPosition.y = slimeFinalPosition.y + slimeFinalSize.y + m_slotsOnGrid[CharacterForms.NORMAL].y;
+            } else if (directionToMove == Vector2Int.down) {
+                //posição final da pedra = player final pos + tamanho da pedra <calculo para pedra descer>
+                finalPosition.y = slimeFinalPosition.y - m_slotsOnGrid[CharacterForms.NORMAL].y;
+            }
+            
+            //set final pos
+            characterMovement.CurrentFinalPosition = finalPosition;
+            //call on move with true
+            characterMovement.OnMove(directionToMove, true, charType);
+        }
+        
         public Vector2Int GetAxisToMove(Vector2Int slimePosition, Vector2Int slimeDirection) {
             if (slimeDirection == Vector2Int.down || slimeDirection == Vector2Int.up) {
                 return slimePosition.x > characterMovement.CurrentPosition.x ? Vector2Int.left : Vector2Int.right;
@@ -72,10 +90,14 @@ namespace DungeonSlime.Enviroment {
         
         private void OnCollisionEnter2D(Collision2D other) {
             if (((1 << other.gameObject.layer) & objectLayer) == 0) return;
+
+            if (!characterMovement.IsMoving) return;
             
             characterMovement.StopMovement();
-            var newPosition = levelManager.tilemap.WorldToCell(transform.position);
-            characterMovement.CurrentPosition = new Vector2Int(newPosition.x, newPosition.y);
+            var obj = other.collider.gameObject.GetComponent<RockStates>();
+            var newPosition = obj.GetPivotPosition(characterMovement.CurrentDirection);
+            characterMovement.CurrentFinalPosition = new Vector2Int(newPosition.x, newPosition.y);
+            characterMovement.OnMove(characterMovement.CurrentDirection, true, charType);
         }
     }
 }

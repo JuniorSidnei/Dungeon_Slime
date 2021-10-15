@@ -25,6 +25,7 @@ namespace DungeonSlime.Character {
         private Sequence m_movementSequence;
         private int m_id;
         private int m_resetRockId = 0;
+        private CharacterStates.CharacterType m_charType;
         
 
         public Vector2Int CurrentDirection {
@@ -41,7 +42,14 @@ namespace DungeonSlime.Character {
             get => m_finalPos;
             set => m_finalPos = value;
         }
-        
+
+        public Vector2Int CurrentSize {
+            get => m_currentSize;
+            set => m_currentSize = value;
+        }
+
+        public bool IsMoving => m_moving;
+
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
             if (!m_willExpandShape) return;
@@ -82,6 +90,7 @@ namespace DungeonSlime.Character {
             }
 
             m_moving = true;
+            m_charType = charType;
             GameManager.Instance.GlobalDispatcher.Emit(new OnRockUnableToMove(m_resetRockId));
             
             ResolveCollision(m_finalPos, m_currentDirection);
@@ -277,6 +286,10 @@ namespace DungeonSlime.Character {
 
                     if (m_alreadyFindPosition) {
                         continue;
+                    }
+
+                    if (m_charType == CharacterStates.CharacterType.Rock) {
+                        Destroy(gameObject);
                     }
                     
                     //if the first index is wall, change direction

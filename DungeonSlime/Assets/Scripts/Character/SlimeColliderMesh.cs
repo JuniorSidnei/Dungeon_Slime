@@ -40,11 +40,7 @@ namespace DungeonSlime.Character {
 
           if (objectCollider.Id == m_lasRockId) return;
           
-          var objectDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentPosition, m_slimeObject.CurrentDirection);
-          //move the rock if possible
-          //if not possible, destroy the rock
-          
-          GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(objectCollider.Id, objectDirection));
+          objectCollider.MoveToDestination(m_slimeObject.CurrentPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
       }
       
       private void FixedUpdate() {
