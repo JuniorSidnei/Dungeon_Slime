@@ -41,10 +41,6 @@ namespace DungeonSlime.Character {
             get => m_finalPos;
             set => m_finalPos = value;
         }
-
-        public Vector2Int CurrentSize => m_currentSize;
-
-        public bool CanIMove => m_moving;
         
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());

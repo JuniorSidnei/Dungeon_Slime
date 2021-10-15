@@ -18,7 +18,7 @@ namespace DungeonSlime.Enviroment {
         private Dictionary<Vector2, Vector2Int> m_collisionOffsetPosition = new Dictionary<Vector2, Vector2Int> {
             {Vector2.down, new Vector2Int(0, 1)},
             {Vector2.up, new Vector2Int(0, -1)},
-            {Vector2.left, new Vector2Int(-1, 0)},
+            {Vector2.left, new Vector2Int(1, 0)},
             {Vector2.right, new Vector2Int(0, 0)},
         };
   
@@ -60,6 +60,14 @@ namespace DungeonSlime.Enviroment {
         public Vector2Int GetPivotPosition(Vector2 direction) {
             var position = characterMovement.CurrentPosition;
             return position + m_collisionOffsetPosition[direction];
+        }
+
+        public Vector2Int GetAxisToMove(Vector2Int slimePosition, Vector2Int slimeDirection) {
+            if (slimeDirection == Vector2Int.down || slimeDirection == Vector2Int.up) {
+                return slimePosition.x > characterMovement.CurrentPosition.x ? Vector2Int.left : Vector2Int.right;
+            }
+            
+            return slimePosition.y > characterMovement.CurrentPosition.y ? Vector2Int.down : Vector2Int.up;
         }
         
         private void OnCollisionEnter2D(Collision2D other) {

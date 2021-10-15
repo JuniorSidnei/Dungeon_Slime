@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DungeonSlime.Enviroment;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
@@ -12,6 +13,7 @@ namespace DungeonSlime.Character {
       private bool m_enableBox;
       private Collider2D m_boxCastResult;
       private CharacterMovement m_slimeObject;
+      private int m_lasRockId;
 
       public bool IsPlayerMoving {
           set => m_enableBox = value;
@@ -25,45 +27,45 @@ namespace DungeonSlime.Character {
       private void OnFinishMovement(OnFinishMovement ev) {
           m_isColliding = false;
           m_enableBox = false;
-          
-          ValidateSlimeExpansion();
       }
 
-      private void ValidateSlimeExpansion() {
-          //the direction will be inverted: if direction is up, the size will be x, if the direction is right, the size will be y
-          var boxCast = new RaycastHit2D();
+      public void ValidateSlimeExpansion() {
+          var boxCast = new Collider2D();
+          var spriteBounds = spriteRenderer.bounds;
+          boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), objectLayer);
           
-          if (m_slimeObject.CurrentDirection == Vector2Int.up || m_slimeObject.CurrentDirection == Vector2Int.down) {
-              boxCast = CreateBoxCastWithinDirection(Vector2Int.right, spriteRenderer, true);
-          } else if (m_slimeObject.CurrentDirection == Vector2Int.right || m_slimeObject.CurrentDirection == Vector2Int.left) {
-              boxCast = CreateBoxCastWithinDirection(Vector2Int.up, spriteRenderer, true);
-          }
+          if (boxCast == null) return;
+          
+          var objectCollider = boxCast.gameObject.GetComponent<RockStates>();
 
-          if (boxCast.collider == null) return;
+          if (objectCollider.Id == m_lasRockId) return;
           
-          Debug.Log("tem pedra no caminho mané!");
-          //this means that the box hit something while expanding itself
+          var objectDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentPosition, m_slimeObject.CurrentDirection);
+          //move the rock if possible
+          //if not possible, destroy the rock
+          
+          GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(objectCollider.Id, objectDirection));
       }
       
       private void FixedUpdate() {
           if (!m_enableBox) return;
           
-          var boxResult = CreateBoxCastWithinDirection(m_slimeObject.CurrentDirection, spriteRenderer, false);
+          var boxResult = CreateBoxCastWithinDirection(m_slimeObject.CurrentDirection, spriteRenderer);
           
           if (boxResult.collider == null || m_isColliding) return;
-        
           
           m_isColliding = true;
           var objectCollider = boxResult.collider.gameObject.GetComponent<RockStates>();
           var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
+          m_lasRockId = objectCollider.Id;
           GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(objectCollider.Id, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
       }
       
       public bool CanIMoveWithinDirection(Vector2Int direction) {
-          return !CreateBoxCastWithinDirection(direction, spriteRenderer, false);
+          return !CreateBoxCastWithinDirection(direction, spriteRenderer);
       }
       
-      private RaycastHit2D CreateBoxCastWithinDirection(Vector2Int direction, SpriteRenderer sprite, bool isBoxCentralized) {
+      private RaycastHit2D CreateBoxCastWithinDirection(Vector2Int direction, SpriteRenderer sprite) {
           if (direction == Vector2Int.zero) return new RaycastHit2D();
           
           var spriteBounds = sprite.bounds;
@@ -71,21 +73,25 @@ namespace DungeonSlime.Character {
           var boxSize = Vector2.zero;
           var boxOrigin = Vector2.zero;
 
+         
           if (direction == Vector2Int.left) {
               boxSize = new Vector2(0.1f, spriteSize.y);
-              boxOrigin = isBoxCentralized ? new Vector2(spriteBounds.center.x, spriteBounds.max.y  - spriteSize.y/2) : new Vector2(spriteBounds.min.x, spriteBounds.max.y  - spriteSize.y/2);
-          } else if (direction == Vector2Int.right) {
-              boxSize = new Vector2(0.1f, spriteSize.y); 
-              boxOrigin = isBoxCentralized? new Vector2(spriteBounds.center.x, spriteBounds.max.y  - spriteSize.y/2) : new Vector2(spriteBounds.max.x, spriteBounds.max.y  - spriteSize.y/2);
-          } else if(direction == Vector2Int.down){
-              boxSize = new Vector2(spriteSize.x, 0.1f);
-              boxOrigin = isBoxCentralized ? new Vector2(spriteBounds.max.x - spriteSize.x/2, spriteBounds.center.y) : new Vector2(spriteBounds.max.x - spriteSize.x/2, spriteBounds.min.y);
-          } else if(direction == Vector2Int.up){
-              boxSize = new Vector2(spriteSize.x, 0.1f);
-              boxOrigin = isBoxCentralized ? new Vector2(spriteBounds.max.x - spriteSize.x/2, spriteBounds.center.y) : new Vector2(spriteBounds.max.x - spriteSize.x/2, spriteBounds.max.y);
+              boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
-          
-          var boxResult = Physics2D.BoxCast(boxOrigin, boxSize, 0f, direction, 0.01f, objectLayer);
+          else if (direction == Vector2Int.right) {
+              boxSize = new Vector2(0.1f, spriteSize.y);
+              boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
+          }
+          else if (direction == Vector2Int.down) {
+              boxSize = new Vector2(spriteSize.x, 0.1f);
+              boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
+          }
+          else if (direction == Vector2Int.up) {
+              boxSize = new Vector2(spriteSize.x, 0.1f);
+              boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
+          }
+
+          var boxResult = Physics2D.BoxCast(boxOrigin, boxSize, 0f, direction, 0.1f, objectLayer);
           return boxResult;
       }
       
@@ -120,7 +126,9 @@ namespace DungeonSlime.Character {
 
         var spriteBorder = spriteRenderer.bounds.max;
         //Gizmos.DrawCube(new Vector2(spriteBorder.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(0.1f, spriteRenderer.bounds.size.y, 0));
-        //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(0.1f, spriteRenderer.bounds.size.y, 0));
+        //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        //Gizmos.DrawCube(new Vector2(spriteBorder.x - (spriteRenderer.bounds.size.x/2), spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, 0.2f, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (sprite.bounds.size.x/2), sprite.bounds.max.y), new Vector3(sprite.bounds.size.x, 0.1f, 0));
         
         if (!m_enableBox) return;
