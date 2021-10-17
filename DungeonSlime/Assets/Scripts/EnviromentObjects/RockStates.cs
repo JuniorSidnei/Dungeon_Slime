@@ -72,6 +72,10 @@ namespace DungeonSlime.Enviroment {
             } else if (directionToMove == Vector2Int.down) {
                 //posição final da pedra = player final pos + tamanho da pedra <calculo para pedra descer>
                 finalPosition.y = slimeFinalPosition.y - m_slotsOnGrid[CharacterForms.NORMAL].y;
+            } else if (directionToMove == Vector2Int.right) {
+                finalPosition.x = slimeFinalPosition.x + slimeFinalSize.x + m_slotsOnGrid[CharacterForms.NORMAL].x;
+            } else if (directionToMove == Vector2Int.left) {
+                finalPosition.x = slimeFinalPosition.x - m_slotsOnGrid[CharacterForms.NORMAL].x - 1;
             }
             
             //set final pos

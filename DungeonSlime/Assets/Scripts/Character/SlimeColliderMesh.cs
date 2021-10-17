@@ -40,7 +40,7 @@ namespace DungeonSlime.Character {
 
           if (objectCollider.Id == m_lasRockId) return;
           
-          objectCollider.MoveToDestination(m_slimeObject.CurrentPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
+          objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
       }
       
       private void FixedUpdate() {
