@@ -62,26 +62,29 @@ namespace DungeonSlime.Enviroment {
             return position + m_collisionOffsetPosition[direction];
         }
 
-        public void MoveToDestination(Vector2Int slimeFinalPosition, Vector2Int slimeDirection, Vector2Int slimeFinalSize) {
-            var directionToMove = GetAxisToMove(slimeFinalPosition, slimeDirection);
-            var finalPosition = new Vector2Int(characterMovement.CurrentPosition.x, 0);
+        public void MoveToDestination(Vector2Int slimeFinalPosition, Vector2Int slimeDirection, Vector2Int slimeFinalSize, bool rockShouldDie) {
+            if (rockShouldDie) {
+                Destroy(gameObject);
+                return;
+            }
+            
+            //var directionToMove = GetAxisToMove(slimeFinalPosition, slimeDirection);
+            var finalPosition = characterMovement.CurrentPosition;
 
-            if (directionToMove == Vector2Int.up) {
+            if (slimeDirection == Vector2Int.up) {
                 //posição final da pedra = player final pos - tamanho do player + tamanho da pedra <calculo para subir a pedra>
                 finalPosition.y = slimeFinalPosition.y + slimeFinalSize.y + m_slotsOnGrid[CharacterForms.NORMAL].y;
-            } else if (directionToMove == Vector2Int.down) {
+            } else if (slimeDirection == Vector2Int.down) {
                 //posição final da pedra = player final pos + tamanho da pedra <calculo para pedra descer>
                 finalPosition.y = slimeFinalPosition.y - m_slotsOnGrid[CharacterForms.NORMAL].y;
-            } else if (directionToMove == Vector2Int.right) {
+            } else if (slimeDirection == Vector2Int.right) {
                 finalPosition.x = slimeFinalPosition.x + slimeFinalSize.x + m_slotsOnGrid[CharacterForms.NORMAL].x;
-            } else if (directionToMove == Vector2Int.left) {
+            } else if (slimeDirection == Vector2Int.left) {
                 finalPosition.x = slimeFinalPosition.x - m_slotsOnGrid[CharacterForms.NORMAL].x - 1;
             }
             
-            //set final pos
             characterMovement.CurrentFinalPosition = finalPosition;
-            //call on move with true
-            characterMovement.OnMove(directionToMove, true, charType);
+            characterMovement.OnMove(slimeDirection, true, charType);
         }
         
         public Vector2Int GetAxisToMove(Vector2Int slimePosition, Vector2Int slimeDirection) {

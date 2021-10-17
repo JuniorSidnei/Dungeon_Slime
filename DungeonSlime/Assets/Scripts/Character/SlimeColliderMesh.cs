@@ -39,8 +39,10 @@ namespace DungeonSlime.Character {
           var objectCollider = boxCast.gameObject.GetComponent<RockStates>();
 
           if (objectCollider.Id == m_lasRockId) return;
-          
-          objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
+
+          var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
+          var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
+          objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, validationDirection, m_slimeObject.CurrentSize, !rockShouldDie);
       }
       
       private void FixedUpdate() {
@@ -111,10 +113,11 @@ namespace DungeonSlime.Character {
           var rockPos = new Vector2(basePos.x + offsetValueX, basePos.y + offsetValueY);
           
           RaycastHit2D hit = Physics2D.Raycast(rockPos, direction, 0.1f, objectLayer);
-          //Debug.DrawRay(new Vector2(rockPos.x + 0.35f, rockPos.y + 0.15f), Vector3.right, Color.green, 10f);
+          //Debug.Log("quem? " + hit.collider.gameObject.name);
+          Debug.DrawRay(new Vector2(rockPos.x + 0.35f, rockPos.y + 0.15f), Vector3.right, Color.green, 10f);
           return !hit;
           
-          //Debug.Log("quem? " + hit.collider.gameObject.name);
+       
       }
       
       void OnDrawGizmos()  {
@@ -123,7 +126,7 @@ namespace DungeonSlime.Character {
         var spriteBorder = spriteRenderer.bounds.max;
         //Gizmos.DrawCube(new Vector2(spriteBorder.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(0.1f, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
-        //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (spriteRenderer.bounds.size.x/2), spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, 0.2f, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (sprite.bounds.size.x/2), sprite.bounds.max.y), new Vector3(sprite.bounds.size.x, 0.1f, 0));
         

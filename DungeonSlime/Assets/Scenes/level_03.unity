@@ -745,6 +745,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerVfx
       objectReference: {fileID: 0}
+    - target: {fileID: 8345262350273078125, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}
+      propertyPath: slimeColliderMesh
+      value: 
+      objectReference: {fileID: 1938850890}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}
 --- !u!95 &706324872 stripped
@@ -803,7 +807,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 1
   charType: 1
-  m_initialPosition: {x: 58, y: 34}
+  m_initialPosition: {x: 58, y: 35}
 --- !u!61 &818075963
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1142,7 +1146,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 2
   charType: 1
-  m_initialPosition: {x: 25, y: 25}
+  m_initialPosition: {x: 60, y: 56}
 --- !u!114 &1009438303
 MonoBehaviour:
   m_ObjectHideFlags: 0
