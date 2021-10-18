@@ -807,7 +807,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 2
   charType: 1
-  m_initialPosition: {x: 55, y: 35}
+  m_initialPosition: {x: 60, y: 56}
 --- !u!61 &818075963
 BoxCollider2D:
   m_ObjectHideFlags: 0
