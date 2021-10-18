@@ -25,6 +25,14 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""restart_game"",
+                    ""type"": ""Button"",
+                    ""id"": ""c567c920-7555-458d-9526-8455b5260972"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -32,7 +40,7 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""name"": ""move"",
                     ""id"": ""d339f654-d2af-4659-89cd-ecd27dba5b6c"",
                     ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""movement"",
@@ -82,6 +90,17 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""action"": ""movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2caf8adf-b2c3-4a27-b6a8-51fc27016b95"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""restart_game"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -103,6 +122,7 @@ public class @InputSource : IInputActionCollection, IDisposable
         // Slime
         m_Slime = asset.FindActionMap("Slime", throwIfNotFound: true);
         m_Slime_movement = m_Slime.FindAction("movement", throwIfNotFound: true);
+        m_Slime_restart_game = m_Slime.FindAction("restart_game", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -153,11 +173,13 @@ public class @InputSource : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Slime;
     private ISlimeActions m_SlimeActionsCallbackInterface;
     private readonly InputAction m_Slime_movement;
+    private readonly InputAction m_Slime_restart_game;
     public struct SlimeActions
     {
         private @InputSource m_Wrapper;
         public SlimeActions(@InputSource wrapper) { m_Wrapper = wrapper; }
         public InputAction @movement => m_Wrapper.m_Slime_movement;
+        public InputAction @restart_game => m_Wrapper.m_Slime_restart_game;
         public InputActionMap Get() { return m_Wrapper.m_Slime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -170,6 +192,9 @@ public class @InputSource : IInputActionCollection, IDisposable
                 @movement.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnMovement;
                 @movement.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnMovement;
                 @movement.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnMovement;
+                @restart_game.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnRestart_game;
+                @restart_game.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnRestart_game;
+                @restart_game.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnRestart_game;
             }
             m_Wrapper.m_SlimeActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +202,9 @@ public class @InputSource : IInputActionCollection, IDisposable
                 @movement.started += instance.OnMovement;
                 @movement.performed += instance.OnMovement;
                 @movement.canceled += instance.OnMovement;
+                @restart_game.started += instance.OnRestart_game;
+                @restart_game.performed += instance.OnRestart_game;
+                @restart_game.canceled += instance.OnRestart_game;
             }
         }
     }
@@ -193,5 +221,6 @@ public class @InputSource : IInputActionCollection, IDisposable
     public interface ISlimeActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnRestart_game(InputAction.CallbackContext context);
     }
 }

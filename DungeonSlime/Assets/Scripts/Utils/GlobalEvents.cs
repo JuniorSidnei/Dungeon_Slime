@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DungeonSlime.Utils {
 
-    public class OnLoadNextScene {  }
+    public class OnRestartGame {  }
 
     public class OnFinishMovement {
         public OnFinishMovement(Vector2 currentDirection, int characterId) {

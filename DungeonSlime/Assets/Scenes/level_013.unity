@@ -1536,7 +1536,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 2
   charType: 1
-  m_initialPosition: {x: 17, y: 10}
+  m_initialPosition: {x: 10, y: 10}
 --- !u!114 &1321185857
 MonoBehaviour:
   m_ObjectHideFlags: 0
