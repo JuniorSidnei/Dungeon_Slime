@@ -34,17 +34,33 @@ namespace DungeonSlime.Character {
       }
 
       public void ValidateSlimeExpansion() {
-          var boxCast = new Collider2D();
+          Collider2D[] collidersBuffer = new Collider2D[5];
           var spriteBounds = spriteRenderer.bounds;
-          boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), Quaternion.identity.eulerAngles.z, objectLayer);
-          if (boxCast == null) return;
-          
-          var objectCollider = boxCast.gameObject.GetComponent<RockStates>();
-          if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
 
-          var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
-          var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
-          objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, validationDirection, m_slimeObject.CurrentSize, !rockShouldDie);
+          var sizeColliderBuffer = Physics2D.OverlapBoxNonAlloc(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), 0, collidersBuffer, objectLayer);
+
+          if (sizeColliderBuffer == 0) return;
+          
+          for (var i = 0; i < sizeColliderBuffer; i++) {
+              var objectCollider = collidersBuffer[i].gameObject.GetComponent<RockStates>();
+              
+              if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
+
+              var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
+              var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
+              objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, validationDirection, m_slimeObject.CurrentSize, !rockShouldDie);
+          }
+          
+          //var boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), Quaternion.identity.eulerAngles.z, objectLayer);
+
+          // if (boxCast == null) return;
+
+//          var objectCollider = boxCast.gameObject.GetComponent<RockStates>();
+//          if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
+//
+//          var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
+//          var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
+//          objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, validationDirection, m_slimeObject.CurrentSize, !rockShouldDie);
       }
       
       private void FixedUpdate() {

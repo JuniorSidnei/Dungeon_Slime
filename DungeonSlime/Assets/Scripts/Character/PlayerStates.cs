@@ -15,9 +15,9 @@ namespace DungeonSlime.Character {
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
             {CharacterForms.NORMAL, new Vector2Int(6, 6)},
             {CharacterForms.SEMI_STRETCHED_H, new Vector2Int(9, 3)},
-            {CharacterForms.FULL_STRETCHED_H, new Vector2Int(12, 2)},
+            {CharacterForms.FULL_STRETCHED_H, new Vector2Int(12, 1)},
             {CharacterForms.SEMI_STRETCHED_V,  new Vector2Int(3, 9)},
-            {CharacterForms.FULL_STRETCHED_V, new Vector2Int(2, 12)},
+            {CharacterForms.FULL_STRETCHED_V, new Vector2Int(1, 12)},
         };
 
         protected override void Awake() {
