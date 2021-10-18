@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using DungeonSlime.Managers;
 using TMPro;
-using UnityEditor.Compilation;
 using UnityEngine;
 
 namespace DungeonSlime.Character {

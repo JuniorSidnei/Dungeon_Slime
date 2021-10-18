@@ -17,7 +17,7 @@ namespace DungeonSlime.Enviroment {
 
         private Dictionary<Vector2, Vector2Int> m_collisionOffsetPosition = new Dictionary<Vector2, Vector2Int> {
             {Vector2.down, new Vector2Int(0, 1)},
-            {Vector2.up, new Vector2Int(0, -1)},
+            {Vector2.up, new Vector2Int(0, 0)},
             {Vector2.left, new Vector2Int(1, 0)},
             {Vector2.right, new Vector2Int(0, 0)},
         };
