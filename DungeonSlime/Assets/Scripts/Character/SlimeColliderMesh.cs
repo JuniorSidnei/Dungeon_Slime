@@ -45,10 +45,10 @@ namespace DungeonSlime.Character {
               var objectCollider = collidersBuffer[i].gameObject.GetComponent<RockStates>();
               
               if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
-
-              var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
-              var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
-              objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, validationDirection, m_slimeObject.CurrentSize, !rockShouldDie);
+              
+              var directionToMove = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
+              var rockShouldBeDestroyed = RockCanMoveWithinDirection(objectCollider, directionToMove);
+              objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, directionToMove, m_slimeObject.CurrentSize, rockShouldBeDestroyed);
           }
           
           //var boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), Quaternion.identity.eulerAngles.z, objectLayer);
@@ -66,23 +66,39 @@ namespace DungeonSlime.Character {
       private void FixedUpdate() {
           if (!m_enableBox) return;
           
-          var boxResult = CreateBoxCastWithinDirection(m_slimeObject.CurrentDirection, spriteRenderer);
-          
-          if (boxResult.collider == null || m_isColliding) return;
-          
+          var colliderBuffer = new Collider2D[5];
+          var boxResultSize = CreateBoxCastWithinDirection(m_slimeObject.CurrentDirection, spriteRenderer, colliderBuffer);
+
+          if (boxResultSize == 0 || m_isColliding) return;
+
           m_isColliding = true;
-          var objectCollider = boxResult.collider.gameObject.GetComponent<RockStates>();
-          var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
-          m_lasRockId = objectCollider.Id;
-          GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(objectCollider.Id, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
+          for (var i = 0; i < boxResultSize; i++) {
+              var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
+              var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
+
+              m_lasRockId = objectCollider.Id;
+              GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(m_lasRockId, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
+          }
+          
+//          if (boxResult.collider == null || m_isColliding) return;
+//          
+//          m_isColliding = true;
+//          var objectCollider = boxResult.collider.gameObject.GetComponent<RockStates>();
+//          var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
+//          m_lasRockId = objectCollider.Id;
+//          GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(objectCollider.Id, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
       }
       
       public bool CanIMoveWithinDirection(Vector2Int direction) {
-          return !CreateBoxCastWithinDirection(direction, spriteRenderer);
+          Collider2D[] collidersBuffer = new Collider2D[5];
+          var sizeColliderBuffer = CreateBoxCastWithinDirection(direction, spriteRenderer, collidersBuffer);
+          return sizeColliderBuffer == 0;
+
+          //return !CreateBoxCastWithinDirection(direction, spriteRenderer);
       }
       
-      private RaycastHit2D CreateBoxCastWithinDirection(Vector2Int direction, SpriteRenderer sprite) {
-          if (direction == Vector2Int.zero) return new RaycastHit2D();
+      private int CreateBoxCastWithinDirection(Vector2Int direction, Renderer sprite, Collider2D[] colliderBuffer) {
+          if (direction == Vector2Int.zero) return 0;
           
           var spriteBounds = sprite.bounds;
           var spriteSize = spriteBounds.size;
@@ -107,15 +123,16 @@ namespace DungeonSlime.Character {
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
 
-          var boxResult = Physics2D.BoxCast(boxOrigin, boxSize, 0f, direction, 0.1f, objectLayer);
-          return boxResult;
+          //var boxResult = Physics2D.BoxCast(boxOrigin, boxSize, 0f, direction, 0.1f, objectLayer);
+          var sizeColliderBuffer = Physics2D.OverlapBoxNonAlloc(boxOrigin, boxSize, 0, colliderBuffer, objectLayer);
+          return sizeColliderBuffer;
       }
       
       private bool RockCanMoveWithinDirection(RockStates rock, Vector2Int direction) {
           if (direction == Vector2Int.zero) return false;
           
           var offsetValueX = 0.35f;
-          var offsetValueY = 0.15f;
+          var offsetValueY = 0.01f;
           
           if (direction == Vector2Int.left) {
               offsetValueX *= -1;
@@ -130,9 +147,9 @@ namespace DungeonSlime.Character {
           var basePos = rock.gameObject.transform.position;
           var rockPos = new Vector2(basePos.x + offsetValueX, basePos.y + offsetValueY);
           
-          RaycastHit2D hit = Physics2D.Raycast(rockPos, direction, 0.1f, objectLayer);
+          RaycastHit2D hit = Physics2D.Raycast(rockPos, direction, 0.0f, objectLayer);
           //Debug.Log("quem? " + hit.collider.gameObject.name);
-          Debug.DrawRay(new Vector2(rockPos.x + 0.35f, rockPos.y + 0.15f), Vector3.right, Color.green, 10f);
+          Debug.DrawRay(new Vector2(rockPos.x, rockPos.y), new Vector3(direction.x, direction.y, 0), Color.green, 2f);
           return !hit;
           
        

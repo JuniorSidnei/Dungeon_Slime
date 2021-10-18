@@ -412,7 +412,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 2d491f1bb319d67498a59b867827e45e, type: 2}
-  showTilesIndex: 1
+  showTilesIndex: 0
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0
@@ -807,7 +807,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 2
   charType: 1
-  m_initialPosition: {x: 58, y: 35}
+  m_initialPosition: {x: 55, y: 35}
 --- !u!61 &818075963
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1146,7 +1146,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 3
   charType: 1
-  m_initialPosition: {x: 50, y: 35}
+  m_initialPosition: {x: 52, y: 35}
 --- !u!114 &1009438303
 MonoBehaviour:
   m_ObjectHideFlags: 0
