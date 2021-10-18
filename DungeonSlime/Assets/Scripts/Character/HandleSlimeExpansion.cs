@@ -9,7 +9,9 @@ namespace DungeonSlime.Character {
         public SlimeColliderMesh slimeColliderMesh;
         
         public void CreateOverlapBoxWithSprite() {
-            //slimeColliderMesh.ValidateSlimeExpansion();    
+            if (gameObject.GetComponentInParent<CharacterMovement>().IsMoving) return;
+            
+            slimeColliderMesh.ValidateSlimeExpansion();    
         }
     }
 }

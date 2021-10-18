@@ -41,6 +41,7 @@ namespace DungeonSlime.Character {
             }
             
             slimeColliderMesh.IsPlayerMoving = true;
+            slimeColliderMesh.LastRockId = 0;
             characterMovement.OnMove(ev.Direction, false, charType);
         }
 
@@ -63,7 +64,7 @@ namespace DungeonSlime.Character {
             characterMovement.StopMovement();
             characterMovement.CurrentFinalPosition = ev.CollisionPosition;
             characterMovement.OnMove(characterMovement.CurrentDirection, true, charType);
-
+            
             if (!ev.RockIsAbleToMove) return;
             
             var currentDirection = characterMovement.CurrentDirection;

@@ -18,6 +18,10 @@ namespace DungeonSlime.Character {
       public bool IsPlayerMoving {
           set => m_enableBox = value;
       }
+
+      public int LastRockId {
+          set => m_lasRockId = value;
+      }
       
       private void Awake() {
           GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
@@ -32,13 +36,11 @@ namespace DungeonSlime.Character {
       public void ValidateSlimeExpansion() {
           var boxCast = new Collider2D();
           var spriteBounds = spriteRenderer.bounds;
-          boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), objectLayer);
-          
+          boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), Quaternion.identity.eulerAngles.z, objectLayer);
           if (boxCast == null) return;
           
           var objectCollider = boxCast.gameObject.GetComponent<RockStates>();
-
-          if (objectCollider.Id == m_lasRockId) return;
+          if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
 
           var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
           var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
@@ -121,15 +123,16 @@ namespace DungeonSlime.Character {
       }
       
       void OnDrawGizmos()  {
-        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.color = new Color(1, 1, 0, 0.5f);
 
         var spriteBorder = spriteRenderer.bounds.max;
         //Gizmos.DrawCube(new Vector2(spriteBorder.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(0.1f, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
-        Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (spriteRenderer.bounds.size.x/2), spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, 0.2f, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (sprite.bounds.size.x/2), sprite.bounds.max.y), new Vector3(sprite.bounds.size.x, 0.1f, 0));
         
+        Gizmos.DrawWireCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
         if (!m_enableBox) return;
         var spriteSize = spriteRenderer.bounds.center;
         Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));

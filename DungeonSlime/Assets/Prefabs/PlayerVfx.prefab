@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -456139867
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 8575522406564139427, guid: 0890103d7fc0a7746b2add8ab4580fcb, type: 3}
+  m_Sprite: {fileID: 8631199698069197136, guid: 76069d0ce6836a04aa7197eb33de777c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -115,3 +115,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c570d2cc95a72042aaa1f85d72fbce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slimeColliderMesh: {fileID: 0}

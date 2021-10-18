@@ -110,7 +110,6 @@ namespace DungeonSlime.Character {
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
-                        m_currentPos = m_finalPos;
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
@@ -125,7 +124,6 @@ namespace DungeonSlime.Character {
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
-                        m_currentPos = m_finalPos;
                     });
                 }));
             }
@@ -329,6 +327,7 @@ namespace DungeonSlime.Character {
 
         private void SetPlayerPositionAndSize(Vector2Int pos, Vector2Int size) {
             m_finalPos = pos;
+            m_currentPos = m_finalPos;
             m_currentSize = size;
         }
 
