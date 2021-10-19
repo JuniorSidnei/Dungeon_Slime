@@ -107,11 +107,11 @@ namespace DungeonSlime.Character {
 
          
           if (direction == Vector2Int.left) {
-              boxSize = new Vector2(0.1f, spriteSize.y);
+              boxSize = new Vector2(0.1f, spriteSize.y - 0.2f);
               boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.right) {
-              boxSize = new Vector2(0.1f, spriteSize.y);
+              boxSize = new Vector2(0.1f, spriteSize.y - 0.2f);
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
