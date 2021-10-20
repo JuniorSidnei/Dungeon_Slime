@@ -23,6 +23,7 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentDirection;
         private bool m_isDead;
         private bool m_alreadyFindPosition;
+        private bool m_alreadyHasPosition;
         private Sequence m_movementSequence;
         private int m_id;
         private int m_resetRockId = 0;
@@ -78,8 +79,9 @@ namespace DungeonSlime.Character {
             if (m_moving || movementDirection == Vector2Int.zero) return;
 
             m_currentDirection = movementDirection;
+            m_alreadyHasPosition = alreadyHasPosition;
             
-            if (!alreadyHasPosition) {
+            if (!m_alreadyHasPosition) {
                 if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
                     m_moving = false;
                     GameManager.Instance.GlobalDispatcher.Emit(new OnRockUnableToMove(m_id));
@@ -143,7 +145,7 @@ namespace DungeonSlime.Character {
             }
         }
 
-        public bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
+        private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
             var oldWallDistance = 5000.0;
 
             var amount = 0;
@@ -248,7 +250,7 @@ namespace DungeonSlime.Character {
         }
 
         private int FixCurrentPosition(Vector2Int size, int currentValue, Vector2Int nextSize) {
-            if (!m_willExpandShape) return currentValue;
+            if (!m_willExpandShape || m_alreadyHasPosition) return currentValue;
             
             if (size.x < 12 && size.y < 12) return currentValue - 1;
             
@@ -343,6 +345,7 @@ namespace DungeonSlime.Character {
             m_finalPos = pos;
             m_currentPos = m_finalPos;
             m_currentNewSize = size;
+            m_alreadyHasPosition = false;
         }
 
         public void StopMovement() {
