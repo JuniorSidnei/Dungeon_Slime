@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace DungeonSlime.Character {
 
@@ -48,6 +49,8 @@ namespace DungeonSlime.Character {
         private void OnFinishMovement(OnFinishMovement ev) {
             if (ev.CharacterId != Id) return;
             
+            slimeColliderMesh.IsPlayerMoving = false;
+            slimeColliderMesh.IsPlayerColliding = false;
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
             animator.SetInteger("form", i);
@@ -60,7 +63,7 @@ namespace DungeonSlime.Character {
         
         private void OnCharacterCollision(OnCharacterCollision ev) {
             if (m_rockObjectId == ev.CharacterId) return;
-
+            
             characterMovement.StopMovement();
             characterMovement.CurrentFinalPosition = ev.CollisionPosition;
             characterMovement.OnMove(characterMovement.CurrentDirection, true, charType);

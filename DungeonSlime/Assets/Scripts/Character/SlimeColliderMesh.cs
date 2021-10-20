@@ -19,30 +19,28 @@ namespace DungeonSlime.Character {
           set => m_enableBox = value;
       }
 
+      public bool IsPlayerColliding {
+          set => m_isColliding = value;
+      }
+      
       public int LastRockId {
           set => m_lasRockId = value;
       }
       
       private void Awake() {
-          GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
           m_slimeObject =  gameObject.GetComponent<CharacterMovement>();
       }
-
-      private void OnFinishMovement(OnFinishMovement ev) {
-          m_isColliding = false;
-          m_enableBox = false;
-      }
-
+      
       public void ValidateSlimeExpansion() {
-          Collider2D[] collidersBuffer = new Collider2D[5];
+          var colliderBuffer = new Collider2D[5];
           var spriteBounds = spriteRenderer.bounds;
 
-          var sizeColliderBuffer = Physics2D.OverlapBoxNonAlloc(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), 0, collidersBuffer, objectLayer);
+          var sizeColliderBuffer = Physics2D.OverlapBoxNonAlloc(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), 0, colliderBuffer, objectLayer);
 
           if (sizeColliderBuffer == 0) return;
           
           for (var i = 0; i < sizeColliderBuffer; i++) {
-              var objectCollider = collidersBuffer[i].gameObject.GetComponent<RockStates>();
+              var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
               
               if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
               
@@ -50,25 +48,13 @@ namespace DungeonSlime.Character {
               var rockShouldBeDestroyed = RockCanMoveWithinDirection(objectCollider, directionToMove);
               objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, directionToMove, m_slimeObject.CurrentSize, !rockShouldBeDestroyed);
           }
-          
-          //var boxCast = Physics2D.OverlapBox(new Vector2(spriteBounds.center.x, spriteBounds.center.y), new Vector3(spriteBounds.size.x, spriteBounds.size.y, 0), Quaternion.identity.eulerAngles.z, objectLayer);
-
-          // if (boxCast == null) return;
-
-//          var objectCollider = boxCast.gameObject.GetComponent<RockStates>();
-//          if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
-//
-//          var validationDirection = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
-//          var rockShouldDie = RockCanMoveWithinDirection(objectCollider, validationDirection);
-//          objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, validationDirection, m_slimeObject.CurrentSize, !rockShouldDie);
       }
       
       private void FixedUpdate() {
-          if (!m_enableBox) return;
+          if (!m_enableBox) { return; }
           
           var colliderBuffer = new Collider2D[5];
           var boxResultSize = CreateBoxCastWithinDirection(m_slimeObject.CurrentDirection, spriteRenderer, colliderBuffer);
-
           if (boxResultSize == 0 || m_isColliding) return;
 
           m_isColliding = true;
@@ -79,22 +65,12 @@ namespace DungeonSlime.Character {
               m_lasRockId = objectCollider.Id;
               GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(m_lasRockId, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
           }
-          
-//          if (boxResult.collider == null || m_isColliding) return;
-//          
-//          m_isColliding = true;
-//          var objectCollider = boxResult.collider.gameObject.GetComponent<RockStates>();
-//          var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
-//          m_lasRockId = objectCollider.Id;
-//          GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(objectCollider.Id, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
       }
       
       public bool CanIMoveWithinDirection(Vector2Int direction) {
           Collider2D[] collidersBuffer = new Collider2D[5];
           var sizeColliderBuffer = CreateBoxCastWithinDirection(direction, spriteRenderer, collidersBuffer);
           return sizeColliderBuffer == 0;
-
-          //return !CreateBoxCastWithinDirection(direction, spriteRenderer);
       }
       
       private int CreateBoxCastWithinDirection(Vector2Int direction, Renderer sprite, Collider2D[] colliderBuffer) {
@@ -119,11 +95,11 @@ namespace DungeonSlime.Character {
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              boxSize = new Vector2(spriteSize.x, 0.1f);
+              //just to test with the wrong sprite
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.2f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
-
-          //var boxResult = Physics2D.BoxCast(boxOrigin, boxSize, 0f, direction, 0.1f, objectLayer);
+          
           var sizeColliderBuffer = Physics2D.OverlapBoxNonAlloc(boxOrigin, boxSize, 0, colliderBuffer, objectLayer);
           return sizeColliderBuffer;
       }
@@ -151,24 +127,26 @@ namespace DungeonSlime.Character {
           //Debug.Log("quem? " + hit.collider.gameObject.name);
           Debug.DrawRay(new Vector2(rockPos.x, rockPos.y), new Vector3(direction.x, direction.y, 0), Color.green, 2f);
           return !hit;
-          
-       
       }
       
       void OnDrawGizmos()  {
         Gizmos.color = new Color(1, 1, 0, 0.5f);
 
-        var spriteBorder = spriteRenderer.bounds.max;
+        var spriteBounds = spriteRenderer.bounds;
         //Gizmos.DrawCube(new Vector2(spriteBorder.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(0.1f, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteBorder.y  - (spriteRenderer.bounds.size.y/2)), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (spriteRenderer.bounds.size.x/2), spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, 0.2f, 0));
         //Gizmos.DrawCube(new Vector2(spriteBorder.x - (sprite.bounds.size.x/2), sprite.bounds.max.y), new Vector3(sprite.bounds.size.x, 0.1f, 0));
         
-        Gizmos.DrawWireCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        
+        //Gizmos.DrawWireCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(0.05f, 0.1f, 0));
+        
         if (!m_enableBox) return;
         var spriteSize = spriteRenderer.bounds.center;
-        Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.min.y), new Vector3(spriteBounds.size.x, 0.1f, 0));
+        //Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
       }
     }
 }

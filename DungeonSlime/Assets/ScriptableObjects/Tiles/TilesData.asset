@@ -22,7 +22,7 @@ MonoBehaviour:
     TileId: 1
     Tile: {fileID: 11400000, guid: d60579ed501fa8545945bcb83c2c9e2b, type: 2}
   - Name: Endpoint
-    TileColor: {r: 0.5660378, g: 0.21626917, b: 0.21626917, a: 1}
+    TileColor: {r: 0.29803923, g: 1, b: 0, a: 1}
     TileId: 4
     Tile: {fileID: 11400000, guid: e53dff46243b1c04eae347ceca341b5d, type: 2}
   - Name: Initial position

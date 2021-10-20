@@ -18,6 +18,7 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
+        private Vector2Int m_currentNewSize;
         private Vector2Int m_basePositionOnAxis;
         private Vector2Int m_currentDirection;
         private bool m_isDead;
@@ -86,7 +87,8 @@ namespace DungeonSlime.Character {
                 }
             }
             else {
-                m_speed = 0.09f;
+                m_isDead = false;
+                m_speed = 0.001f;
             }
 
             m_moving = true;
@@ -104,12 +106,18 @@ namespace DungeonSlime.Character {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
                     
                     if (m_levelManager.IsPlayerDead() || m_isDead) {
-                        GameManager.Instance.LoadCurrentScene();
+                        if (m_charType == CharacterStates.CharacterType.Rock) {
+                            Destroy(gameObject);
+                        }
+                        else {
+                            GameManager.Instance.LoadCurrentScene();
+                        }
                     }
 
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
+                        m_currentSize = m_currentNewSize;
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
@@ -118,12 +126,18 @@ namespace DungeonSlime.Character {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
 
                     if (m_levelManager.IsPlayerDead() || m_isDead) {
-                        GameManager.Instance.LoadCurrentScene();
+                        if (m_charType == CharacterStates.CharacterType.Rock) {
+                            Destroy(gameObject);
+                        }
+                        else {
+                            GameManager.Instance.LoadCurrentScene();
+                        }
                     }
 
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
+                        m_currentSize = m_currentNewSize;
                     });
                 }));
             }
@@ -166,7 +180,7 @@ namespace DungeonSlime.Character {
                         oldWallDistance = wallDistance;
                         m_finalPos = toPosition;
                         m_speed = (float) (oldWallDistance / m_speedMultiplier);
-                        
+
                         m_isDead = nearestBlock.type == Block.BlockType.Spikes;
                     }
                 }
@@ -328,7 +342,7 @@ namespace DungeonSlime.Character {
         private void SetPlayerPositionAndSize(Vector2Int pos, Vector2Int size) {
             m_finalPos = pos;
             m_currentPos = m_finalPos;
-            m_currentSize = size;
+            m_currentNewSize = size;
         }
 
         public void StopMovement() {

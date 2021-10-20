@@ -16,10 +16,14 @@ namespace DungeonSlime.Managers {
         
         private Level m_currentLevel;
         private bool m_isDead;
+        private bool m_isLevelClear;
+
 
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
 
         private void Awake() {
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
+            
             m_tiles.Add(Block.BlockType.Floor, levelDataTiles.GetFloorTile());
             m_tiles.Add(Block.BlockType.Wall, levelDataTiles.GetWallTile());
             m_tiles.Add(Block.BlockType.Empty, levelDataTiles.GetEmptyTile());
@@ -32,6 +36,12 @@ namespace DungeonSlime.Managers {
             LoadLevel();
         }
 
+        private void OnFinishMovement(OnFinishMovement ev) {
+            if (!m_isLevelClear) return;
+            
+            GameManager.Instance.LoadNextScene();
+        }
+        
         private void LoadLevel() {
             m_currentLevel = JsonUtility.FromJson<Level>(levelData.levelJson.text);
             InstantiateLevel(m_currentLevel);
@@ -113,6 +123,10 @@ namespace DungeonSlime.Managers {
 
             if (IsSpike(block)) {
                 m_isDead = true;
+            }
+
+            if (IsEndGame(block)) {
+                m_isLevelClear = true;
             }
             
             currentAvailableBlocks++;
