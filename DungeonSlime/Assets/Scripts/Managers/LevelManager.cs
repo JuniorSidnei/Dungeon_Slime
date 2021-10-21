@@ -15,9 +15,9 @@ namespace DungeonSlime.Managers {
         public bool showTilesIndex;
         
         private Level m_currentLevel;
-        private bool m_isDead;
         private bool m_isLevelClear;
 
+        public bool IsObjectDead { get; set; }
 
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
 
@@ -61,10 +61,6 @@ namespace DungeonSlime.Managers {
 
         private static Vector2Int GetPositionForIndex(int index, int columnCount) {
             return new Vector2Int(index % columnCount, index / columnCount);
-        }
-
-        public bool IsPlayerDead() {
-            return m_isDead;
         }
         
         public bool GetNearestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,
@@ -122,7 +118,7 @@ namespace DungeonSlime.Managers {
             }
 
             if (IsSpike(block)) {
-                m_isDead = true;
+                IsObjectDead = true;
             }
 
             if (IsEndGame(block)) {

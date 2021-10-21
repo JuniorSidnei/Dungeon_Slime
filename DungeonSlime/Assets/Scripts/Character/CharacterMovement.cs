@@ -21,7 +21,7 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentNewSize;
         private Vector2Int m_basePositionOnAxis;
         private Vector2Int m_currentDirection;
-        private bool m_isDead;
+        private bool m_isObjectDead;
         private bool m_alreadyFindPosition;
         private bool m_alreadyHasPosition;
         private Sequence m_movementSequence;
@@ -89,7 +89,7 @@ namespace DungeonSlime.Character {
                 }
             }
             else {
-                m_isDead = false;
+                m_isObjectDead = false;
                 m_speed = 0.001f;
             }
 
@@ -107,9 +107,10 @@ namespace DungeonSlime.Character {
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
                     
-                    if (m_levelManager.IsPlayerDead() || m_isDead) {
+                    if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
                             Destroy(gameObject);
+                            m_levelManager.IsObjectDead = false;
                         }
                         else {
                             GameManager.Instance.LoadCurrentScene();
@@ -127,7 +128,7 @@ namespace DungeonSlime.Character {
                 m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
 
-                    if (m_levelManager.IsPlayerDead() || m_isDead) {
+                    if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
                             Destroy(gameObject);
                         }
@@ -183,7 +184,7 @@ namespace DungeonSlime.Character {
                         m_finalPos = toPosition;
                         m_speed = (float) (oldWallDistance / m_speedMultiplier);
 
-                        m_isDead = nearestBlock.type == Block.BlockType.Spikes;
+                        m_isObjectDead = nearestBlock.type == Block.BlockType.Spikes;
                     }
                 }
                 

@@ -84,11 +84,11 @@ namespace DungeonSlime.Character {
           //the verification of size is just because the sprite cant fit correctly in grid
           // when pick the correct sprite, verifiy if fit and remove this
           if (direction == Vector2Int.left) {
-              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y);
+              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y - 0.1f);
               boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.right) {
-              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y);
+              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y - 0.1f);
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
@@ -145,8 +145,8 @@ namespace DungeonSlime.Character {
 //            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
           
 
-        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.min.y),
-            new Vector2( spriteBounds.size.x, 0.02f));
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteBounds.size.y / 2),
+            new Vector2( 0.02f, spriteBounds.size.y - 0.1f));
 
           if (!m_enableBox) return;
           var spriteSize = spriteRenderer.bounds.center;
