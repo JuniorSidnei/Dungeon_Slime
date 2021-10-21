@@ -54,7 +54,7 @@ namespace DungeonSlime.Character {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
             animator.SetInteger("form", i);
-            slimeColliderMesh.ValidateSlimeExpansion();
+            //slimeColliderMesh.ValidateSlimeExpansion();
         }
 
         private void OnRockUnableToMove(OnRockUnableToMove ev) {

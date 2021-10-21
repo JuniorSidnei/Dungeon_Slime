@@ -83,15 +83,15 @@ namespace DungeonSlime.Character {
 
          
           if (direction == Vector2Int.left) {
-              boxSize = new Vector2(0.1f, spriteSize.y - 0.2f);
+              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.1f, spriteSize.y);
               boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.right) {
-              boxSize = new Vector2(0.1f, spriteSize.y - 0.2f);
+              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.1f, spriteSize.y);
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
-              boxSize = new Vector2(spriteSize.x, 0.1f);
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.1f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
@@ -141,11 +141,17 @@ namespace DungeonSlime.Character {
         
         
         //Gizmos.DrawWireCube(new Vector2(spriteRenderer.bounds.center.x, spriteRenderer.bounds.center.y), new Vector3(0.05f, 0.1f, 0));
+//        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteBounds.size.y / 2),
+//            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
+          
+
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.center.x, spriteBounds.center.y),
+            new Vector2(spriteBounds.size.x, spriteBounds.size.y));
+
+          if (!m_enableBox) return;
+          var spriteSize = spriteRenderer.bounds.center;
         
-        if (!m_enableBox) return;
-        var spriteSize = spriteRenderer.bounds.center;
-        
-        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.min.y), new Vector3(spriteBounds.size.x, 0.1f, 0));
+       
         //Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
       }
     }

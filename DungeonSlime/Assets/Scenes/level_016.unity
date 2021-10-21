@@ -570,7 +570,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: df3f1e57fe53c6245888b7b250062e73, type: 2}
-  showTilesIndex: 0
+  showTilesIndex: 1
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0
@@ -1536,7 +1536,7 @@ PrefabInstance:
     - target: {fileID: 7880161893219169291, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6599112088005192397, guid: 841af6e5a13d59b41ac124a07b533d1c, type: 3}
+      objectReference: {fileID: 8631199698069197136, guid: 76069d0ce6836a04aa7197eb33de777c, type: 3}
     - target: {fileID: 7880161893219169292, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}
       propertyPath: m_RootOrder
       value: 0

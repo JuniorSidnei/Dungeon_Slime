@@ -196,7 +196,7 @@ namespace DungeonSlime.Character {
         private void ResolveCollision(Vector2Int currentPosition, Vector2 nextDirection) {
             var newPlayerSize = m_characterStates.GetNextSize(nextDirection);
             var newPositionOnAxis = GetNewPositionOnAxis(currentPosition, nextDirection, newPlayerSize);
-            
+
             if (nextDirection == Vector2.right || nextDirection == Vector2.left) {
                 SetupCanFitPosition(newPositionOnAxis,
                     newPlayerSize,
@@ -228,7 +228,9 @@ namespace DungeonSlime.Character {
             }
         }
         
-        public Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
+        private Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
+            if (m_alreadyHasPosition && m_charType == CharacterStates.CharacterType.Rock) return currentFinalPos;
+            
             var newX = currentFinalPos.x;
             var newY = currentFinalPos.y;
 
@@ -301,7 +303,7 @@ namespace DungeonSlime.Character {
                     if (m_alreadyFindPosition) {
                         continue;
                     }
-
+                    
                     if (m_charType == CharacterStates.CharacterType.Rock) {
                         Destroy(gameObject);
                     }
@@ -322,6 +324,7 @@ namespace DungeonSlime.Character {
                         CanFitInPosition(newPositionOnAxis, newPlayerSize, nextDirection, isHorizontal, false, invertedDirection, depth - 1);   
                     }
                     else {
+                        
                         if (isHorizontal) {
                             newPositionOnAxis.x--;
                             m_basePositionOnAxis.x--;
