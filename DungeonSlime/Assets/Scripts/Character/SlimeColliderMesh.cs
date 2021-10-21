@@ -81,22 +81,23 @@ namespace DungeonSlime.Character {
           var boxSize = Vector2.zero;
           var boxOrigin = Vector2.zero;
 
-         
+          //the verification of size is just because the sprite cant fit correctly in grid
+          // when pick the correct sprite, verifiy if fit and remove this
           if (direction == Vector2Int.left) {
-              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.1f, spriteSize.y);
+              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y);
               boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.right) {
-              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.1f, spriteSize.y);
+              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y);
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.1f);
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              //just to test with the wrong sprite
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.2f);
+              
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
           
@@ -108,7 +109,7 @@ namespace DungeonSlime.Character {
           if (direction == Vector2Int.zero) return false;
           
           var offsetValueX = 0.35f;
-          var offsetValueY = 0.01f;
+          var offsetValueY = 0.1f;
           
           if (direction == Vector2Int.left) {
               offsetValueX *= -1;
@@ -124,7 +125,6 @@ namespace DungeonSlime.Character {
           var rockPos = new Vector2(basePos.x + offsetValueX, basePos.y + offsetValueY);
           
           RaycastHit2D hit = Physics2D.Raycast(rockPos, direction, 0.0f, objectLayer);
-          //Debug.Log("quem? " + hit.collider.gameObject.name);
           Debug.DrawRay(new Vector2(rockPos.x, rockPos.y), new Vector3(direction.x, direction.y, 0), Color.green, 2f);
           return !hit;
       }
@@ -145,8 +145,8 @@ namespace DungeonSlime.Character {
 //            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
           
 
-        Gizmos.DrawWireCube(new Vector2(spriteBounds.center.x, spriteBounds.center.y),
-            new Vector2(spriteBounds.size.x, spriteBounds.size.y));
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.min.y),
+            new Vector2( spriteBounds.size.x, 0.02f));
 
           if (!m_enableBox) return;
           var spriteSize = spriteRenderer.bounds.center;

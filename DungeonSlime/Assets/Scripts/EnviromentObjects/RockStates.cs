@@ -104,7 +104,7 @@ namespace DungeonSlime.Enviroment {
             var obj = other.collider.gameObject.GetComponent<RockStates>();
             var newPosition = obj.GetPivotPosition(characterMovement.CurrentDirection);
             characterMovement.CurrentFinalPosition = new Vector2Int(newPosition.x, newPosition.y);
-            characterMovement.OnMove(characterMovement.CurrentDirection, true, charType);
+            characterMovement.OnMove(characterMovement.CurrentDirection, true, CharacterType.Slime);
         }
     }
 }
