@@ -87,11 +87,13 @@ namespace DungeonSlime.Enviroment {
             characterMovement.OnMove(slimeDirection, true, charType);
         }
         
-        public Vector2Int GetAxisToMove(Vector2Int slimePosition, Vector2Int slimeDirection) {
+        public Vector2Int GetAxisToMove(Vector2Int slimePosition, Vector2Int slimeDirection, Vector2Int slimeSize) {
             if (slimeDirection == Vector2Int.down || slimeDirection == Vector2Int.up) {
+                slimePosition.x += slimeSize.x/2;
                 return slimePosition.x > characterMovement.CurrentPosition.x ? Vector2Int.left : Vector2Int.right;
             }
-            
+
+            slimePosition.y += slimeSize.y/2;
             return slimePosition.y > characterMovement.CurrentPosition.y ? Vector2Int.down : Vector2Int.up;
         }
         

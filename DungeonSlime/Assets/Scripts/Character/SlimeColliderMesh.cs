@@ -13,7 +13,7 @@ namespace DungeonSlime.Character {
       private bool m_enableBox;
       private Collider2D m_boxCastResult;
       private CharacterMovement m_slimeObject;
-      private List<int> m_lastRocksId = new List<int>();
+      private readonly List<int> m_lastRocksId = new List<int>();
 
       public bool IsPlayerMoving {
           set => m_enableBox = value;
@@ -22,11 +22,7 @@ namespace DungeonSlime.Character {
       public bool IsPlayerColliding {
           set => m_isColliding = value;
       }
-      
-//      public int LastRockId {
-//          set => m_lasRockId = value;
-//      }
-      
+
       private void Awake() {
           m_slimeObject =  gameObject.GetComponent<CharacterMovement>();
       }
@@ -46,14 +42,13 @@ namespace DungeonSlime.Character {
           for (var i = 0; i < sizeColliderBuffer; i++) {
               var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
               
-              //if (objectCollider.Id == m_lastRocksId[i] || objectCollider.characterMovement.IsMoving) return;
               if (objectCollider.characterMovement.IsMoving) return;
 
               foreach (var id in m_lastRocksId) {
                   if (id == objectCollider.Id) return;
               }
               
-              var directionToMove = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
+              var directionToMove = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
               var rockShouldBeDestroyed = RockCanMoveWithinDirection(objectCollider, directionToMove);
               objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, directionToMove, m_slimeObject.CurrentSize, !rockShouldBeDestroyed);
           }
@@ -155,12 +150,11 @@ namespace DungeonSlime.Character {
 
         Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
             new Vector2(spriteBounds.size.x, 0.02f));
-
-          if (!m_enableBox) return;
-          var spriteSize = spriteRenderer.bounds.center;
+        
+        var spriteSize = spriteRenderer.bounds.center;
         
        
-        //Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
       }
     }
 }
