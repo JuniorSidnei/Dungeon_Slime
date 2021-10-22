@@ -254,13 +254,18 @@ namespace DungeonSlime.Character {
 
         private int FixCurrentPosition(Vector2Int size, int currentValue, Vector2Int nextSize) {
             if (!m_willExpandShape || m_alreadyHasPosition) return currentValue;
-            
-            if (size.x < 12 && size.y < 12) return currentValue - 1;
+
+            if (size.x < 12 && size.y < 12) {
+                if (nextSize.x == 9) {
+                    return currentValue - 2;
+                }
+                return currentValue - 1;
+            }
             
             if (nextSize.x >= 12 || nextSize.y >= 12) {
                 return currentValue;
             }
-
+            
             return currentValue - 1;
         }
         

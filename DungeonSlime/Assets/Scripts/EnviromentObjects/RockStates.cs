@@ -12,13 +12,13 @@ namespace DungeonSlime.Enviroment {
         [SerializeField] private Vector2Int m_initialPosition;
 
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
-            {CharacterForms.NORMAL, new Vector2Int(2, 2)},
+            {CharacterForms.NORMAL, new Vector2Int(3, 3)},
         };
 
         private readonly Dictionary<Vector2, Vector2Int> m_collisionOffsetPosition = new Dictionary<Vector2, Vector2Int> {
-            {Vector2.down, new Vector2Int(0, 1)},
+            {Vector2.down, new Vector2Int(0, 2)},
             {Vector2.up, new Vector2Int(0, 0)},
-            {Vector2.left, new Vector2Int(1, 0)},
+            {Vector2.left, new Vector2Int(2, 0)},
             {Vector2.right, new Vector2Int(0, 0)},
         };
   
@@ -41,7 +41,7 @@ namespace DungeonSlime.Enviroment {
         }
         
         public override Vector2Int GetNextSize(Vector2 nextDirection) {
-            return new Vector2Int(2,2);
+            return new Vector2Int(3,3);
         }
 
         public override Vector2Int GetCurrentSize(CharacterForms currentForm) {

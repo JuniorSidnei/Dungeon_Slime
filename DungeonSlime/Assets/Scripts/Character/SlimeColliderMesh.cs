@@ -13,7 +13,7 @@ namespace DungeonSlime.Character {
       private bool m_enableBox;
       private Collider2D m_boxCastResult;
       private CharacterMovement m_slimeObject;
-      private int m_lasRockId;
+      private List<int> m_lastRocksId = new List<int>();
 
       public bool IsPlayerMoving {
           set => m_enableBox = value;
@@ -23,12 +23,16 @@ namespace DungeonSlime.Character {
           set => m_isColliding = value;
       }
       
-      public int LastRockId {
-          set => m_lasRockId = value;
-      }
+//      public int LastRockId {
+//          set => m_lasRockId = value;
+//      }
       
       private void Awake() {
           m_slimeObject =  gameObject.GetComponent<CharacterMovement>();
+      }
+
+      public void ResetRocksId() {
+            m_lastRocksId.Clear();
       }
       
       public void ValidateSlimeExpansion() {
@@ -42,7 +46,12 @@ namespace DungeonSlime.Character {
           for (var i = 0; i < sizeColliderBuffer; i++) {
               var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
               
-              if (objectCollider.Id == m_lasRockId || objectCollider.characterMovement.IsMoving) return;
+              //if (objectCollider.Id == m_lastRocksId[i] || objectCollider.characterMovement.IsMoving) return;
+              if (objectCollider.characterMovement.IsMoving) return;
+
+              foreach (var id in m_lastRocksId) {
+                  if (id == objectCollider.Id) return;
+              }
               
               var directionToMove = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection);
               var rockShouldBeDestroyed = RockCanMoveWithinDirection(objectCollider, directionToMove);
@@ -62,8 +71,8 @@ namespace DungeonSlime.Character {
               var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
               var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
 
-              m_lasRockId = objectCollider.Id;
-              GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(m_lasRockId, collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
+              m_lastRocksId.Add(objectCollider.Id);
+              GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(m_lastRocksId[i], collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
           }
       }
       
@@ -96,7 +105,6 @@ namespace DungeonSlime.Character {
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              
               boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
@@ -108,17 +116,17 @@ namespace DungeonSlime.Character {
       private bool RockCanMoveWithinDirection(RockStates rock, Vector2Int direction) {
           if (direction == Vector2Int.zero) return false;
           
-          var offsetValueX = 0.35f;
+          var offsetValueX = 0.55f;
           var offsetValueY = 0.1f;
           
           if (direction == Vector2Int.left) {
               offsetValueX *= -1;
           } else if (direction == Vector2Int.up) {
               offsetValueX = 0;
-              offsetValueY = 0.35f;
+              offsetValueY = 0.55f;
           } else if (direction == Vector2Int.down) {
-              offsetValueX = 0;
-              offsetValueY = -0.35f;
+              offsetValueX = 0.25f;
+              offsetValueY = 0.0f;
           }
 
           var basePos = rock.gameObject.transform.position;
@@ -145,8 +153,8 @@ namespace DungeonSlime.Character {
 //            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
           
 
-        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteBounds.size.y / 2),
-            new Vector2( 0.02f, spriteBounds.size.y - 0.1f));
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
+            new Vector2(spriteBounds.size.x, 0.02f));
 
           if (!m_enableBox) return;
           var spriteSize = spriteRenderer.bounds.center;

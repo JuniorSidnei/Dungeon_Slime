@@ -42,7 +42,7 @@ namespace DungeonSlime.Character {
             }
             
             slimeColliderMesh.IsPlayerMoving = true;
-            slimeColliderMesh.LastRockId = 0;
+            slimeColliderMesh.ResetRocksId();
             characterMovement.OnMove(ev.Direction, false, charType);
         }
 
