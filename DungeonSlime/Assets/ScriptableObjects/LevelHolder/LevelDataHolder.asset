@@ -29,4 +29,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3bc3f8cce875c8c41b5a9518bc415ff4, type: 2}
   - {fileID: 11400000, guid: 587a96db22b681b408c131c019152f58, type: 2}
   - {fileID: 11400000, guid: df3f1e57fe53c6245888b7b250062e73, type: 2}
+  - {fileID: 11400000, guid: 07fd7d406925744418d2d1b834e090df, type: 2}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
