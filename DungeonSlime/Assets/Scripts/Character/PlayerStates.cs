@@ -26,6 +26,7 @@ namespace DungeonSlime.Character {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnFinishMovement>(OnFinishMovement);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnRockUnableToMove>(OnRockUnableToMove);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnCharacterCollision>(OnCharacterCollision);
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnCollisionWithSpikes>(OnCollisionWithSpikes);
             characterMovement.SetLevelManager(levelManager);
         }
 
@@ -72,6 +73,12 @@ namespace DungeonSlime.Character {
             
             var currentDirection = characterMovement.CurrentDirection;
             GameManager.Instance.GlobalDispatcher.Emit(new OnMoveRockCharacterWithId(ev.CharacterId, currentDirection));
+        }
+
+        private void OnCollisionWithSpikes(OnCollisionWithSpikes ev) {
+            if (ev.ObjectId != Id) return;
+            
+            GameManager.Instance.LoadCurrentScene();
         }
         
         public override Vector2Int GetNextSize(Vector2 nextDirection) {

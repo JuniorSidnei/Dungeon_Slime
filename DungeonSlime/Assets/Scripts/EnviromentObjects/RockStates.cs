@@ -24,6 +24,7 @@ namespace DungeonSlime.Enviroment {
   
         protected override void Awake() {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnMoveRockCharacterWithId>(OnMoveRockCharacterWithId);
+            GameManager.Instance.GlobalDispatcher.Subscribe<OnCollisionWithSpikes>(OnCollisionWithSpikes);
             characterMovement.SetLevelManager(levelManager);
         }
         
@@ -39,6 +40,13 @@ namespace DungeonSlime.Enviroment {
 
             characterMovement.OnMove(ev.MovementDirection, false, charType);
         }
+        
+        private void OnCollisionWithSpikes(OnCollisionWithSpikes ev) {
+            if (ev.ObjectId != Id) return;
+            
+            Destroy(gameObject);
+        }
+
         
         public override Vector2Int GetNextSize(Vector2 nextDirection) {
             return new Vector2Int(3,3);

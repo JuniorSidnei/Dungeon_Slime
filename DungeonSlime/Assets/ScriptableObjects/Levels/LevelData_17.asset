@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelTexture: {fileID: 2800000, guid: 719fd82ca86fd0a43be65d5283d54612, type: 3}
   currentLevelData: 17
-  nextLevelData: 14
+  nextLevelData: 18
   levelJson: {fileID: 4900000, guid: 983422331e5b7e84d997eddf9b087b1f, type: 3}

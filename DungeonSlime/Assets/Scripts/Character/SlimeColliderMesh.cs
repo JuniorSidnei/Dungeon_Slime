@@ -42,7 +42,7 @@ namespace DungeonSlime.Character {
           for (var i = 0; i < sizeColliderBuffer; i++) {
               var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
               
-              if (objectCollider.characterMovement.IsMoving) return;
+              if (!objectCollider || objectCollider.characterMovement.IsMoving) return;
 
               foreach (var id in m_lastRocksId) {
                   if (id == objectCollider.Id) return;
@@ -63,11 +63,13 @@ namespace DungeonSlime.Character {
 
           m_isColliding = true;
           for (var i = 0; i < boxResultSize; i++) {
-              var objectCollider = colliderBuffer[i].gameObject.GetComponent<RockStates>();
-              var collisionPosition = objectCollider.GetPivotPosition(m_slimeObject.CurrentDirection);
-
-              m_lastRocksId.Add(objectCollider.Id);
-              GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(m_lastRocksId[i], collisionPosition, RockCanMoveWithinDirection(objectCollider, m_slimeObject.CurrentDirection)));
+              var objectColliderRock = colliderBuffer[i].gameObject.GetComponent<RockStates>();
+              if (objectColliderRock) {
+                  EvaluateRockCollision(objectColliderRock, i);
+              }
+              else {
+                  GameManager.Instance.LoadCurrentScene();
+              }
           }
       }
       
@@ -130,6 +132,13 @@ namespace DungeonSlime.Character {
           RaycastHit2D hit = Physics2D.Raycast(rockPos, direction, 0.0f, objectLayer);
           Debug.DrawRay(new Vector2(rockPos.x, rockPos.y), new Vector3(direction.x, direction.y, 0), Color.green, 2f);
           return !hit;
+      }
+
+      private void EvaluateRockCollision(RockStates rock, int index) {
+          var collisionPosition = rock.GetPivotPosition(m_slimeObject.CurrentDirection);
+
+          m_lastRocksId.Add(rock.Id);
+          GameManager.Instance.GlobalDispatcher.Emit(new OnCharacterCollision(m_lastRocksId[index], collisionPosition, RockCanMoveWithinDirection(rock, m_slimeObject.CurrentDirection)));
       }
       
       void OnDrawGizmos()  {
