@@ -10,22 +10,24 @@ namespace DungeonSlime.Managers {
 
     public class LevelGenerator : MonoBehaviour {
 
-        public LevelDataHolder levelDataHolder;
+        //public LevelDataHolder levelDataHolder;
+        public LevelData currentData;
+        public LevelDataTiles levelDataTiles;
         private List<int> m_pixelMappingsId;
         private Level m_level;
         public int currentLevelIndex;
         
         [ContextMenu("Generate Json From Texture")]
         public void GenerateJsonFromTexture() {
-            var currentData = levelDataHolder.GetLevelDataAt(currentLevelIndex);
-            var levelDataTiles = levelDataHolder.GetLevelDataTiles();
+            //var currentData = levelDataHolder.GetLevelDataAt(currentLevelIndex);
+            //var levelDataTiles = levelDataHolder.GetLevelDataTiles();
             
             var width = currentData.levelTexture.width;
             var height = currentData.levelTexture.height;
             
             m_pixelMappingsId = new List<int>();
             
-            m_level = new Level {height = height, width = width, blocks = new Block[width * height]};
+            m_level = new Level {height = height, width = width, blocks = new Block[width * height], columnCount = currentData.columnCount};
 
             var index = 0;
             for (var i = 0; i < height; i++) {

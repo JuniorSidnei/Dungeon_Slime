@@ -48,6 +48,8 @@ namespace DungeonSlime.Character {
                   if (id == objectCollider.Id) return;
               }
               
+              //need to fix this, because if the rock can move to a position that is free, we should move
+              //if are free space in the right, but de the direction is down, we move right
               var directionToMove = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
               var rockShouldBeDestroyed = RockCanMoveWithinDirection(objectCollider, directionToMove);
               objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, directionToMove, m_slimeObject.CurrentSize, !rockShouldBeDestroyed);

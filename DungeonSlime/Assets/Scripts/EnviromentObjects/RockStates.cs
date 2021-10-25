@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using DungeonSlime.Character;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
@@ -44,6 +45,7 @@ namespace DungeonSlime.Enviroment {
         private void OnCollisionWithSpikes(OnCollisionWithSpikes ev) {
             if (ev.ObjectId != Id) return;
             
+            characterMovement.MovementSequence.Kill();
             Destroy(gameObject);
         }
 
@@ -72,6 +74,7 @@ namespace DungeonSlime.Enviroment {
 
         public void MoveToDestination(Vector2Int slimeFinalPosition, Vector2Int slimeDirection, Vector2Int slimeFinalSize, bool rockShouldDie) {
             if (rockShouldDie) {
+                characterMovement.MovementSequence.Kill();
                 Destroy(gameObject);
                 return;
             }

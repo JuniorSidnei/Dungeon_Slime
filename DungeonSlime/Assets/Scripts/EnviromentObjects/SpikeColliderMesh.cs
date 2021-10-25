@@ -29,7 +29,7 @@ namespace DungeonSlime.Enviroment {
 
         public void SetCollisionEnabled(bool enable) {
             //TODO fazer animação descer spikes
-            SpriteRend.DOFade(0.2f, 1f).OnComplete(() => {
+            SpriteRend.DOFade(0.2f, 0.5f).OnComplete(() => {
                 //tocar som
                 EnableCollision = enable;
                 boxCollider.enabled = enable;

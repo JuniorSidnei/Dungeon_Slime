@@ -52,6 +52,11 @@ namespace DungeonSlime.Character {
 
         public bool IsMoving => m_moving;
 
+        public Sequence MovementSequence {
+            get => m_movementSequence;
+            set => m_movementSequence = value;
+        }
+
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
             if (!m_willExpandShape) return;
@@ -109,6 +114,7 @@ namespace DungeonSlime.Character {
                     
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
+                            m_movementSequence.Kill();
                             Destroy(gameObject);
                             m_levelManager.IsObjectDead = false;
                         }
@@ -130,7 +136,9 @@ namespace DungeonSlime.Character {
 
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
+                            m_movementSequence.Kill();
                             Destroy(gameObject);
+                            m_levelManager.IsObjectDead = false;
                         }
                         else {
                             GameManager.Instance.LoadCurrentScene();
@@ -311,6 +319,7 @@ namespace DungeonSlime.Character {
                     }
                     
                     if (m_charType == CharacterStates.CharacterType.Rock) {
+                        m_movementSequence.Kill();
                         Destroy(gameObject);
                     }
                     

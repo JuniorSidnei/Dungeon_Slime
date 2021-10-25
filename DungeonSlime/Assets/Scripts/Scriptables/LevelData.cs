@@ -11,6 +11,7 @@ namespace DungeonSlime.Scriptables {
         public Texture2D levelTexture;
         public int currentLevelData;
         public int nextLevelData;
+        public int columnCount;
         public TextAsset levelJson;
     }
 }

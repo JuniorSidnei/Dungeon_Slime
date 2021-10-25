@@ -23,6 +23,8 @@ namespace DungeonSlime.Enviroment {
         
         private void OnDrawGizmos() {
             Gizmos.color = Color.magenta;
+            if (!m_spriteRend) return;
+            
             var spriteBounds = SpriteRend.bounds;
             var origin = new Vector2(spriteBounds.center.x, spriteBounds.center.y);
             var size = new Vector2(spriteBounds.size.x, spriteBounds.size.y);
