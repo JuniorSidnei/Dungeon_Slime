@@ -15,7 +15,6 @@ namespace DungeonSlime.Managers {
         public LevelDataTiles levelDataTiles;
         private List<int> m_pixelMappingsId;
         private Level m_level;
-        public int currentLevelIndex;
         
         [ContextMenu("Generate Json From Texture")]
         public void GenerateJsonFromTexture() {
@@ -38,9 +37,7 @@ namespace DungeonSlime.Managers {
             }
             
             var json = JsonUtility.ToJson(m_level);
-            var levelIndex = currentLevelIndex;
-            levelIndex += 1;
-            using (var fs = new FileStream(string.Format("Assets/LevelJsons/level_{0}.json", levelIndex), FileMode.Create)) {
+            using (var fs = new FileStream(string.Format("Assets/LevelJsons/level_{0}.json", currentData.currentLevelData), FileMode.Create)) {
                 using (var writer = new StreamWriter(fs)) {
                     writer.Write(json);
                 }
