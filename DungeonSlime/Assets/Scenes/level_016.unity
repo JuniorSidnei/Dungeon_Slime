@@ -570,7 +570,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: df3f1e57fe53c6245888b7b250062e73, type: 2}
-  showTilesIndex: 1
+  showTilesIndex: 0
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0
@@ -1706,7 +1706,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 2
   charType: 1
-  m_initialPosition: {x: 28, y: 33}
+  m_initialPosition: {x: 28, y: 23}
 --- !u!114 &1321185857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1840,7 +1840,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 3
   charType: 1
-  m_initialPosition: {x: 28, y: 23}
+  m_initialPosition: {x: 28, y: 43}
 --- !u!114 &1354695882
 MonoBehaviour:
   m_ObjectHideFlags: 0

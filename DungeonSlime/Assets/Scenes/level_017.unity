@@ -553,8 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71ee33a9a7448646bb9d151bf57bfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDataHolder: {fileID: 11400000, guid: 7c67efc1ffeead54aa18c9b59e5e6980, type: 2}
-  currentLevelIndex: 16
+  currentData: {fileID: 11400000, guid: 07fd7d406925744418d2d1b834e090df, type: 2}
+  levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
 --- !u!114 &419522944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,7 +685,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 4
   charType: 1
-  m_initialPosition: {x: 5, y: 44}
+  m_initialPosition: {x: 28, y: 44}
 --- !u!114 &458497099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 6
   charType: 1
-  m_initialPosition: {x: 56, y: 6}
+  m_initialPosition: {x: 77, y: 4}
 --- !u!114 &986377828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,7 +1889,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 7
   charType: 1
-  m_initialPosition: {x: 29, y: 41}
+  m_initialPosition: {x: 69, y: 39}
 --- !u!114 &1233446441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2023,7 +2023,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 2
   charType: 1
-  m_initialPosition: {x: 5, y: 14}
+  m_initialPosition: {x: 6, y: 17}
 --- !u!114 &1321185857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2157,7 +2157,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 3
   charType: 1
-  m_initialPosition: {x: 31, y: 17}
+  m_initialPosition: {x: 6, y: 47}
 --- !u!114 &1354695882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3078,7 +3078,7 @@ Camera:
   far clip plane: 1000
   field of view: 57
   orthographic: 1
-  orthographic size: 5.07
+  orthographic size: 5.49
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3102,7 +3102,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.42, y: 5.4, z: -10}
+  m_LocalPosition: {x: 10.11, y: 5.72, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3240,7 +3240,7 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 5
   charType: 1
-  m_initialPosition: {x: 53, y: 35}
+  m_initialPosition: {x: 41, y: 22}
 --- !u!114 &1699012786
 MonoBehaviour:
   m_ObjectHideFlags: 0
