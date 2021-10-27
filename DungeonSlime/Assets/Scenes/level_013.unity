@@ -1932,7 +1932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e729efa37f8d0b46a297faa4a933b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speedMultiplier: 50
+  m_speedMultiplier: 45
   m_moving: 0
   m_willExpandShape: 1
   m_characterStates: {fileID: 1551701147}

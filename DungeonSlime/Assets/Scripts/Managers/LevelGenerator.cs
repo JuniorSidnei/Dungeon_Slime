@@ -16,10 +16,6 @@ namespace DungeonSlime.Managers {
         private List<int> m_pixelMappingsId;
         private Level m_level;
 
-        private void Awake() {
-             GenerateJsonFromTexture();
-        }
-
         [ContextMenu("Generate Json From Texture")]
         public void GenerateJsonFromTexture() {
             //var currentData = levelDataHolder.GetLevelDataAt(currentLevelIndex);
