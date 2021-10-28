@@ -519,7 +519,7 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 78872ed5978623b4d8b1063158144bab, type: 2}
-  showTilesIndex: 1
+  showTilesIndex: 0
 --- !u!4 &419522945
 Transform:
   m_ObjectHideFlags: 0

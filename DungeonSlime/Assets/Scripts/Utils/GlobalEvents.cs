@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlime.Character;
 using UnityEngine;
 
 namespace DungeonSlime.Utils {
@@ -8,13 +9,15 @@ namespace DungeonSlime.Utils {
     public class OnRestartGame {  }
 
     public class OnFinishMovement {
-        public OnFinishMovement(Vector2 currentDirection, int characterId) {
+        public OnFinishMovement(Vector2 currentDirection, int characterId, CharacterStates.CharacterType characterType) {
             CurrentDirection = currentDirection;
             CharacterId = characterId;
+            CharacterType = characterType;
         }
         
         public Vector2 CurrentDirection;
-        public int CharacterId;
+        public readonly int CharacterId;
+        public readonly CharacterStates.CharacterType CharacterType;
     }
 
     public class OnMoveCharacter {

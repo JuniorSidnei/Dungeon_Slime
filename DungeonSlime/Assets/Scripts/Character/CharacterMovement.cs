@@ -110,7 +110,7 @@ namespace DungeonSlime.Character {
             
             if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
-                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
                     
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
@@ -132,7 +132,7 @@ namespace DungeonSlime.Character {
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
 
                 m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id));
+                    GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
 
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {

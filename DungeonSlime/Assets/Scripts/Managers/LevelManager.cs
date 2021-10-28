@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DungeonSlime.Character;
 using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace DungeonSlime.Managers {
         }
 
         private void OnFinishMovement(OnFinishMovement ev) {
-            if (!m_isLevelClear) return;
+            if (!m_isLevelClear || ev.CharacterType != CharacterStates.CharacterType.Slime) return;
             
             GameManager.Instance.LoadNextScene();
         }
