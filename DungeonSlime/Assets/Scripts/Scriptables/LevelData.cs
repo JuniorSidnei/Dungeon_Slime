@@ -12,6 +12,7 @@ namespace DungeonSlime.Scriptables {
         public int currentLevelData;
         public int nextLevelData;
         public int columnCount;
+        public int numberOfMovements;
         public TextAsset levelJson;
     }
 }

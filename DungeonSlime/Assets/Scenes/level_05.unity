@@ -214,7 +214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentData: {fileID: 11400000, guid: c21a38f7cd42d514cb2a3048066edde6, type: 2}
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
-  currentLevelIndex: 4
 --- !u!114 &419522944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1449,7 +1448,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1687258584}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

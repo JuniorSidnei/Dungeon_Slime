@@ -16,4 +16,5 @@ MonoBehaviour:
   currentLevelData: 16
   nextLevelData: 17
   columnCount: 119
+  numberOfMovements: 44
   levelJson: {fileID: 4900000, guid: 0439545171893de4192a22a6c28ad55f, type: 3}

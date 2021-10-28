@@ -45,6 +45,7 @@ namespace DungeonSlime.Character {
             slimeColliderMesh.IsPlayerMoving = true;
             slimeColliderMesh.ResetRocksId();
             characterMovement.OnMove(ev.Direction, false, charType);
+            levelManager.levelData.numberOfMovements -= 1;
         }
 
         private void OnFinishMovement(OnFinishMovement ev) {
@@ -55,6 +56,11 @@ namespace DungeonSlime.Character {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
             animator.SetInteger("form", i);
+            
+            if (levelManager.levelData.numberOfMovements <= 0) {
+                GameManager.Instance.LoadCurrentScene();
+            }
+            
             //slimeColliderMesh.ValidateSlimeExpansion();
         }
 
