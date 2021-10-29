@@ -12,6 +12,7 @@ namespace DungeonSlime.Character {
         [SerializeField] private List<Sprite> m_slimeSprites;
         private int m_rockObjectId;
         public SlimeColliderMesh slimeColliderMesh;
+        private int m_numberOfMovements;
 
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
             {CharacterForms.NORMAL, new Vector2Int(6, 6)},
@@ -28,6 +29,8 @@ namespace DungeonSlime.Character {
             GameManager.Instance.GlobalDispatcher.Subscribe<OnCharacterCollision>(OnCharacterCollision);
             GameManager.Instance.GlobalDispatcher.Subscribe<OnCollisionWithSpikes>(OnCollisionWithSpikes);
             characterMovement.SetLevelManager(levelManager);
+            
+            m_numberOfMovements = levelManager.levelData.numberOfMovements;
         }
 
         protected override void Start() {
@@ -45,7 +48,7 @@ namespace DungeonSlime.Character {
             slimeColliderMesh.IsPlayerMoving = true;
             slimeColliderMesh.ResetRocksId();
             characterMovement.OnMove(ev.Direction, false, charType);
-            levelManager.levelData.numberOfMovements -= 1;
+            m_numberOfMovements -= 1;
         }
 
         private void OnFinishMovement(OnFinishMovement ev) {
@@ -57,7 +60,7 @@ namespace DungeonSlime.Character {
             CharacterForm = slimeForm;
             animator.SetInteger("form", i);
             
-            if (levelManager.levelData.numberOfMovements <= 0) {
+            if (m_numberOfMovements <= 0) {
                 GameManager.Instance.LoadCurrentScene();
             }
             

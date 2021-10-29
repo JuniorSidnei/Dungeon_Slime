@@ -66,6 +66,10 @@ namespace DungeonSlime.Utils {
         public readonly int ObjectId;
     }
     
+    public class OnLevelSelectionBack { }
+    
+    public class OnLevelSelectionDone { }
+    
 //    public class OnUpdateSprite {
 //        public OnUpdateSprite(Sprite currentSprite, int spriteColliderIndex) {
 //            CurrentSprite = currentSprite;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
@@ -22,7 +23,7 @@ namespace DungeonSlime.Managers {
         private void Update() {
             GlobalDispatcher.DispatchAll();
         }
-
+        
         public void LoadCurrentScene() {
             transitionController.DoTransitionIn(0.5f, () => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.currentLevelData)));
@@ -30,6 +31,8 @@ namespace DungeonSlime.Managers {
         }
         
         public void LoadNextScene() {
+            SaveAllData();
+            
             transitionController.DoTransitionIn(0.5f, () => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.nextLevelData)));
             });
@@ -47,5 +50,15 @@ namespace DungeonSlime.Managers {
                 yield return null;
             }
         }
+
+        private void SaveAllData() {
+            var currentLevel = LevelManager.levelData.currentLevelData;
+            var userData = new UserData {
+                lastLevelPlayed = currentLevel, normalLevelUnlocked = currentLevel, hardLevelUnlocked = currentLevel
+            };
+
+            SaveManager.SaveData(userData);
+        }
+  
     }
 }
