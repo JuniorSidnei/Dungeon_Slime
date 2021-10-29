@@ -9,11 +9,26 @@ using UnityEngine.SceneManagement;
 
 namespace DungeonSlime.Managers {
 
-    public class LevelSelectionManager : MonoBehaviour {
+    public class MainMenuManager : MonoBehaviour {
 
         private UserData m_userData;
 
+        [Header("Menu Canvas")]
+        public CanvasGroup mainMenuCanvas;
+        
+        public CanvasGroup levelSelectionCanvas;
+        
+        public CanvasGroup levelDifficultyCanvas;
+        
+        public CanvasGroup controlCanvas;
+        
+        public CanvasGroup optionsCanvas;
+        
+        public CanvasGroup creditsCanvas;
+        
+        
         public TextMeshProUGUI levelIndexText;
+        public TextMeshProUGUI movementLimitText;
         public GameObject padlock;
         
         private int m_levelIndex = 1;
