@@ -35,33 +35,17 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""level_selection_back"",
+                    ""name"": ""Submit"",
                     ""type"": ""Button"",
-                    ""id"": ""8625d91e-0102-4232-b9dc-4ff3ca9ee7cc"",
+                    ""id"": ""db3a3e62-665d-4195-8c22-bacbecef64dd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""level_selection_done"",
+                    ""name"": ""Cancel"",
                     ""type"": ""Button"",
-                    ""id"": ""a6270d64-51df-4585-bab7-335d3048a7c2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""advance_level_index"",
-                    ""type"": ""Button"",
-                    ""id"": ""2c32511e-e425-453c-8b1b-ea159e185e3e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""return_level_index"",
-                    ""type"": ""Button"",
-                    ""id"": ""f28a87f2-1240-43f6-ae47-632b6d3b60bc"",
+                    ""id"": ""d8b46b82-0b98-492d-98e2-ba229fdb0444"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -191,67 +175,45 @@ public class @InputSource : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""76a25d29-64b7-4a56-b998-46e75e0cb414"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""level_selection_back"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ba00128-a0d5-420a-868c-0417a7367f57"",
-                    ""path"": ""<Keyboard>/b"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""level_selection_back"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7bc387c7-74c8-47d4-b33b-a982829cedfe"",
+                    ""id"": ""f47269b4-7344-4cb7-b74f-32674c2a546b"",
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""level_selection_done"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""097d798d-024a-4d4d-95f2-168c61a63f6a"",
+                    ""id"": ""4884673b-61b1-41ce-9633-d86386071410"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""level_selection_done"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b0331e18-fac5-4584-b246-ea76607175be"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""id"": ""f9971b45-51d4-4bc9-a743-967a4a3b4cf5"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""advance_level_index"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5b000f21-59a7-441c-a951-a5da50c65008"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""id"": ""7a8e9605-e8a4-4bae-aa44-d651e83c55c9"",
+                    ""path"": ""<Keyboard>/b"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""return_level_index"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -269,6 +231,17 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GamePad"",
+            ""bindingGroup"": ""GamePad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -276,10 +249,8 @@ public class @InputSource : IInputActionCollection, IDisposable
         m_Slime = asset.FindActionMap("Slime", throwIfNotFound: true);
         m_Slime_movement = m_Slime.FindAction("movement", throwIfNotFound: true);
         m_Slime_restart_game = m_Slime.FindAction("restart_game", throwIfNotFound: true);
-        m_Slime_level_selection_back = m_Slime.FindAction("level_selection_back", throwIfNotFound: true);
-        m_Slime_level_selection_done = m_Slime.FindAction("level_selection_done", throwIfNotFound: true);
-        m_Slime_advance_level_index = m_Slime.FindAction("advance_level_index", throwIfNotFound: true);
-        m_Slime_return_level_index = m_Slime.FindAction("return_level_index", throwIfNotFound: true);
+        m_Slime_Submit = m_Slime.FindAction("Submit", throwIfNotFound: true);
+        m_Slime_Cancel = m_Slime.FindAction("Cancel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -331,20 +302,16 @@ public class @InputSource : IInputActionCollection, IDisposable
     private ISlimeActions m_SlimeActionsCallbackInterface;
     private readonly InputAction m_Slime_movement;
     private readonly InputAction m_Slime_restart_game;
-    private readonly InputAction m_Slime_level_selection_back;
-    private readonly InputAction m_Slime_level_selection_done;
-    private readonly InputAction m_Slime_advance_level_index;
-    private readonly InputAction m_Slime_return_level_index;
+    private readonly InputAction m_Slime_Submit;
+    private readonly InputAction m_Slime_Cancel;
     public struct SlimeActions
     {
         private @InputSource m_Wrapper;
         public SlimeActions(@InputSource wrapper) { m_Wrapper = wrapper; }
         public InputAction @movement => m_Wrapper.m_Slime_movement;
         public InputAction @restart_game => m_Wrapper.m_Slime_restart_game;
-        public InputAction @level_selection_back => m_Wrapper.m_Slime_level_selection_back;
-        public InputAction @level_selection_done => m_Wrapper.m_Slime_level_selection_done;
-        public InputAction @advance_level_index => m_Wrapper.m_Slime_advance_level_index;
-        public InputAction @return_level_index => m_Wrapper.m_Slime_return_level_index;
+        public InputAction @Submit => m_Wrapper.m_Slime_Submit;
+        public InputAction @Cancel => m_Wrapper.m_Slime_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Slime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -360,18 +327,12 @@ public class @InputSource : IInputActionCollection, IDisposable
                 @restart_game.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnRestart_game;
                 @restart_game.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnRestart_game;
                 @restart_game.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnRestart_game;
-                @level_selection_back.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnLevel_selection_back;
-                @level_selection_back.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnLevel_selection_back;
-                @level_selection_back.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnLevel_selection_back;
-                @level_selection_done.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnLevel_selection_done;
-                @level_selection_done.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnLevel_selection_done;
-                @level_selection_done.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnLevel_selection_done;
-                @advance_level_index.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnAdvance_level_index;
-                @advance_level_index.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnAdvance_level_index;
-                @advance_level_index.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnAdvance_level_index;
-                @return_level_index.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnReturn_level_index;
-                @return_level_index.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnReturn_level_index;
-                @return_level_index.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnReturn_level_index;
+                @Submit.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnSubmit;
+                @Submit.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnSubmit;
+                @Submit.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnSubmit;
+                @Cancel.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnCancel;
             }
             m_Wrapper.m_SlimeActionsCallbackInterface = instance;
             if (instance != null)
@@ -382,18 +343,12 @@ public class @InputSource : IInputActionCollection, IDisposable
                 @restart_game.started += instance.OnRestart_game;
                 @restart_game.performed += instance.OnRestart_game;
                 @restart_game.canceled += instance.OnRestart_game;
-                @level_selection_back.started += instance.OnLevel_selection_back;
-                @level_selection_back.performed += instance.OnLevel_selection_back;
-                @level_selection_back.canceled += instance.OnLevel_selection_back;
-                @level_selection_done.started += instance.OnLevel_selection_done;
-                @level_selection_done.performed += instance.OnLevel_selection_done;
-                @level_selection_done.canceled += instance.OnLevel_selection_done;
-                @advance_level_index.started += instance.OnAdvance_level_index;
-                @advance_level_index.performed += instance.OnAdvance_level_index;
-                @advance_level_index.canceled += instance.OnAdvance_level_index;
-                @return_level_index.started += instance.OnReturn_level_index;
-                @return_level_index.performed += instance.OnReturn_level_index;
-                @return_level_index.canceled += instance.OnReturn_level_index;
+                @Submit.started += instance.OnSubmit;
+                @Submit.performed += instance.OnSubmit;
+                @Submit.canceled += instance.OnSubmit;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
         }
     }
@@ -407,13 +362,20 @@ public class @InputSource : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_KeyboardSchemeIndex];
         }
     }
+    private int m_GamePadSchemeIndex = -1;
+    public InputControlScheme GamePadScheme
+    {
+        get
+        {
+            if (m_GamePadSchemeIndex == -1) m_GamePadSchemeIndex = asset.FindControlSchemeIndex("GamePad");
+            return asset.controlSchemes[m_GamePadSchemeIndex];
+        }
+    }
     public interface ISlimeActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRestart_game(InputAction.CallbackContext context);
-        void OnLevel_selection_back(InputAction.CallbackContext context);
-        void OnLevel_selection_done(InputAction.CallbackContext context);
-        void OnAdvance_level_index(InputAction.CallbackContext context);
-        void OnReturn_level_index(InputAction.CallbackContext context);
+        void OnSubmit(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
 }

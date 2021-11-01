@@ -10,5 +10,6 @@ namespace DungeonSlime.Utils {
         public int lastLevelPlayed;
         public int normalLevelUnlocked;
         public int hardLevelUnlocked;
+        public int levelDifficulty;
     }
 }

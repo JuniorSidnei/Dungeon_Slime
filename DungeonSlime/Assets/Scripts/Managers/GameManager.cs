@@ -59,6 +59,5 @@ namespace DungeonSlime.Managers {
 
             SaveManager.SaveData(userData);
         }
-  
     }
 }

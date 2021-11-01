@@ -22,33 +22,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "level_selection_back",
+                    "name": "Submit",
                     "type": "Button",
-                    "id": "8625d91e-0102-4232-b9dc-4ff3ca9ee7cc",
+                    "id": "db3a3e62-665d-4195-8c22-bacbecef64dd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "level_selection_done",
+                    "name": "Cancel",
                     "type": "Button",
-                    "id": "a6270d64-51df-4585-bab7-335d3048a7c2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "advance_level_index",
-                    "type": "Button",
-                    "id": "2c32511e-e425-453c-8b1b-ea159e185e3e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "return_level_index",
-                    "type": "Button",
-                    "id": "f28a87f2-1240-43f6-ae47-632b6d3b60bc",
+                    "id": "d8b46b82-0b98-492d-98e2-ba229fdb0444",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -178,67 +162,45 @@
                 },
                 {
                     "name": "",
-                    "id": "76a25d29-64b7-4a56-b998-46e75e0cb414",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "level_selection_back",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3ba00128-a0d5-420a-868c-0417a7367f57",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "level_selection_back",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7bc387c7-74c8-47d4-b33b-a982829cedfe",
+                    "id": "f47269b4-7344-4cb7-b74f-32674c2a546b",
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "level_selection_done",
+                    "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "097d798d-024a-4d4d-95f2-168c61a63f6a",
+                    "id": "4884673b-61b1-41ce-9633-d86386071410",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "level_selection_done",
+                    "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "b0331e18-fac5-4584-b246-ea76607175be",
-                    "path": "<Keyboard>/rightArrow",
+                    "id": "f9971b45-51d4-4bc9-a743-967a4a3b4cf5",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "advance_level_index",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "5b000f21-59a7-441c-a951-a5da50c65008",
-                    "path": "<Keyboard>/leftArrow",
+                    "id": "7a8e9605-e8a4-4bae-aa44-d651e83c55c9",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "return_level_index",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -252,6 +214,17 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "GamePad",
+            "bindingGroup": "GamePad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }
