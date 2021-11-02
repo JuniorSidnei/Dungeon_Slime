@@ -22,6 +22,7 @@ namespace DungeonSlime.Managers {
         [Header("level settings")]
         public GameObject levelBox;
         public TextMeshProUGUI levelText;
+        public float textBoxOffset;
         
         [Header("level data settings")]
         public LevelDataTiles levelDataTiles;
@@ -59,7 +60,7 @@ namespace DungeonSlime.Managers {
         private void Start() {
             levelText.text = string.Format("LEVEL {0}", levelData.currentLevelData);
             var originalPos = levelBox.transform.position;
-            levelBox.transform.DOMoveX(2, 1.5f).OnComplete(() => {
+            levelBox.transform.DOMoveX(textBoxOffset, 1.5f).OnComplete(() => {
                 levelBox.transform.DOMoveX(originalPos.x, 2f);
             });
         }
