@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DungeonSlime.Character;
 using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,15 +11,24 @@ namespace DungeonSlime.Managers {
 
         [Header("tile settings")]
         public Tilemap tilemap;
+
         
+        [Header("movement limit settings")]
+        public GameObject movementLimitBox;
+        public TextMeshProUGUI movementLimitText;
+        
+        [Header("level data settings")]
         public LevelDataTiles levelDataTiles;
         public LevelData levelData;
         public bool showTilesIndex;
         
         private Level m_currentLevel;
         private bool m_isLevelClear;
-
+        private UserData m_userData;
+        
         public bool IsObjectDead { get; set; }
+
+        public UserData UserData => m_userData;
 
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();
 
@@ -33,7 +43,10 @@ namespace DungeonSlime.Managers {
             m_tiles.Add(Block.BlockType.Spikes, levelDataTiles.GetSpikesTile());
             m_tiles.Add(Block.BlockType.BlockWall, levelDataTiles.GetBlockWallTile());
             m_tiles.Add(Block.BlockType.FakeSpikes, levelDataTiles.GetFakeSpikesTile());
-            
+
+            m_userData = SaveManager.LoadData();
+            movementLimitBox.SetActive(m_userData.levelDifficulty == 1);
+            UpdateMovementLimitValue(levelData.numberOfMovements);
             LoadLevel();
         }
 
@@ -62,6 +75,10 @@ namespace DungeonSlime.Managers {
 
         private static Vector2Int GetPositionForIndex(int index, int columnCount) {
             return new Vector2Int(index % columnCount, index / columnCount);
+        }
+
+        public void UpdateMovementLimitValue(int value) {
+            movementLimitText.text = value.ToString();
         }
         
         public bool GetNearestBlock(Vector2Int currentIndex, Vector2Int direction, int depth,

@@ -48,7 +48,11 @@ namespace DungeonSlime.Character {
             slimeColliderMesh.IsPlayerMoving = true;
             slimeColliderMesh.ResetRocksId();
             characterMovement.OnMove(ev.Direction, false, charType);
+
+            if (levelManager.UserData.levelDifficulty != 1) return;
+            
             m_numberOfMovements -= 1;
+            levelManager.UpdateMovementLimitValue(m_numberOfMovements);
         }
 
         private void OnFinishMovement(OnFinishMovement ev) {
