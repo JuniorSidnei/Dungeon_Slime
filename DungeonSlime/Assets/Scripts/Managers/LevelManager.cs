@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using DungeonSlime.Character;
 using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
@@ -16,6 +18,10 @@ namespace DungeonSlime.Managers {
         [Header("movement limit settings")]
         public GameObject movementLimitBox;
         public TextMeshProUGUI movementLimitText;
+        
+        [Header("level settings")]
+        public GameObject levelBox;
+        public TextMeshProUGUI levelText;
         
         [Header("level data settings")]
         public LevelDataTiles levelDataTiles;
@@ -48,6 +54,14 @@ namespace DungeonSlime.Managers {
             movementLimitBox.SetActive(m_userData.levelDifficulty == 1);
             UpdateMovementLimitValue(levelData.numberOfMovements);
             LoadLevel();
+        }
+
+        private void Start() {
+            levelText.text = string.Format("LEVEL {0}", levelData.currentLevelData);
+            var originalPos = levelBox.transform.position;
+            levelBox.transform.DOMoveX(2, 1.5f).OnComplete(() => {
+                levelBox.transform.DOMoveX(originalPos.x, 2f);
+            });
         }
 
         private void OnFinishMovement(OnFinishMovement ev) {
