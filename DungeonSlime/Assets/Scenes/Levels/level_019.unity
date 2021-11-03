@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionController: {fileID: 229392573}
   LevelManager: {fileID: 419522944}
+  pausePanel: {fileID: 0}
 --- !u!4 &229392572
 Transform:
   m_ObjectHideFlags: 0
@@ -3188,7 +3189,6 @@ GameObject:
   - component: {fileID: 1551701149}
   - component: {fileID: 1551701148}
   - component: {fileID: 1551701147}
-  - component: {fileID: 1551701146}
   - component: {fileID: 1551701145}
   - component: {fileID: 1551701144}
   - component: {fileID: 1551701143}
@@ -3236,6 +3236,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   spriteRenderer: {fileID: 1223761210}
+  slimeSplash: {fileID: 0}
 --- !u!114 &1551701145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3249,7 +3250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: b681793ebe966844e84f13035c38670c, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -3263,7 +3264,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1551701146}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DungeonSlime.Managers.InputManager, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
@@ -3279,7 +3280,7 @@ MonoBehaviour:
     m_ActionName: Slime/movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1551701146}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DungeonSlime.Managers.InputManager, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 0
@@ -3293,23 +3294,23 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c567c920-7555-458d-9526-8455b5260972
     m_ActionName: Slime/restart_game[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: db3a3e62-665d-4195-8c22-bacbecef64dd
+    m_ActionName: Slime/Submit[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8b46b82-0b98-492d-98e2-ba229fdb0444
+    m_ActionName: Slime/Cancel[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bdbd50cd-bc0b-4800-997e-4d9c229de8d5
+    m_ActionName: Slime/pause_game[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Slime
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1551701146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551701142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 003409454d75f3a4cb6bb6b475e5f148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1551701147
 MonoBehaviour:
   m_ObjectHideFlags: 0

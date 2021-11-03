@@ -49,6 +49,14 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""pause_game"",
+                    ""type"": ""Button"",
+                    ""id"": ""bdbd50cd-bc0b-4800-997e-4d9c229de8d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -337,6 +345,28 @@ public class @InputSource : IInputActionCollection, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f047557c-b838-41c1-805b-579dc7266f49"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""pause_game"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71f0ee30-6b94-4c45-b4a7-7e51a4a92ca0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GamePad"",
+                    ""action"": ""pause_game"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -372,6 +402,7 @@ public class @InputSource : IInputActionCollection, IDisposable
         m_Slime_restart_game = m_Slime.FindAction("restart_game", throwIfNotFound: true);
         m_Slime_Submit = m_Slime.FindAction("Submit", throwIfNotFound: true);
         m_Slime_Cancel = m_Slime.FindAction("Cancel", throwIfNotFound: true);
+        m_Slime_pause_game = m_Slime.FindAction("pause_game", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -425,6 +456,7 @@ public class @InputSource : IInputActionCollection, IDisposable
     private readonly InputAction m_Slime_restart_game;
     private readonly InputAction m_Slime_Submit;
     private readonly InputAction m_Slime_Cancel;
+    private readonly InputAction m_Slime_pause_game;
     public struct SlimeActions
     {
         private @InputSource m_Wrapper;
@@ -433,6 +465,7 @@ public class @InputSource : IInputActionCollection, IDisposable
         public InputAction @restart_game => m_Wrapper.m_Slime_restart_game;
         public InputAction @Submit => m_Wrapper.m_Slime_Submit;
         public InputAction @Cancel => m_Wrapper.m_Slime_Cancel;
+        public InputAction @pause_game => m_Wrapper.m_Slime_pause_game;
         public InputActionMap Get() { return m_Wrapper.m_Slime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -454,6 +487,9 @@ public class @InputSource : IInputActionCollection, IDisposable
                 @Cancel.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnCancel;
+                @pause_game.started -= m_Wrapper.m_SlimeActionsCallbackInterface.OnPause_game;
+                @pause_game.performed -= m_Wrapper.m_SlimeActionsCallbackInterface.OnPause_game;
+                @pause_game.canceled -= m_Wrapper.m_SlimeActionsCallbackInterface.OnPause_game;
             }
             m_Wrapper.m_SlimeActionsCallbackInterface = instance;
             if (instance != null)
@@ -470,6 +506,9 @@ public class @InputSource : IInputActionCollection, IDisposable
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @pause_game.started += instance.OnPause_game;
+                @pause_game.performed += instance.OnPause_game;
+                @pause_game.canceled += instance.OnPause_game;
             }
         }
     }
@@ -498,5 +537,6 @@ public class @InputSource : IInputActionCollection, IDisposable
         void OnRestart_game(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnPause_game(InputAction.CallbackContext context);
     }
 }

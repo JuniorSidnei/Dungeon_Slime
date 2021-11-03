@@ -6,6 +6,7 @@ using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace DungeonSlime.Managers {
@@ -14,7 +15,24 @@ namespace DungeonSlime.Managers {
         public QueuedEventDispatcher GlobalDispatcher = new QueuedEventDispatcher();
         public DoTransitionController transitionController;
         public LevelManager LevelManager;
+
+        [Header("pause settings")]
+        public GameObject pausePanel;
+        
         private AsyncOperation m_loadScene;
+
+        private InputSource m_intputManager;
+
+        private void Awake() {
+            m_intputManager = new InputSource();
+            m_intputManager.Enable();
+
+            m_intputManager.Slime.movement.performed += OnMove;
+            m_intputManager.Slime.pause_game.performed += ctx => PauseGame();
+            m_intputManager.Slime.restart_game.performed += ctx => LoadCurrentScene();
+            m_intputManager.Slime.Submit.performed += ctx => ResumeGame();
+            m_intputManager.Slime.Cancel.performed += ctx => BackToMenu();
+        }
 
         private void OnEnable()  {
             StartCoroutine(WaitToFadeOut(0.5f));
@@ -22,6 +40,12 @@ namespace DungeonSlime.Managers {
         
         private void Update() {
             GlobalDispatcher.DispatchAll();
+        }
+
+        private void OnMove(InputAction.CallbackContext ctx) {
+            var ctxValue = ctx.ReadValue<Vector2>();
+            var inputValue = Vector2Int.RoundToInt(ctxValue);
+            GlobalDispatcher.Emit(new OnMoveCharacter(inputValue)); 
         }
         
         public void LoadCurrentScene() {
@@ -38,6 +62,25 @@ namespace DungeonSlime.Managers {
             });
         }
 
+        public void PauseGame() {
+            transitionController.DoTransitionIn(0.2f, () => {
+                pausePanel.SetActive(true);
+                Time.timeScale = 0;
+            });
+        }
+
+        public void ResumeGame() {
+            Time.timeScale = 1;
+            transitionController.DoTransitionOut(0.2f, () => {
+                pausePanel.SetActive(false);
+            });
+        }
+
+        public void BackToMenu() {
+            Time.timeScale = 1;
+            SceneManager.LoadScene("MainMenu");
+        }
+        
         private IEnumerator WaitToFadeOut(float time) {
             yield return new WaitForSeconds(time);
             transitionController.DoTransitionOut(1f);

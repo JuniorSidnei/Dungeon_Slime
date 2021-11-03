@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5556962071021585604}
   - component: {fileID: 7419772241866421317}
   m_Layer: 0
-  m_Name: Capturar
+  m_Name: SlimeSplash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

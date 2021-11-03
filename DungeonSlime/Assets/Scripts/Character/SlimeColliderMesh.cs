@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using DungeonSlime.Enviroment;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace DungeonSlime.Character {
     public class SlimeColliderMesh : MonoBehaviour {
       public LayerMask objectLayer;
       public SpriteRenderer spriteRenderer;
+      public GameObject slimeSplash;
       private bool m_isColliding;
       private bool m_enableBox;
       private Collider2D m_boxCastResult;
@@ -79,6 +81,25 @@ namespace DungeonSlime.Character {
           Collider2D[] collidersBuffer = new Collider2D[5];
           var sizeColliderBuffer = CreateBoxCastWithinDirection(direction, spriteRenderer, collidersBuffer);
           return sizeColliderBuffer == 0;
+      }
+
+      public void SpawnSplashOnWall(Vector2Int currentDirection) {
+          var spriteBounds = spriteRenderer.bounds;
+          var splashOrigin = spriteBounds.center;
+
+          if (currentDirection == Vector2Int.left) {
+              splashOrigin.x = spriteBounds.min.x;
+          } else if (currentDirection == Vector2Int.right) {
+              splashOrigin.x = spriteBounds.max.x;
+          } else if (currentDirection == Vector2Int.up) {
+              splashOrigin.y = spriteBounds.max.y;
+          } else if (currentDirection == Vector2Int.down) {
+              splashOrigin.y = spriteBounds.min.y;
+          }
+          
+          var slimeSplashBounds = slimeSplash.GetComponent<SpriteRenderer>().bounds;
+          slimeSplashBounds.size = spriteBounds.size;
+          Instantiate(slimeSplash, splashOrigin, quaternion.identity);
       }
       
       private int CreateBoxCastWithinDirection(Vector2Int direction, Renderer sprite, Collider2D[] colliderBuffer) {

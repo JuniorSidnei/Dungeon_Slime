@@ -753,7 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: b681793ebe966844e84f13035c38670c, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -777,6 +777,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: db3a3e62-665d-4195-8c22-bacbecef64dd
     m_ActionName: Slime/Submit[/Keyboard/c,/Keyboard/a]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8b46b82-0b98-492d-98e2-ba229fdb0444
+    m_ActionName: Slime/Cancel[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bdbd50cd-bc0b-4800-997e-4d9c229de8d5
+    m_ActionName: Slime/pause_game[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Slime
