@@ -231,7 +231,7 @@ MonoBehaviour:
   movementLimitText: {fileID: 825415615}
   levelBox: {fileID: 1270410308}
   levelText: {fileID: 2025514241}
-  textBoxOffset: 2
+  textBoxOffset: 150
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: a0232628af1634b47b6eeb46a9522f0a, type: 2}
   showTilesIndex: 0
@@ -1756,7 +1756,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: -1657149689
   m_SortingOrder: 0
   m_TargetDisplay: 0
