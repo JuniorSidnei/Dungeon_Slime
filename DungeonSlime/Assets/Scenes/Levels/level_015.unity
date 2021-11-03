@@ -446,7 +446,7 @@ MonoBehaviour:
   movementLimitText: {fileID: 35774997}
   levelBox: {fileID: 1768057030}
   levelText: {fileID: 1899753213}
-  textBoxOffset: 2.2
+  textBoxOffset: 140
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 587a96db22b681b408c131c019152f58, type: 2}
   showTilesIndex: 0

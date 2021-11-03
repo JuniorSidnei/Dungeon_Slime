@@ -209,8 +209,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -367,7 +367,7 @@ MonoBehaviour:
   movementLimitText: {fileID: 871173487}
   levelBox: {fileID: 1515612281}
   levelText: {fileID: 111845344}
-  textBoxOffset: 0.5
+  textBoxOffset: 160
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 2d491f1bb319d67498a59b867827e45e, type: 2}
   showTilesIndex: 0

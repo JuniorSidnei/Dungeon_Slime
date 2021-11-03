@@ -443,7 +443,7 @@ MonoBehaviour:
   movementLimitText: {fileID: 9788616}
   levelBox: {fileID: 103051940}
   levelText: {fileID: 1462753049}
-  textBoxOffset: 2
+  textBoxOffset: 130
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 02b7d34e9b03c7643b35bfcf88cbdc05, type: 2}
   showTilesIndex: 0
@@ -1173,8 +1173,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

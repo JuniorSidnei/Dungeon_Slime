@@ -926,7 +926,7 @@ MonoBehaviour:
   movementLimitText: {fileID: 1000380423}
   levelBox: {fileID: 2004341261}
   levelText: {fileID: 25598420}
-  textBoxOffset: 180
+  textBoxOffset: 160
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: a30a42a99eeb7cd48acdf00705c6f115, type: 2}
   showTilesIndex: 0
@@ -5672,7 +5672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -279.46423, y: -222.81256}
+  m_AnchoredPosition: {x: -279.46423, y: -171}
   m_SizeDelta: {x: 461.36, y: 162.17}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2004341263
