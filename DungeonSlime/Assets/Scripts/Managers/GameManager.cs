@@ -52,9 +52,23 @@ namespace DungeonSlime.Managers {
         }
 
         private void SaveAllData() {
+            var currentData = SaveManager.LoadData();
             var currentLevel = LevelManager.levelData.currentLevelData;
+            var normalUnlocked = currentData.normalLevelUnlocked;
+            var hardUnlocked = currentData.hardLevelUnlocked;
+            
+            switch (currentData.levelDifficulty) {
+                case 0:
+                    normalUnlocked = currentLevel;
+                    break;
+                case 1:
+                    hardUnlocked = currentLevel;
+                    break;
+            }
+
             var userData = new UserData {
-                lastLevelPlayed = currentLevel, normalLevelUnlocked = currentLevel, hardLevelUnlocked = currentLevel
+                lastLevelPlayed = currentLevel, normalLevelUnlocked = normalUnlocked, hardLevelUnlocked = hardUnlocked, levelDifficulty = currentData.levelDifficulty,
+                isFullScreen = currentData.isFullScreen, isMusicOn = currentData.isMusicOn, isSfxOn = currentData.isSfxOn
             };
 
             SaveManager.SaveData(userData);

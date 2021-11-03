@@ -16,7 +16,7 @@ namespace DungeonSlime.Managers {
         public GameObject padlock;
 
         private int m_levelIndex = 1;
-        private bool m_levelCanBePlayed;
+        private bool m_levelCanBePlayed = true;
         private AsyncOperation m_loadScene;
         private UserData m_userData;
 
@@ -55,7 +55,7 @@ namespace DungeonSlime.Managers {
         }
 
         public void BackMenu() {
-            SceneManager.LoadScene("LevelDifficultySelection");
+            SceneManager.LoadScene("LevelDifficultySelectionMenu");
         }
         
         private IEnumerator LoadScene(string sceneToLoad) {

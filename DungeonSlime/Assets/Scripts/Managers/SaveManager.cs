@@ -20,6 +20,7 @@ namespace DungeonSlime.Managers {
                 Directory.CreateDirectory(dir);
             }
 
+            
             var json = JsonUtility.ToJson(userData);
             File.WriteAllText(dir + m_fileName, json);
         }

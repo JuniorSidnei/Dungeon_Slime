@@ -31,12 +31,12 @@ namespace DungeonSlime.Managers {
 
         public void OnNormalPressed() {
            SaveDifficultySelection(LevelDifficulty.NORMAL);
-            SceneManager.LoadScene("LevelSelection");
+            SceneManager.LoadScene("LevelSelectionMenu");
         }
         
         public void OnHardPressed() {
             SaveDifficultySelection(LevelDifficulty.HARD);
-            SceneManager.LoadScene("LevelSelection");
+            SceneManager.LoadScene("LevelSelectionMenu");
         }
 
         public void BackMenu() {

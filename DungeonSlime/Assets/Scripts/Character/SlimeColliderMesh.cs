@@ -104,7 +104,7 @@ namespace DungeonSlime.Character {
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x - 0.1f, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
           
@@ -160,7 +160,7 @@ namespace DungeonSlime.Character {
           
 
         Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
-            new Vector2(spriteBounds.size.x, 0.02f));
+            new Vector2(spriteBounds.size.x - 0.1f, 0.02f));
         
         var spriteSize = spriteRenderer.bounds.center;
         

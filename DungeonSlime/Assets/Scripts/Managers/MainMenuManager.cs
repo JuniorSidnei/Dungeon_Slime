@@ -1,3 +1,4 @@
+using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,11 +16,11 @@ namespace DungeonSlime.Managers {
         public GameObject controlBtn;
         public GameObject optionsBtn;
         public GameObject quitBtn;
-
+        
         private void Start() {
             if (!firstSelected) return;
             
-            firstSelected.Select();    
+            firstSelected.Select();
         }
 
         public void OnPlaySelected() {
@@ -39,21 +40,18 @@ namespace DungeonSlime.Managers {
         }
         
         public void OnPlayPressed() {
-            SceneManager.LoadScene("LevelDifficultySelection");
+            SceneManager.LoadScene("LevelDifficultySelectionMenu");
         }
 
         public void OnControlPressed() {
             Debug.Log("apertei control");
-            //controlCanvas.gameObject.SetActive(true); 
         }
 
         public void OnOptionsPressed() {
-            Debug.Log("apertei options");
-            //optionsCanvas.gameObject.SetActive(true);  
+            SceneManager.LoadScene("OptionsMenu");
         }
 
         public void OnQuitPressed() {
-            Debug.Log("saiu do jogo");
             Application.Quit();
         }
         

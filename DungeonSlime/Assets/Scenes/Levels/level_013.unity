@@ -1561,7 +1561,7 @@ PrefabInstance:
     - target: {fileID: 7880161893219169291, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7086062701084481013, guid: d92375f0633ac344980297bd2dad9048, type: 3}
+      objectReference: {fileID: -3159012446235715585, guid: 26233cd5c56d8844799546061733f124, type: 3}
     - target: {fileID: 7880161893219169292, guid: 1bca1c02619d7f04fb050c157de1dd4e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2305,6 +2305,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c567c920-7555-458d-9526-8455b5260972
     m_ActionName: Slime/restart_game[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: db3a3e62-665d-4195-8c22-bacbecef64dd
+    m_ActionName: Slime/Submit[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8b46b82-0b98-492d-98e2-ba229fdb0444
+    m_ActionName: Slime/Cancel[/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Slime

@@ -8,8 +8,11 @@ namespace DungeonSlime.Utils {
     public class UserData {
 
         public int lastLevelPlayed;
-        public int normalLevelUnlocked;
-        public int hardLevelUnlocked;
+        public int normalLevelUnlocked = 1;
+        public int hardLevelUnlocked = 1;
         public int levelDifficulty;
+        public bool isFullScreen;
+        public bool isMusicOn;
+        public bool isSfxOn;
     }
 }
