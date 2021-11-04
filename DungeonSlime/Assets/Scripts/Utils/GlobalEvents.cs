@@ -65,10 +65,14 @@ namespace DungeonSlime.Utils {
 
         public readonly int ObjectId;
     }
-    
-    public class OnLevelSelectionBack { }
-    
-    public class OnLevelSelectionDone { }
+
+    public class OnSpawnSplatter {
+        public OnSpawnSplatter(Vector2Int currentDirection) {
+            CurrentDirection = currentDirection;
+        }
+
+        public Vector2Int CurrentDirection;
+    }
     
 //    public class OnUpdateSprite {
 //        public OnUpdateSprite(Sprite currentSprite, int spriteColliderIndex) {

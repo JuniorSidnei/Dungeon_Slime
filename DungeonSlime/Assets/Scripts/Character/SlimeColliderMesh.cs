@@ -10,7 +10,7 @@ namespace DungeonSlime.Character {
     public class SlimeColliderMesh : MonoBehaviour {
       public LayerMask objectLayer;
       public SpriteRenderer spriteRenderer;
-      public GameObject slimeSplash;
+      public GameObject slimeSplatter;
       private bool m_isColliding;
       private bool m_enableBox;
       private Collider2D m_boxCastResult;
@@ -26,9 +26,32 @@ namespace DungeonSlime.Character {
       }
 
       private void Awake() {
+          GameManager.Instance.GlobalDispatcher.Subscribe<OnSpawnSplatter>(OnSpawnSplatter);
           m_slimeObject =  gameObject.GetComponent<CharacterMovement>();
       }
 
+      private void OnSpawnSplatter(OnSpawnSplatter ev) {
+          var spriteBounds = spriteRenderer.bounds;
+          var splatterOrigin = spriteBounds.center;
+          var splatterRotation = 0;
+          var splatterSize = Vector3.one;
+          
+          if (ev.CurrentDirection == Vector2Int.left) {
+              splatterOrigin.x = transform.position.x - 0.1f;
+              splatterRotation = -180;
+              splatterSize.y = spriteBounds.size.y;
+          } else if (ev.CurrentDirection == Vector2Int.right) {
+              splatterOrigin.x = m_slimeObject.GetSplatterPosition().x + 0.1f;
+              splatterSize.y = spriteBounds.size.y;
+          } else if (ev.CurrentDirection == Vector2Int.up) {
+              splatterOrigin.y = spriteBounds.max.y;
+          } else if (ev.CurrentDirection == Vector2Int.down) {
+              splatterOrigin.y = spriteBounds.min.y;
+          }
+          
+          SplatterManager.Instance.CreateSplatter(splatterOrigin, splatterSize, splatterRotation);
+      }
+      
       public void ResetRocksId() {
             m_lastRocksId.Clear();
       }
@@ -84,22 +107,7 @@ namespace DungeonSlime.Character {
       }
 
       public void SpawnSplashOnWall(Vector2Int currentDirection) {
-          var spriteBounds = spriteRenderer.bounds;
-          var splashOrigin = spriteBounds.center;
-
-          if (currentDirection == Vector2Int.left) {
-              splashOrigin.x = spriteBounds.min.x;
-          } else if (currentDirection == Vector2Int.right) {
-              splashOrigin.x = spriteBounds.max.x;
-          } else if (currentDirection == Vector2Int.up) {
-              splashOrigin.y = spriteBounds.max.y;
-          } else if (currentDirection == Vector2Int.down) {
-              splashOrigin.y = spriteBounds.min.y;
-          }
-          
-          var slimeSplashBounds = slimeSplash.GetComponent<SpriteRenderer>().bounds;
-          slimeSplashBounds.size = spriteBounds.size;
-          Instantiate(slimeSplash, splashOrigin, quaternion.identity);
+         
       }
       
       private int CreateBoxCastWithinDirection(Vector2Int direction, Renderer sprite, Collider2D[] colliderBuffer) {

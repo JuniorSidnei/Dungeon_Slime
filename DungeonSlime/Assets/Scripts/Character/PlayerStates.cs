@@ -68,7 +68,7 @@ namespace DungeonSlime.Character {
                 GameManager.Instance.LoadCurrentScene();
             }
             
-            //slimeColliderMesh.SpawnSplashOnWall(characterMovement.CurrentDirection);
+            slimeColliderMesh.SpawnSplashOnWall(characterMovement.CurrentDirection);
         }
 
         private void OnRockUnableToMove(OnRockUnableToMove ev) {

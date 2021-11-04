@@ -21,6 +21,7 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentNewSize;
         private Vector2Int m_basePositionOnAxis;
         private Vector2Int m_currentDirection;
+        private Vector2Int m_splatterSpawnPosition;
         private bool m_isObjectDead;
         private bool m_alreadyFindPosition;
         private bool m_alreadyHasPosition;
@@ -105,7 +106,7 @@ namespace DungeonSlime.Character {
             ResolveCollision(m_finalPos, m_currentDirection);
             m_alreadyFindPosition = false;
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
-
+            
             m_movementSequence = DOTween.Sequence();
             
             if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
@@ -127,6 +128,7 @@ namespace DungeonSlime.Character {
                         m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection));
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
@@ -239,7 +241,8 @@ namespace DungeonSlime.Character {
         
         private Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
             if (m_alreadyHasPosition && m_charType == CharacterStates.CharacterType.Rock) return currentFinalPos;
-            
+
+            m_splatterSpawnPosition = currentFinalPos;
             var newX = currentFinalPos.x;
             var newY = currentFinalPos.y;
 
@@ -366,6 +369,10 @@ namespace DungeonSlime.Character {
             m_alreadyHasPosition = false;
         }
 
+        public Vector3 GetSplatterPosition() {
+            return m_levelManager.tilemap.CellToLocal(new Vector3Int(m_splatterSpawnPosition.x, m_splatterSpawnPosition.y, 0));
+        }
+        
         public void StopMovement() {
             m_movementSequence.Kill();
             m_moving = false;
