@@ -31,25 +31,24 @@ namespace DungeonSlime.Character {
       }
 
       private void OnSpawnSplatter(OnSpawnSplatter ev) {
-          var spriteBounds = spriteRenderer.bounds;
-          var splatterOrigin = spriteBounds.center;
-          var splatterRotation = 0;
-          var splatterSize = Vector3.one;
+//          var spriteBounds = spriteRenderer.bounds;
+//          var splatterOrigin = spriteBounds.center;
+//          var splatterRotation = 0;
+//          
+//          if (ev.CurrentDirection == Vector2Int.left) {
+//              splatterOrigin.x = transform.position.x - 0.1f;
+//              splatterRotation = -180;
+//          } else if (ev.CurrentDirection == Vector2Int.right) {
+//              splatterOrigin.x = m_slimeObject.GetSplatterPosition().x + 0.1f;
+//          } else if (ev.CurrentDirection == Vector2Int.up) {
+//              splatterOrigin.y = spriteBounds.max.y;
+//              splatterRotation = 90;
+//          } else if (ev.CurrentDirection == Vector2Int.down) {
+//              splatterOrigin.y = m_slimeObject.GetSplatterPosition().y;
+//              splatterRotation = 270;
+//          }
           
-          if (ev.CurrentDirection == Vector2Int.left) {
-              splatterOrigin.x = transform.position.x - 0.1f;
-              splatterRotation = -180;
-              splatterSize.y = spriteBounds.size.y;
-          } else if (ev.CurrentDirection == Vector2Int.right) {
-              splatterOrigin.x = m_slimeObject.GetSplatterPosition().x + 0.1f;
-              splatterSize.y = spriteBounds.size.y;
-          } else if (ev.CurrentDirection == Vector2Int.up) {
-              splatterOrigin.y = spriteBounds.max.y;
-          } else if (ev.CurrentDirection == Vector2Int.down) {
-              splatterOrigin.y = spriteBounds.min.y;
-          }
-          
-          SplatterManager.Instance.CreateSplatter(splatterOrigin, splatterSize, splatterRotation);
+          SplatterManager.Instance.CreateSplatter(spriteRenderer.bounds, ev.CurrentDirection, ev.CurrentForm);
       }
       
       public void ResetRocksId() {

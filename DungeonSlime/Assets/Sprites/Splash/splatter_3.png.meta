@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b3cb69d5f239ae54d9eabcd37702ed86
+guid: 03777da1b54f81547bbdd3f5f1b3d0d6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1988202613244286109
-    second: splash_00_0
+      213: -5157017796360537655
+    second: splatter_3_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -130,22 +130,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: splash_00_0
+      name: splatter_3_0
       rect:
         serializedVersion: 2
-        x: 42
-        y: 14
-        width: 24
-        height: 76
+        x: 145
+        y: 61
+        width: 52
+        height: 173
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d94dde72eb3879b10800000000000000
-      internalID: 1988202613244286109
+      spriteID: 9c9ff8323a79e68b0800000000000000
+      internalID: -5157017796360537655
       vertices: []
       indices: 
       edges: []

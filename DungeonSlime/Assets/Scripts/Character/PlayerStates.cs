@@ -9,7 +9,6 @@ using Debug = System.Diagnostics.Debug;
 namespace DungeonSlime.Character {
 
     public class PlayerStates : CharacterStates {
-        [SerializeField] private List<Sprite> m_slimeSprites;
         private int m_rockObjectId;
         public SlimeColliderMesh slimeColliderMesh;
         private int m_numberOfMovements;

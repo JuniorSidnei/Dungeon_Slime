@@ -128,7 +128,7 @@ namespace DungeonSlime.Character {
                         m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection));
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm()));
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
@@ -151,6 +151,7 @@ namespace DungeonSlime.Character {
                         m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm()));
                     });
                 }));
             }

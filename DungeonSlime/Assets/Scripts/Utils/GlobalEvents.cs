@@ -67,11 +67,13 @@ namespace DungeonSlime.Utils {
     }
 
     public class OnSpawnSplatter {
-        public OnSpawnSplatter(Vector2Int currentDirection) {
+        public OnSpawnSplatter(Vector2Int currentDirection, CharacterStates.CharacterForms currentForm) {
             CurrentDirection = currentDirection;
+            CurrentForm = currentForm;
         }
 
         public Vector2Int CurrentDirection;
+        public CharacterStates.CharacterForms CurrentForm;
     }
     
 //    public class OnUpdateSprite {
