@@ -396,7 +396,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -456139867
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Time: 0.5
   m_Parameters:
@@ -691,7 +691,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &669793588
 GameObject:
@@ -799,7 +799,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -951,6 +951,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1771702290}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &924764403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 924764405}
+  - component: {fileID: 924764404}
+  m_Layer: 0
+  m_Name: SplatterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &924764404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924764403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587bc0420508f8f4b850a5956f5801bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splatter_full_v: {fileID: 2687897801627323442, guid: f6044abe8f4f3cb4da91125452db253d, type: 3}
+  splatter_full_h: {fileID: 5893337533533442401, guid: 740d97b694a826b469d522f5d40f87f3, type: 3}
+  splatter_semi_v: {fileID: 2715060014261343997, guid: 3b0303c82c55c1e4fbf874b2d3e37135, type: 3}
+  splatter_semi_h: {fileID: 6294752816981565853, guid: 412ae1baa81e1f14b94fea592f38def4, type: 3}
+  splatter_normal: {fileID: 6291684191369406772, guid: 67d4227a338c8364ebfe065b463d3844, type: 3}
+--- !u!4 &924764405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924764403}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.741132, y: 4.7363634, z: -132.45634}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &964403822
 GameObject:
@@ -1241,7 +1289,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   spriteRenderer: {fileID: 1223761210}
-  slimeSplash: {fileID: 0}
+  slimeSplatter: {fileID: 0}
 --- !u!114 &1551701145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,12 +1384,6 @@ MonoBehaviour:
   levelManager: {fileID: 419522944}
   m_id: 1
   charType: 0
-  m_slimeSprites:
-  - {fileID: 8575522406564139427, guid: 0890103d7fc0a7746b2add8ab4580fcb, type: 3}
-  - {fileID: -3159012446235715585, guid: 26233cd5c56d8844799546061733f124, type: 3}
-  - {fileID: -6599112088005192397, guid: 841af6e5a13d59b41ac124a07b533d1c, type: 3}
-  - {fileID: 7086062701084481013, guid: d92375f0633ac344980297bd2dad9048, type: 3}
-  - {fileID: 8631199698069197136, guid: 76069d0ce6836a04aa7197eb33de777c, type: 3}
   slimeColliderMesh: {fileID: 1551701144}
 --- !u!114 &1551701148
 MonoBehaviour:
@@ -1374,7 +1416,7 @@ Transform:
   - {fileID: 1223761212}
   - {fileID: 508562454}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687258581
 GameObject:
@@ -1575,7 +1617,7 @@ Transform:
   m_Children:
   - {fileID: 912062437}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966843298
 GameObject:
@@ -1649,7 +1691,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1975153367
 GameObject:
@@ -1685,7 +1727,7 @@ RectTransform:
   - {fileID: 964403823}
   - {fileID: 1436966515}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1980,5 +2022,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 45, y: 130, z: 90}

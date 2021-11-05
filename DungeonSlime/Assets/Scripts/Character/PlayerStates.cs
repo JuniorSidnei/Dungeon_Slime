@@ -80,7 +80,7 @@ namespace DungeonSlime.Character {
             characterMovement.StopMovement();
             characterMovement.CurrentFinalPosition = ev.CollisionPosition;
             characterMovement.OnMove(characterMovement.CurrentDirection, true, charType);
-            
+            characterMovement.IsBlockCollision = false;
             if (!ev.RockIsAbleToMove) return;
             
             var currentDirection = characterMovement.CurrentDirection;

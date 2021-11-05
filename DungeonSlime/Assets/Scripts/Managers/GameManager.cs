@@ -45,6 +45,9 @@ namespace DungeonSlime.Managers {
         private void OnMove(InputAction.CallbackContext ctx) {
             var ctxValue = ctx.ReadValue<Vector2>();
             var inputValue = Vector2Int.RoundToInt(ctxValue);
+            
+            if (inputValue == Vector2Int.zero) return;
+            
             GlobalDispatcher.Emit(new OnMoveCharacter(inputValue)); 
         }
         

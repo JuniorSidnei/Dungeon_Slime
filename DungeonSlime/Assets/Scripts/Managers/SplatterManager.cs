@@ -17,7 +17,11 @@ namespace DungeonSlime.Managers {
         
         private int m_sortingIndex = 0;
 
-        public void CreateSplatter(Bounds spriteBounds, Vector2 currentDirection, CharacterStates.CharacterForms currentForm) {
+        public void CreateSplatter(Bounds spriteBounds, Vector2 currentDirection,
+            CharacterStates.CharacterForms currentForm, bool isBlockCollision) {
+            //TODO not invoke event when onmove is rock type
+            if (isBlockCollision) return;
+            
             var (splatterPos, splatterRotation) = CalculateSplatterPositionAndRotation(currentDirection, spriteBounds);
             var splatter = GetSplatter(currentForm, currentDirection);
 

@@ -25,6 +25,7 @@ namespace DungeonSlime.Character {
         private bool m_isObjectDead;
         private bool m_alreadyFindPosition;
         private bool m_alreadyHasPosition;
+        private bool m_isBlockCollision;
         private Sequence m_movementSequence;
         private int m_id;
         private int m_resetRockId = 0;
@@ -52,6 +53,11 @@ namespace DungeonSlime.Character {
         }
 
         public bool IsMoving => m_moving;
+
+        public bool IsBlockCollision {
+            get => m_isBlockCollision;
+            set => m_isBlockCollision = value;
+        }
 
         public Sequence MovementSequence {
             get => m_movementSequence;
@@ -128,7 +134,10 @@ namespace DungeonSlime.Character {
                         m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm()));
+
+                        if (m_charType != CharacterStates.CharacterType.Slime) return;
+                        
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
@@ -151,10 +160,14 @@ namespace DungeonSlime.Character {
                         m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm()));
+                        
+                        if (m_charType != CharacterStates.CharacterType.Slime) return;
+                        
+                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
                     });
                 }));
             }
+            
         }
 
         private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
@@ -369,13 +382,10 @@ namespace DungeonSlime.Character {
             m_currentNewSize = size;
             m_alreadyHasPosition = false;
         }
-
-        public Vector3 GetSplatterPosition() {
-            return m_levelManager.tilemap.CellToLocal(new Vector3Int(m_splatterSpawnPosition.x, m_splatterSpawnPosition.y, 0));
-        }
         
         public void StopMovement() {
             m_movementSequence.Kill();
+            m_isBlockCollision = true;
             m_moving = false;
         }
     }

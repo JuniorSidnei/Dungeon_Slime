@@ -48,7 +48,7 @@ namespace DungeonSlime.Character {
 //              splatterRotation = 270;
 //          }
           
-          SplatterManager.Instance.CreateSplatter(spriteRenderer.bounds, ev.CurrentDirection, ev.CurrentForm);
+          SplatterManager.Instance.CreateSplatter(spriteRenderer.bounds, ev.CurrentDirection, ev.CurrentForm, ev.IsBlockCollision);
       }
       
       public void ResetRocksId() {

@@ -67,13 +67,16 @@ namespace DungeonSlime.Utils {
     }
 
     public class OnSpawnSplatter {
-        public OnSpawnSplatter(Vector2Int currentDirection, CharacterStates.CharacterForms currentForm) {
+        public OnSpawnSplatter(Vector2Int currentDirection, CharacterStates.CharacterForms currentForm,
+            bool isBlockCollision) {
             CurrentDirection = currentDirection;
             CurrentForm = currentForm;
+            IsBlockCollision = isBlockCollision;
         }
 
         public Vector2Int CurrentDirection;
-        public CharacterStates.CharacterForms CurrentForm;
+        public readonly CharacterStates.CharacterForms CurrentForm;
+        public readonly bool IsBlockCollision;
     }
     
 //    public class OnUpdateSprite {
