@@ -93,6 +93,7 @@ namespace DungeonSlime.Character {
             m_currentDirection = movementDirection;
             m_alreadyHasPosition = alreadyHasPosition;
             
+            
             if (!m_alreadyHasPosition) {
                 if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
                     m_moving = false;
@@ -138,6 +139,7 @@ namespace DungeonSlime.Character {
                         if (m_charType != CharacterStates.CharacterType.Slime) return;
                         
                         GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
+                        m_isBlockCollision = false;
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
@@ -164,6 +166,7 @@ namespace DungeonSlime.Character {
                         if (m_charType != CharacterStates.CharacterType.Slime) return;
                         
                         GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
+                        m_isBlockCollision = false;
                     });
                 }));
             }

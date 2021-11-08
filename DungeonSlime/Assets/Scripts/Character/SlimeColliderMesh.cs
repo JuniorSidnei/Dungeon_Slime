@@ -104,10 +104,6 @@ namespace DungeonSlime.Character {
           var sizeColliderBuffer = CreateBoxCastWithinDirection(direction, spriteRenderer, collidersBuffer);
           return sizeColliderBuffer == 0;
       }
-
-      public void SpawnSplashOnWall(Vector2Int currentDirection) {
-         
-      }
       
       private int CreateBoxCastWithinDirection(Vector2Int direction, Renderer sprite, Collider2D[] colliderBuffer) {
           if (direction == Vector2Int.zero) return 0;

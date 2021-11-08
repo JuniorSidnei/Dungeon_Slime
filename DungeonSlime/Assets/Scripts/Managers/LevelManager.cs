@@ -35,6 +35,8 @@ namespace DungeonSlime.Managers {
         
         public bool IsObjectDead { get; set; }
 
+        public bool IsLevelClear => m_isLevelClear;
+
         public UserData UserData => m_userData;
 
         private readonly Dictionary<Block.BlockType, TileBase> m_tiles = new Dictionary<Block.BlockType, TileBase>();

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 229392572}
   - component: {fileID: 229392571}
   - component: {fileID: 229392573}
+  - component: {fileID: 229392574}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -156,6 +157,7 @@ MonoBehaviour:
   transitionController: {fileID: 229392573}
   LevelManager: {fileID: 419522944}
   pausePanel: {fileID: 1685432515}
+  buttonClickSFX: {fileID: 8300000, guid: 3b968d8ffdf092049b78e0e5a689d8d3, type: 3}
 --- !u!4 &229392572
 Transform:
   m_ObjectHideFlags: 0
@@ -183,6 +185,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageTransition: {fileID: 1436966516}
+--- !u!114 &229392574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229392570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0b44afcb25f0d4fb02ec87947a4dcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &419522942
 GameObject:
   m_ObjectHideFlags: 0

@@ -418,6 +418,7 @@ MonoBehaviour:
   transitionController: {fileID: 229392573}
   LevelManager: {fileID: 419522944}
   pausePanel: {fileID: 0}
+  buttonClickSFX: {fileID: 0}
 --- !u!4 &229392572
 Transform:
   m_ObjectHideFlags: 0

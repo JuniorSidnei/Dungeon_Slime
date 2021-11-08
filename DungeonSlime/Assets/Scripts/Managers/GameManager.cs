@@ -22,6 +22,8 @@ namespace DungeonSlime.Managers {
         private AsyncOperation m_loadScene;
 
         private InputSource m_intputManager;
+        
+        public AudioClip buttonClickSFX;
 
         private void Awake() {
             m_intputManager = new InputSource();
@@ -66,6 +68,7 @@ namespace DungeonSlime.Managers {
         }
 
         public void PauseGame() {
+            AudioManager.Instance.PlaySFX(buttonClickSFX, 1);
             transitionController.DoTransitionIn(0.2f, () => {
                 pausePanel.SetActive(true);
                 Time.timeScale = 0;
