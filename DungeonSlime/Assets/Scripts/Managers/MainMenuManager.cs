@@ -11,7 +11,11 @@ namespace DungeonSlime.Managers {
 
         public Button firstSelected;
 
+        [Header("slime selector settings")]
         public GameObject slimeSelector;
+        public Animator slimeSelectorAnim;
+        
+        [Header("buttons settings")]
         public GameObject playBtn;
         public GameObject controlBtn;
         public GameObject optionsBtn;
@@ -24,18 +28,22 @@ namespace DungeonSlime.Managers {
         }
 
         public void OnPlaySelected() {
+            AnimateSlimeSelector();
             slimeSelector.transform.position = new Vector3(slimeSelector.transform.position.x, playBtn.transform.position.y, 0);
         }
 
         public void OnControlSelected() {
+            AnimateSlimeSelector();
             slimeSelector.transform.position = new Vector3(slimeSelector.transform.position.x, controlBtn.transform.position.y, 0);
         }
 
-        public void OnOptionsSelected() { 
+        public void OnOptionsSelected() {
+            AnimateSlimeSelector();
             slimeSelector.transform.position = new Vector3(slimeSelector.transform.position.x, optionsBtn.transform.position.y, 0);
         }
 
         public void OnQuitSelected() {
+            AnimateSlimeSelector();
             slimeSelector.transform.position = new Vector3(slimeSelector.transform.position.x, quitBtn.transform.position.y, 0);
         }
         
@@ -54,7 +62,9 @@ namespace DungeonSlime.Managers {
         public void OnQuitPressed() {
             Application.Quit();
         }
-        
-        
+
+        private void AnimateSlimeSelector()  {
+            slimeSelectorAnim.SetTrigger("move");
+        }
      }
 }
