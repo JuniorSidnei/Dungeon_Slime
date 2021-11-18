@@ -15,6 +15,10 @@ namespace DungeonSlime.Managers {
         public TextMeshProUGUI levelIndexText;
         public GameObject padlock;
 
+        [Header("arrows")]
+        public GameObject rightArrow;
+        public GameObject leftArrow;
+        
         private int m_levelIndex = 1;
         private bool m_levelCanBePlayed = true;
         private AsyncOperation m_loadScene;
@@ -30,6 +34,7 @@ namespace DungeonSlime.Managers {
             var ctxValue = ctx.ReadValue<Vector2>();
             var inputValue = Vector2Int.RoundToInt(ctxValue);
             OnUpdateLevelIndex(inputValue.x);
+            OnAnimateArrow(inputValue.x);
         }
 
         private void OnUpdateLevelIndex(int value) {
@@ -47,11 +52,24 @@ namespace DungeonSlime.Managers {
             padlock.SetActive(m_levelIndex > m_userData.normalLevelUnlocked);
             m_levelCanBePlayed = m_levelIndex <= m_userData.normalLevelUnlocked;
         }
+
+        private void OnAnimateArrow(int value) {
+            switch (value) {
+                case 1:
+                    rightArrow.transform.localScale = new Vector3(-0.8f, 0.8f, 0.8f);
+                    rightArrow.transform.DOScale(new Vector3(-1, 1, 1), 0.1f).SetEase(Ease.InQuad);
+                    break;
+                case -1:
+                    leftArrow.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+                    leftArrow.transform.DOScale(new Vector3(1, 1, 1), 0.1f).SetEase(Ease.InQuad);
+                    break;
+            }
+        }
         
         public void OnSelectionDone() {
             if (!m_levelCanBePlayed) return;
             
-            StartCoroutine(LoadScene(string.Format("Level_0{0}", m_levelIndex)));
+            StartCoroutine(LoadScene($"Level_0{m_levelIndex}"));
         }
 
         public void BackMenu() {
