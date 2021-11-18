@@ -40,7 +40,9 @@ namespace DungeonSlime.Managers {
             if (!firstSelected) return;
             
             firstSelected.Select();
-            AudioController.Instance.Play(menuTheme, AudioController.SoundType.Music, 0.25f, true);
+            if (!AudioController.Instance.IsMusicMuted) {
+                AudioController.Instance.Play(menuTheme, AudioController.SoundType.Music, 0.25f, true);
+            }
         }
 
         public void OnPlaySelected() {
