@@ -11,8 +11,12 @@ namespace DungeonSlime.Managers {
 
     public class MainMenuManager : MonoBehaviour {
 
+        [Header("buttons selections")]
         public Button firstSelected;
+        public Button controlsSelected;
 
+        public GameObject textAdvance;
+        
         [Header("slime selector settings")]
         public GameObject slimeSelector;
         public Animator slimeSelectorAnim;
@@ -23,6 +27,10 @@ namespace DungeonSlime.Managers {
         public GameObject optionsBtn;
         public GameObject quitBtn;
 
+        [Header("menu panels")]
+        public GameObject menuPanel;
+        public GameObject controlsPanel;
+        
         [Header("sounds")]
         public AudioClip menuTheme;
         public AudioClip selection;
@@ -77,8 +85,8 @@ namespace DungeonSlime.Managers {
         }
         
         public void OnControlPressed() {
-            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
-            Debug.Log("apertei control");
+            controlsSelected.Select();
+            EnableControlsPanel(true);
         }
         
         public void OnOptionsPressed() {
@@ -90,10 +98,24 @@ namespace DungeonSlime.Managers {
             AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
             Application.Quit();
         }
+
+        public void OnQuitControls() {
+            firstSelected.Select();
+            OnPlaySelected();
+            EnableControlsPanel(false);
+        }
         
         private void AnimateSlimeSelector() {
             AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);
             slimeSelectorAnim.SetTrigger("move");
+        }
+
+        private void EnableControlsPanel(bool enable)  {
+            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
+            controlsPanel.SetActive(enable);
+            menuPanel.SetActive(!enable);
+            slimeSelector.SetActive(!enable);
+            textAdvance.SetActive(!enable);
         }
      }
 }
