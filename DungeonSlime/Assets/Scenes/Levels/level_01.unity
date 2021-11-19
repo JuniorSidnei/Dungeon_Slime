@@ -486,7 +486,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 4
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 2
@@ -1076,7 +1076,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 4
@@ -1997,18 +1997,18 @@ Tilemap:
   - m_RefCount: 49
     m_Data: {fileID: 11400000, guid: e228077f756ba544fa81f196dc04e33b, type: 2}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 2745078559220435810, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -6555270051560433514, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -8739498810399378935, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
   - m_RefCount: 49
     m_Data: {fileID: -9017254291058434099, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
   - m_RefCount: 124
     m_Data: {fileID: 9104665122924722378, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -6555270051560433514, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 177
     m_Data:
@@ -2097,7 +2097,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1975153368}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2204,6 +2204,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageTransition: {fileID: 1436966516}
+  offsetIn: 1000
+  offsetOut: 5000
+  transitionTimeIn: 1.5
+  transitionTimeOut: 2
+  resetPosition: {x: -1976, y: 72}
 --- !u!114 &229392574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2265,6 +2270,7 @@ MonoBehaviour:
   movementLimitText: {fileID: 825415615}
   levelBox: {fileID: 1270410308}
   levelText: {fileID: 2025514241}
+  transitionTime: 2.5
   textBoxOffset: 150
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: a0232628af1634b47b6eeb46a9522f0a, type: 2}
@@ -3281,12 +3287,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1975153368}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -741, y: 72}
+  m_SizeDelta: {x: 4450.1704, y: 986.7604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1436966516
 MonoBehaviour:
@@ -3301,16 +3307,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -8364747753272090062, guid: 1c8df1e79502b514b8b5d720de54889c, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -69044,7 +69050,7 @@ RectTransform:
   - {fileID: 695621551}
   - {fileID: 2146623414}
   m_Father: {fileID: 1975153368}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -70270,10 +70276,10 @@ RectTransform:
   m_Children:
   - {fileID: 1537059453}
   - {fileID: 1270410309}
-  - {fileID: 1436966515}
   - {fileID: 1685432516}
   - {fileID: 2014171426}
   - {fileID: 76971211}
+  - {fileID: 1436966515}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -70373,7 +70379,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1975153368}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

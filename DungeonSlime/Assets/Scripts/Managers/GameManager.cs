@@ -54,7 +54,7 @@ namespace DungeonSlime.Managers {
         }
         
         public void LoadCurrentScene() {
-            transitionController.DoTransitionIn(0.5f, () => {
+            transitionController.DoTransitionIn(() => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.currentLevelData)));
             });
         }
@@ -62,14 +62,14 @@ namespace DungeonSlime.Managers {
         public void LoadNextScene() {
             SaveAllData();
             
-            transitionController.DoTransitionIn(0.5f, () => {
+            transitionController.DoTransitionIn(() => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.nextLevelData)));
             });
         }
 
         public void PauseGame() {
             AudioManager.Instance.PlaySFX(buttonClickSFX, 1);
-            transitionController.DoTransitionIn(0.2f, () => {
+            transitionController.DoTransitionIn(() => {
                 pausePanel.SetActive(true);
                 Time.timeScale = 0;
             });
@@ -77,7 +77,7 @@ namespace DungeonSlime.Managers {
 
         public void ResumeGame() {
             Time.timeScale = 1;
-            transitionController.DoTransitionOut(0.2f, () => {
+            transitionController.DoTransitionOut(() => {
                 pausePanel.SetActive(false);
             });
         }
@@ -89,7 +89,7 @@ namespace DungeonSlime.Managers {
         
         private IEnumerator WaitToFadeOut(float time) {
             yield return new WaitForSeconds(time);
-            transitionController.DoTransitionOut(1f);
+            transitionController.DoTransitionOut();
         }
 
         private IEnumerator LoadScene(string sceneToLoad) {

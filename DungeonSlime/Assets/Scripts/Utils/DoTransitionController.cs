@@ -9,13 +9,23 @@ namespace DungeonSlime.Utils {
     public class DoTransitionController : MonoBehaviour {
 
         public Image imageTransition;
-
-        public void DoTransitionIn(float transitionTime, Action onFinishTransition = null) {
-            imageTransition.DOFade(1, transitionTime).OnComplete(() => onFinishTransition?.Invoke());
+        public float offsetIn;
+        public float offsetOut;
+        public float transitionTimeIn;
+        public float transitionTimeOut;
+        public Vector2 resetPosition;
+  
+        public void DoTransitionIn(Action onFinishTransition = null)  {
+            imageTransition.gameObject.SetActive(true);
+            imageTransition.transform.DOMoveX(offsetIn, transitionTimeIn).OnComplete(() => onFinishTransition?.Invoke());
         }
 
-        public void DoTransitionOut(float transitionTime, Action onFinishTransition = null) {
-            imageTransition.DOFade(0, transitionTime).OnComplete(() => onFinishTransition?.Invoke());
+        public void DoTransitionOut(Action onFinishTransition = null) {
+            imageTransition.transform.DOMoveX(offsetOut, transitionTimeOut).OnComplete(() => {
+                onFinishTransition?.Invoke();
+                imageTransition.rectTransform.anchoredPosition = resetPosition;
+                imageTransition.gameObject.SetActive(false);
+            });
         }
     }
 }
