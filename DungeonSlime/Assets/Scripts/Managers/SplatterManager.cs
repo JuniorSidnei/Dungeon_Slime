@@ -15,7 +15,7 @@ namespace DungeonSlime.Managers {
         public GameObject splatter_semi_h;
         public GameObject splatter_normal;
         
-        private int m_sortingIndex = 0;
+        private int m_sortingIndex = 3;
 
         public void CreateSplatter(Bounds spriteBounds, Vector2 currentDirection,
             CharacterStates.CharacterForms currentForm, bool isBlockCollision) {

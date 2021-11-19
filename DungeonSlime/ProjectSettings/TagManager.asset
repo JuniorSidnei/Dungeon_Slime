@@ -47,6 +47,12 @@ TagManager:
   - name: Camera
     uniqueID: 2637817607
     locked: 0
+  - name: floor
+    uniqueID: 3133516743
+    locked: 0
+  - name: collumns
+    uniqueID: 2819208443
+    locked: 0
   - name: Player
     uniqueID: 3838827429
     locked: 0
