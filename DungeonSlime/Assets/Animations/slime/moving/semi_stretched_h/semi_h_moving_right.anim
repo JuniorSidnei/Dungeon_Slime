@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: semi_stretched_h
+  m_Name: semi_h_moving_right
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 3597097332350038612, guid: 7e1c89d84d801174989f46050535322e, type: 3}
-    - time: 0.5
-      value: {fileID: -714304334005251363, guid: 78671997504118c40825a65e4f277554, type: 3}
-    - time: 1
-      value: {fileID: -7260863408354470522, guid: 44ea7a1df64520c4eac2ca77bb6057ff, type: 3}
+      value: {fileID: 7865060944801763397, guid: 7d02b0977af144341b29d650ceac64fa, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +40,13 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 3597097332350038612, guid: 7e1c89d84d801174989f46050535322e, type: 3}
-    - {fileID: -714304334005251363, guid: 78671997504118c40825a65e4f277554, type: 3}
-    - {fileID: -7260863408354470522, guid: 44ea7a1df64520c4eac2ca77bb6057ff, type: 3}
+    - {fileID: 7865060944801763397, guid: 7d02b0977af144341b29d650ceac64fa, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.3333334
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -71,11 +65,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 1.3333334
-    functionName: CreateOverlapBoxWithSprite
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
