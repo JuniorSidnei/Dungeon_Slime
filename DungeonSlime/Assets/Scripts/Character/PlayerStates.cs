@@ -47,6 +47,9 @@ namespace DungeonSlime.Character {
             slimeColliderMesh.IsPlayerMoving = true;
             slimeColliderMesh.ResetRocksId();
             characterMovement.OnMove(ev.Direction, false, charType);
+            animator.SetBool("moving", characterMovement.IsMoving);
+            animator.SetInteger("moveX", characterMovement.CurrentDirection.x);
+            animator.SetInteger("moveY", characterMovement.CurrentDirection.y);
 
             if (levelManager.UserData.levelDifficulty != 1) return;
             
@@ -61,6 +64,7 @@ namespace DungeonSlime.Character {
             slimeColliderMesh.IsPlayerColliding = false;
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
+            animator.SetBool("moving", characterMovement.IsMoving);
             animator.SetInteger("form", i);
             
             if (m_numberOfMovements <= 0 && !levelManager.IsLevelClear) {
