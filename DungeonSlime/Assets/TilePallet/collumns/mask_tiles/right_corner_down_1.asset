@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: right_corner_down
+  m_Name: right_corner_down_1
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -6555270051560433514, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
+  m_DefaultSprite: {fileID: -3835730347873453664, guid: 4c662e2ca68525c4780d2ca84c8f77d5, type: 3}
   m_DefaultGameObject: {fileID: 285093952021449540, guid: f9df84563186d954992eea36342fc784, type: 3}
   m_DefaultColliderType: 0
   m_TilingRules: []

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
@@ -21,7 +22,6 @@ namespace DungeonSlime.Character {
         private Vector2Int m_currentNewSize;
         private Vector2Int m_basePositionOnAxis;
         private Vector2Int m_currentDirection;
-        private Vector2Int m_splatterSpawnPosition;
         private bool m_isObjectDead;
         private bool m_alreadyFindPosition;
         private bool m_alreadyHasPosition;
@@ -259,8 +259,7 @@ namespace DungeonSlime.Character {
         
         private Vector2Int GetNewPositionOnAxis(Vector2Int currentFinalPos, Vector2 nextDirection, Vector2Int nextPlayerSize) {
             if (m_alreadyHasPosition && m_charType == CharacterStates.CharacterType.Rock) return currentFinalPos;
-
-            m_splatterSpawnPosition = currentFinalPos;
+            
             var newX = currentFinalPos.x;
             var newY = currentFinalPos.y;
 
@@ -379,7 +378,7 @@ namespace DungeonSlime.Character {
             m_alreadyFindPosition = true;
             return true;
         }
-
+        
         private void SetPlayerPositionAndSize(Vector2Int pos, Vector2Int size) {
             m_finalPos = pos;
             m_currentPos = m_finalPos;
