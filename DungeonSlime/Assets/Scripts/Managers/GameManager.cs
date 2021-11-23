@@ -77,9 +77,8 @@ namespace DungeonSlime.Managers {
 
         public void ResumeGame() {
             Time.timeScale = 1;
-            transitionController.DoTransitionOut(() => {
-                pausePanel.SetActive(false);
-            });
+            pausePanel.SetActive(false);
+            transitionController.DoTransitionOut();
         }
 
         public void BackToMenu() {
