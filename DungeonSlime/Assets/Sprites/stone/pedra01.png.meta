@@ -133,11 +133,11 @@ TextureImporter:
       name: pedra01_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 32
-        width: 76
-        height: 74
-      alignment: 0
+        x: 37
+        y: 30
+        width: 82
+        height: 82
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
