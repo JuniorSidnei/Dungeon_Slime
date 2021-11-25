@@ -41,6 +41,21 @@ TextureImporter:
   - first:
       213: 3082126941593687203
     second: tiles_collumns_0
+  - first:
+      213: -7627194225444933981
+    second: tiles_collumns_1
+  - first:
+      213: 6686968531144338664
+    second: tiles_collumns_2
+  - first:
+      213: -1163658621741789742
+    second: tiles_collumns_3
+  - first:
+      213: 7456181489670334519
+    second: tiles_collumns_4
+  - first:
+      213: -5254362438160431952
+    second: tiles_collumns_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -434,6 +449,90 @@ TextureImporter:
       bones: []
       spriteID: 3a45a52af1ae5ca20800000000000000
       internalID: 3082126941593687203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_collumns_1
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 21
+        width: 59
+        height: 32
+      alignment: 9
+      pivot: {x: 0.49261564, y: 0.61817086}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3aea1773343c62690800000000000000
+      internalID: -7627194225444933981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_collumns_2
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 22
+        width: 70
+        height: 34
+      alignment: 9
+      pivot: {x: 0.49102414, y: 0.39839408}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ece2133372eccc50800000000000000
+      internalID: 6686968531144338664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_collumns_3
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 8
+        width: 33
+        height: 67
+      alignment: 9
+      pivot: {x: 0.33858466, y: 0.50811934}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dd824b16aad9dfe0800000000000000
+      internalID: -1163658621741789742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles_collumns_4
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 8
+        width: 35
+        height: 67
+      alignment: 9
+      pivot: {x: 0.7072318, y: 0.49458724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 738a4a07f8da97760800000000000000
+      internalID: 7456181489670334519
       vertices: []
       indices: 
       edges: []
