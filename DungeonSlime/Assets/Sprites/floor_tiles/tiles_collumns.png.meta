@@ -7,16 +7,16 @@ TextureImporter:
     second: left_corner_down
   - first:
       213: -3972253948058811512
-    second: junction_up
+    second: junction_1
   - first:
       213: -2698113214753120512
-    second: junction_down
+    second: junction_2
   - first:
       213: -1814788038712349420
-    second: junction_right
+    second: junction_3
   - first:
       213: 6603481405105606563
-    second: junction_left
+    second: junction_4
   - first:
       213: -6555270051560433514
     second: left_corner_up
@@ -187,15 +187,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: junction_up
+      name: junction_1
       rect:
         serializedVersion: 2
         x: 31
         y: 235
         width: 130
         height: 130
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.40565726, y: 0.3878087}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -208,15 +208,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: junction_down
+      name: junction_2
       rect:
         serializedVersion: 2
         x: 175
         y: 235
         width: 130
         height: 130
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.4031074, y: 0.60964143}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -229,15 +229,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: junction_right
+      name: junction_3
       rect:
         serializedVersion: 2
         x: 31
         y: 91
         width: 130
         height: 130
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.4286599, y: 0.59457725}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -250,15 +250,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: junction_left
+      name: junction_4
       rect:
         serializedVersion: 2
         x: 175
         y: 91
         width: 130
         height: 130
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.6070915, y: 0.591793}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
