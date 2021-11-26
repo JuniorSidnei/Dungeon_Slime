@@ -11,6 +11,7 @@ namespace DungeonSlime.Enviroment {
 
     public class SpikeColliderMesh : ColliderMesh {
         public BoxCollider2D boxCollider;
+        public Animator animator;
         
         private void FixedUpdate() {
             if (!EnableCollision) return;
@@ -28,8 +29,8 @@ namespace DungeonSlime.Enviroment {
         }
 
         public void SetCollisionEnabled(bool enable) {
-            //TODO fazer animação descer spikes
-            SpriteRend.DOFade(0.2f, 0.5f).OnComplete(() => {
+            animator.SetTrigger("deactive");
+            SpriteRend.DOFade(1, 0.5f).OnComplete(() => {
                 //tocar som
                 EnableCollision = enable;
                 boxCollider.enabled = enable;
