@@ -76,6 +76,7 @@ namespace DungeonSlime.Enviroment {
         public void MoveToDestination(Vector2Int slimeFinalPosition, Vector2Int slimeDirection, Vector2Int slimeFinalSize, bool rockShouldDie) {
             if (rockShouldDie) {
                 characterMovement.MovementSequence.Kill();
+                animator.SetTrigger("dead");
                 Invoke(nameof(OnFinishDeadAnimation), 1.3f);
                 return;
             }
@@ -121,6 +122,7 @@ namespace DungeonSlime.Enviroment {
             characterMovement.OnMove(characterMovement.CurrentDirection, true, CharacterType.Slime);
         }
 
+        
         public void OnFinishDeadAnimation() {
             Destroy(gameObject);
         }

@@ -124,7 +124,8 @@ namespace DungeonSlime.Character {
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
                             m_movementSequence.Kill();
-                            Destroy(gameObject);
+                            m_characterStates.animator.SetTrigger("dead");
+                            Invoke(nameof(OnFinishDeadAnimation), 1.3f);
                             m_levelManager.IsObjectDead = false;
                         }
                         else {
@@ -152,7 +153,8 @@ namespace DungeonSlime.Character {
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
                             m_movementSequence.Kill();
-                            Destroy(gameObject);
+                            m_characterStates.animator.SetTrigger("dead");
+                            Invoke(nameof(OnFinishDeadAnimation), 1.3f);
                             m_levelManager.IsObjectDead = false;
                         }
                         else {
@@ -390,6 +392,10 @@ namespace DungeonSlime.Character {
             m_movementSequence.Kill();
             m_isBlockCollision = true;
             m_moving = false;
+        }
+
+        private void OnFinishDeadAnimation()  {
+            Destroy(gameObject);
         }
     }
 }
