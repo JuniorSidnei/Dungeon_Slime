@@ -32,6 +32,7 @@ namespace DungeonSlime.Managers {
         public GameObject musicBtn;
         public GameObject creditsBtn;
         public GameObject creditsFakeBtn;
+        public GameObject advanceImg;
 
         [Header("audio clips")] 
         public AudioClip selection;
@@ -130,6 +131,7 @@ namespace DungeonSlime.Managers {
             creditsPanel.SetActive(true);
             slimeSelector.SetActive(false);
             advanceText.gameObject.SetActive(false);
+            advanceImg.gameObject.SetActive(false);
             OnCreditsDeselected();
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(creditsFakeBtn);
@@ -140,6 +142,7 @@ namespace DungeonSlime.Managers {
             creditsPanel.SetActive(false);
             slimeSelector.SetActive(true);
             advanceText.gameObject.SetActive(true);
+            advanceImg.gameObject.SetActive(true);
             OnFullScreenSelected();
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(fullScreenBtn);

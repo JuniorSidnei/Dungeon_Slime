@@ -5,6 +5,7 @@ using System.IO;
 using DungeonSlime.Scriptables;
 using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
+using GameToBeNamed.Utils.Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -23,7 +24,9 @@ namespace DungeonSlime.Managers {
 
         private InputSource m_intputManager;
         
-        public AudioClip buttonClickSFX;
+        [Header("audio settings")]
+        public AudioClip buttonClickSfx;
+        public AudioClip levelClip;
 
         private void Awake() {
             m_intputManager = new InputSource();
@@ -36,7 +39,8 @@ namespace DungeonSlime.Managers {
             m_intputManager.Slime.Cancel.performed += ctx => BackToMenu();
         }
 
-        private void OnEnable()  {
+        private void OnEnable() {
+            AudioController.Instance.Play(levelClip, AudioController.SoundType.Music, 0.8f);
             StartCoroutine(WaitToFadeOut(0.5f));
         }
         
@@ -68,7 +72,7 @@ namespace DungeonSlime.Managers {
         }
 
         public void PauseGame() {
-            AudioManager.Instance.PlaySFX(buttonClickSFX, 1);
+            AudioManager.Instance.PlaySFX(buttonClickSfx, 1);
             transitionController.DoTransitionIn(() => {
                 pausePanel.SetActive(true);
                 Time.timeScale = 0;
@@ -77,6 +81,7 @@ namespace DungeonSlime.Managers {
 
         public void ResumeGame() {
             Time.timeScale = 1;
+            AudioManager.Instance.PlaySFX(buttonClickSfx, 1);
             pausePanel.SetActive(false);
             transitionController.DoTransitionOut();
         }

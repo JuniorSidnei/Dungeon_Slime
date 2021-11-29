@@ -56,6 +56,7 @@ namespace DungeonSlime.Managers {
 
             m_userData = SaveManager.LoadData();
             movementLimitBox.SetActive(m_userData.levelDifficulty == 1);
+            movementLimitText.gameObject.SetActive(m_userData.levelDifficulty == 1);
             UpdateMovementLimitValue(levelData.numberOfMovements);
             LoadLevel();
         }

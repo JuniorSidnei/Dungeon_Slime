@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DungeonSlime.Utils;
+using GameToBeNamed.Utils.Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -78,7 +79,7 @@ namespace DungeonSlime.Managers {
         
         private IEnumerator LoadScene(string sceneToLoad) {
             m_loadScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Single);
-            
+            AudioController.Instance.Stop();
             while (!m_loadScene.isDone) {
                 yield return null;
             }

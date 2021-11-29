@@ -16,6 +16,7 @@ namespace DungeonSlime.Managers {
         public Button controlsSelected;
 
         public GameObject textAdvance;
+        public GameObject textAdvanceImg;
         
         [Header("slime selector settings")]
         public GameObject slimeSelector;
@@ -118,6 +119,7 @@ namespace DungeonSlime.Managers {
             menuPanel.SetActive(!enable);
             slimeSelector.SetActive(!enable);
             textAdvance.SetActive(!enable);
+            textAdvanceImg.SetActive(!enable);
         }
      }
 }
