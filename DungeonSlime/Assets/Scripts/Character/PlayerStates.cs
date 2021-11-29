@@ -12,7 +12,8 @@ namespace DungeonSlime.Character {
         private int m_rockObjectId;
         public SlimeColliderMesh slimeColliderMesh;
         private int m_numberOfMovements;
-
+        
+        
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
             {CharacterForms.NORMAL, new Vector2Int(6, 6)},
             {CharacterForms.SEMI_STRETCHED_H, new Vector2Int(9, 3)},

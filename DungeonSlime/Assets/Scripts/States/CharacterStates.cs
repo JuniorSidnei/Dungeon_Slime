@@ -12,9 +12,15 @@ namespace DungeonSlime.Character {
         public LayerMask objectLayer;
         public CharacterMovement characterMovement;
         public LevelManager levelManager;
+
+        public CharacterType charType;
+        
+        [Header("sounds")]
+        public AudioClip moveSound;
+        public AudioClip stopMoveSound;
+        
         [SerializeField] private int m_id;
         
-        public CharacterType charType;
         
         public int Id {
             get => m_id;

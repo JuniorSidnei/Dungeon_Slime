@@ -19,7 +19,7 @@ namespace DungeonSlime.Utils {
         public AudioClip sound;
 
         private static UserData m_userData;
-        
+
         private void Awake() {
             m_userData = SaveManager.LoadData();
         }
@@ -40,8 +40,8 @@ namespace DungeonSlime.Utils {
 
             imageTransition.transform.DOMoveX(offsetOut, transitionTimeOut).OnComplete(() => {
                 onFinishTransition?.Invoke();
-                imageTransition.rectTransform.anchoredPosition = resetPosition;
                 imageTransition.gameObject.SetActive(false);
+                imageTransition.rectTransform.anchoredPosition = resetPosition;
             });
         }
     }

@@ -19,18 +19,17 @@ namespace DungeonSlime.Managers {
 
         [Header("pause settings")]
         public GameObject pausePanel;
-        
-        private AsyncOperation m_loadScene;
 
-        private InputSource m_intputManager;
-        
         [Header("audio settings")]
         public AudioClip buttonClickSfx;
         public AudioClip levelClip;
 
+        private AsyncOperation m_loadScene;
+        private InputSource m_intputManager;
+        private bool m_isGameFinished = false;
+        
         private void Awake() {
             m_intputManager = new InputSource();
-            m_intputManager.Enable();
 
             m_intputManager.Slime.movement.performed += OnMove;
             m_intputManager.Slime.pause_game.performed += ctx => PauseGame();
@@ -47,7 +46,11 @@ namespace DungeonSlime.Managers {
             
             StartCoroutine(WaitToFadeOut(0.5f));
         }
-        
+
+        private void OnDisable() {
+            m_intputManager.Disable();
+        }
+
         private void Update() {
             GlobalDispatcher.DispatchAll();
         }
@@ -62,6 +65,7 @@ namespace DungeonSlime.Managers {
         }
         
         public void LoadCurrentScene() {
+            m_intputManager.Disable();
             transitionController.DoTransitionIn(() => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.currentLevelData)));
             });
@@ -69,23 +73,24 @@ namespace DungeonSlime.Managers {
         
         public void LoadNextScene() {
             SaveAllData();
-            
+            m_intputManager.Disable();
+            m_isGameFinished = true;
             transitionController.DoTransitionIn(() => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.nextLevelData)));
             });
         }
 
         public void PauseGame() {
-            AudioManager.Instance.PlaySFX(buttonClickSfx, 1);
+            AudioController.Instance.Play(buttonClickSfx, AudioController.SoundType.SoundEffect2D);
             transitionController.DoTransitionIn(() => {
                 pausePanel.SetActive(true);
-                Time.timeScale = 0;
+                Time.timeScale = m_isGameFinished ? 1 : 0;
             });
         }
 
         public void ResumeGame() {
             Time.timeScale = 1;
-            AudioManager.Instance.PlaySFX(buttonClickSfx, 1);
+            AudioController.Instance.Play(buttonClickSfx, AudioController.SoundType.SoundEffect2D);
             pausePanel.SetActive(false);
             transitionController.DoTransitionOut();
         }
@@ -97,7 +102,7 @@ namespace DungeonSlime.Managers {
         
         private IEnumerator WaitToFadeOut(float time) {
             yield return new WaitForSeconds(time);
-            transitionController.DoTransitionOut();
+            transitionController.DoTransitionOut(() => m_intputManager.Enable());
         }
 
         private IEnumerator LoadScene(string sceneToLoad) {

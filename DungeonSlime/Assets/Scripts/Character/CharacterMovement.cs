@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
+using GameToBeNamed.Utils.Sound;
 using UnityEngine;
 using Utils;
 
@@ -117,6 +118,7 @@ namespace DungeonSlime.Character {
             m_movementSequence = DOTween.Sequence();
             
             if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
+                AudioController.Instance.Play(m_characterStates.moveSound, AudioController.SoundType.SoundEffect2D);
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
                     m_moving = false;
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
@@ -133,6 +135,7 @@ namespace DungeonSlime.Character {
                         }
                     }
 
+                    AudioController.Instance.Play(m_characterStates.stopMoveSound, AudioController.SoundType.SoundEffect2D);
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
                         m_moving = false;
                         m_alreadyFindPosition = false;
@@ -145,7 +148,7 @@ namespace DungeonSlime.Character {
                     });
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
-
+                AudioController.Instance.Play(m_characterStates.moveSound, AudioController.SoundType.SoundEffect2D);
                 m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
                     m_moving = false;
                     GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
@@ -162,6 +165,7 @@ namespace DungeonSlime.Character {
                         }
                     }
 
+                    AudioController.Instance.Play(m_characterStates.stopMoveSound, AudioController.SoundType.SoundEffect2D);
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
