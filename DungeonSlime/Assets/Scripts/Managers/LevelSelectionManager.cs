@@ -19,12 +19,18 @@ namespace DungeonSlime.Managers {
         [Header("arrows")]
         public GameObject rightArrow;
         public GameObject leftArrow;
+
+        [Header("sounds")]
+        public AudioClip selectionLevel;
+        public AudioClip selectionDone;
+        public AudioClip selectionBack;
+        
         
         private int m_levelIndex = 1;
         private bool m_levelCanBePlayed = true;
         private AsyncOperation m_loadScene;
-        private UserData m_userData;
-
+        private static UserData m_userData;
+        
         private void Awake() {
             m_userData = SaveManager.LoadData();
         }
@@ -34,6 +40,10 @@ namespace DungeonSlime.Managers {
             
             var ctxValue = ctx.ReadValue<Vector2>();
             var inputValue = Vector2Int.RoundToInt(ctxValue);
+
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selectionLevel, AudioController.SoundType.SoundEffect2D);
+            }
             OnUpdateLevelIndex(inputValue.x);
             OnAnimateArrow(inputValue.x);
         }
@@ -69,11 +79,16 @@ namespace DungeonSlime.Managers {
         
         public void OnSelectionDone() {
             if (!m_levelCanBePlayed) return;
-            
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selectionDone, AudioController.SoundType.SoundEffect2D);
+            }
             StartCoroutine(LoadScene($"Level_0{m_levelIndex}"));
         }
 
         public void BackMenu() {
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selectionBack, AudioController.SoundType.SoundEffect2D);
+            }
             SceneManager.LoadScene("LevelDifficultySelectionMenu");
         }
         

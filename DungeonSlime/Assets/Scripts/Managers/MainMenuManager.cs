@@ -1,3 +1,4 @@
+using System;
 using DungeonSlime.Utils;
 using GameToBeNamed.Utils;
 using GameToBeNamed.Utils.Sound;
@@ -37,12 +38,23 @@ namespace DungeonSlime.Managers {
         public AudioClip selection;
         public AudioClip choose;
 
+        private static UserData m_userData;
+
+        private void Awake() {
+            m_userData = SaveManager.LoadData();
+        }
+
         private void Start() {
             if (!firstSelected) return;
             
             firstSelected.Select();
-            if (!AudioController.Instance.IsMusicMuted) {
+            
+            if (m_userData.isMusicOn) {
                 AudioController.Instance.Play(menuTheme, AudioController.SoundType.Music, 0.25f, true);
+            }
+            else {
+                AudioController.Instance.Play(menuTheme, AudioController.SoundType.Music, 0.25f, true);
+                AudioController.Instance.Pause();
             }
         }
 
@@ -83,22 +95,23 @@ namespace DungeonSlime.Managers {
         }
         
         public void OnPlayPressed() {
-            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
+            OnSelectPlaySound();
             SceneManager.LoadScene("LevelDifficultySelectionMenu");
         }
         
         public void OnControlPressed() {
+            OnSelectPlaySound();
             controlsSelected.Select();
             EnableControlsPanel(true);
         }
         
         public void OnOptionsPressed() {
-            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
+            OnSelectPlaySound();
             SceneManager.LoadScene("OptionsMenu");
         }
         
         public void OnQuitPressed() {
-            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
+            OnSelectPlaySound();
             Application.Quit();
         }
 
@@ -109,17 +122,25 @@ namespace DungeonSlime.Managers {
         }
         
         private void AnimateSlimeSelector() {
-            AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);
+            }
+
             slimeSelectorAnim.SetTrigger("move");
         }
 
         private void EnableControlsPanel(bool enable)  {
-            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
+            OnSelectPlaySound();
             controlsPanel.SetActive(enable);
             menuPanel.SetActive(!enable);
             slimeSelector.SetActive(!enable);
             textAdvance.SetActive(!enable);
             textAdvanceImg.SetActive(!enable);
+        }
+
+        private void OnSelectPlaySound() {
+            if (!m_userData.isSfxOn) return;
+            AudioController.Instance.Play(choose, AudioController.SoundType.SoundEffect2D);
         }
      }
 }

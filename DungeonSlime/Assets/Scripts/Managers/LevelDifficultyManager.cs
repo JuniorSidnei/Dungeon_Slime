@@ -1,3 +1,4 @@
+using System;
 using DungeonSlime.Utils;
 using GameToBeNamed.Utils.Sound;
 using UnityEngine.EventSystems;
@@ -24,7 +25,13 @@ namespace DungeonSlime.Managers {
         public AudioClip selection;
         public AudioClip selectionDone;
         public AudioClip selectionBack;
-        
+
+        private static UserData m_userData;
+
+        private void Awake() {
+            m_userData = SaveManager.LoadData();
+        }
+
         private enum LevelDifficulty {
             NORMAL = 0,
             HARD
@@ -53,7 +60,7 @@ namespace DungeonSlime.Managers {
         }
         
         public void OnNormalPressed() {
-           SaveDifficultySelection(LevelDifficulty.NORMAL);
+            SaveDifficultySelection(LevelDifficulty.NORMAL);
             SceneManager.LoadScene("LevelSelectionMenu");
         }
         
@@ -63,19 +70,28 @@ namespace DungeonSlime.Managers {
         }
 
         public void BackMenu() {
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selectionBack, AudioController.SoundType.SoundEffect2D);    
+            }
             SceneManager.LoadScene("MainMenu");
         }
         
         private void AnimateSlimeSelector() {
-            AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);    
+            }
+            
             slimeSelectorAnim.SetTrigger("move");
         }
         
         private void SaveDifficultySelection(LevelDifficulty levelDifficulty) {
-            var currentData = SaveManager.LoadData();
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(selectionDone, AudioController.SoundType.SoundEffect2D);
+            }
+            
             var userData = new UserData {
-                lastLevelPlayed = currentData.lastLevelPlayed, normalLevelUnlocked = currentData.normalLevelUnlocked, hardLevelUnlocked = currentData.hardLevelUnlocked,
-                levelDifficulty = (int) levelDifficulty
+                lastLevelPlayed = m_userData.lastLevelPlayed, normalLevelUnlocked = m_userData.normalLevelUnlocked, hardLevelUnlocked = m_userData.hardLevelUnlocked,
+                levelDifficulty = (int) levelDifficulty, isFullScreen = m_userData.isFullScreen, isMusicOn = m_userData.isMusicOn, isSfxOn = m_userData.isSfxOn
             };
             
             SaveManager.SaveData(userData);

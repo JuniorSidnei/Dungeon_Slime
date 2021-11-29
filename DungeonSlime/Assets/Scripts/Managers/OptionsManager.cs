@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DungeonSlime.Utils;
@@ -43,6 +44,18 @@ namespace DungeonSlime.Managers {
         private bool m_isFullScreen;
         private bool m_isSoundOn = true;
         private bool m_isMusicOn = true;
+        private static UserData m_userData;
+
+        private void Awake() {
+            m_userData = SaveManager.LoadData();
+            m_isFullScreen = m_userData.isFullScreen;
+            m_isMusicOn = m_userData.isMusicOn;
+            m_isSoundOn = m_userData.isSfxOn;
+            
+            soundText.text = m_isSoundOn ? "ON" : "OFF";
+            fullScreenText.text = m_isFullScreen ? "ON" : "OFF";
+            musicText.text = m_isMusicOn ? "ON" : "OFF";
+        }
 
         public void OnFullScreenSelected() {
             AnimateSlimeSelector();
@@ -93,26 +106,29 @@ namespace DungeonSlime.Managers {
         }
         
         public void OnFullScreenChange() {
+            PlaySound(selectionDone);
             m_isFullScreen = !m_isFullScreen;
             fullScreenText.text = m_isFullScreen ? "ON" : "OFF";
             Screen.fullScreen = m_isFullScreen;
         }
 
         public void OnMusicChange() {
+            PlaySound(selectionDone);
             m_isMusicOn = !m_isMusicOn;
             musicText.text = m_isMusicOn ? "ON" : "OFF";
             
             switch (m_isMusicOn) {
                 case true:
-                    AudioController.Instance.UnMuteMusic();
+                    AudioController.Instance.Resume();
                     break;
                 case false:
-                    AudioController.Instance.MuteMusic();
+                    AudioController.Instance.Pause();
                     break;
             }
         }
 
         public void OnSoundChange() {
+            PlaySound(selectionDone);
             m_isSoundOn = !m_isSoundOn;
             soundText.text = m_isSoundOn ? "ON" : "OFF";
             
@@ -127,6 +143,7 @@ namespace DungeonSlime.Managers {
         }
 
         public void OnCreditsPressed() {
+            PlaySound(selectionDone);
             optionsPanel.SetActive(false);
             creditsPanel.SetActive(true);
             slimeSelector.SetActive(false);
@@ -138,6 +155,7 @@ namespace DungeonSlime.Managers {
         }
 
         public void OnCreditsCancel() {
+            PlaySound(selectionBack);
             optionsPanel.SetActive(true);
             creditsPanel.SetActive(false);
             slimeSelector.SetActive(true);
@@ -160,8 +178,17 @@ namespace DungeonSlime.Managers {
         }
         
         private void AnimateSlimeSelector() {
-            AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);
+            if (m_isSoundOn) {
+                AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);    
+            }
+            
             slimeSelectorAnim.SetTrigger("move");
+        }
+
+        private void PlaySound(AudioClip sound) {
+            if (!m_isSoundOn) return;
+            
+            AudioController.Instance.Play(sound, AudioController.SoundType.SoundEffect2D);
         }
     }
 }

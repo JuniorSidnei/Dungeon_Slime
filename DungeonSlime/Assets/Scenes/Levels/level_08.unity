@@ -238,7 +238,8 @@ MonoBehaviour:
   transitionController: {fileID: 229392573}
   LevelManager: {fileID: 419522944}
   pausePanel: {fileID: 2080787480}
-  buttonClickSFX: {fileID: 0}
+  buttonClickSfx: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
+  levelClip: {fileID: 8300000, guid: 256da505311d52a48be6f3e57719aa04, type: 3}
 --- !u!4 &229392572
 Transform:
   m_ObjectHideFlags: 0
@@ -271,6 +272,7 @@ MonoBehaviour:
   transitionTimeIn: 1.5
   transitionTimeOut: 1
   resetPosition: {x: -2968, y: 0}
+  sound: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
 --- !u!1 &231173189
 GameObject:
   m_ObjectHideFlags: 0

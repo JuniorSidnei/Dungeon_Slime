@@ -3169,7 +3169,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1545816794}
-  - component: {fileID: 1545816795}
   - component: {fileID: 1545816793}
   m_Layer: 0
   m_Name: LevelSelectionManager
@@ -3194,6 +3193,9 @@ MonoBehaviour:
   padlock: {fileID: 2111350043}
   rightArrow: {fileID: 828343718}
   leftArrow: {fileID: 735430423}
+  selectionLevel: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
+  selectionDone: {fileID: 8300000, guid: 7f522c87eb15b724994c8b3cdef37586, type: 3}
+  selectionBack: {fileID: 8300000, guid: c26fe48c33ef3f3429cc4880fc481639, type: 3}
 --- !u!4 &1545816794
 Transform:
   m_ObjectHideFlags: 0
@@ -3208,18 +3210,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1545816795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1545816792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 003409454d75f3a4cb6bb6b475e5f148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1554750277
 GameObject:
   m_ObjectHideFlags: 0

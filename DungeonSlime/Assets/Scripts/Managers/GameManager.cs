@@ -40,7 +40,11 @@ namespace DungeonSlime.Managers {
         }
 
         private void OnEnable() {
-            AudioController.Instance.Play(levelClip, AudioController.SoundType.Music, 0.8f);
+            var userData = SaveManager.LoadData();
+            if (userData.isMusicOn) {
+                AudioController.Instance.Play(levelClip, AudioController.SoundType.Music, 0.8f);
+            }
+            
             StartCoroutine(WaitToFadeOut(0.5f));
         }
         
