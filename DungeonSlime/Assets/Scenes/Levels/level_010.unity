@@ -165,8 +165,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: db307a5920a9b5e4b8fd0c3e6c2ce6aa, type: 2}
+  m_sharedMaterial: {fileID: -1251535398140982097, guid: db307a5920a9b5e4b8fd0c3e6c2ce6aa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -190,13 +190,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionController: {fileID: 229392573}
   LevelManager: {fileID: 419522944}
-  pausePanel: {fileID: 0}
+  pausePanel: {fileID: 2068805724}
   buttonClickSFX: {fileID: 0}
 --- !u!4 &229392572
 Transform:
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageTransition: {fileID: 762755547}
   offsetIn: 800
-  offsetOut: 3000
+  offsetOut: 4500
   transitionTimeIn: 1.5
   transitionTimeOut: 1
   resetPosition: {x: -2933, y: 0}
@@ -451,7 +451,7 @@ MonoBehaviour:
   levelBox: {fileID: 47372072}
   levelText: {fileID: 2118257606}
   transitionTime: 3
-  textBoxOffset: 130
+  textBoxOffset: 180
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 02b7d34e9b03c7643b35bfcf88cbdc05, type: 2}
   showTilesIndex: 0
@@ -71669,7 +71669,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.8
+  m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000178718d807e7399dc7abc5bafbb409a8a5dbcfe4
   m_LightCookieSprite: {fileID: 0}
@@ -72459,8 +72459,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LEVEL 3
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: db307a5920a9b5e4b8fd0c3e6c2ce6aa, type: 2}
+  m_sharedMaterial: {fileID: -1251535398140982097, guid: db307a5920a9b5e4b8fd0c3e6c2ce6aa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -72479,18 +72479,18 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
+  m_TextStyleHashCode: 97690656
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
