@@ -16,8 +16,8 @@ namespace DungeonSlime.Character {
         public CharacterType charType;
         
         [Header("sounds")]
-        public AudioClip moveSound;
-        public AudioClip stopMoveSound;
+        public AudioClip []moveSound;
+        public AudioClip []stopMoveSound;
         
         [SerializeField] private int m_id;
         
