@@ -27,6 +27,7 @@ namespace DungeonSlime.Managers {
         private AsyncOperation m_loadScene;
         private InputSource m_intputManager;
         private bool m_isGameFinished = false;
+        private bool m_isGamePaused = false;
         
         private void Awake() {
             m_intputManager = new InputSource();
@@ -40,10 +41,10 @@ namespace DungeonSlime.Managers {
 
         private void OnEnable() {
             var userData = SaveManager.LoadData();
-            if (userData.isMusicOn) {
+            //if (userData.isMusicOn) {
                 AudioController.Instance.Play(levelClip, AudioController.SoundType.Music, 0.8f);
-            }
-            
+           // }
+
             StartCoroutine(WaitToFadeOut(0.5f));
         }
 
@@ -60,6 +61,14 @@ namespace DungeonSlime.Managers {
             var inputValue = Vector2Int.RoundToInt(ctxValue);
             
             if (inputValue == Vector2Int.zero) return;
+
+            if (inputValue.x == 1 || inputValue.x == -1) {
+                inputValue.y = 0;
+                Debug.Log("fixed Y input");
+            } else if (inputValue.y == 1 || inputValue.y == -1) {
+                inputValue.x = 0;
+                Debug.Log("fixed X input");
+            }
             
             GlobalDispatcher.Emit(new OnMoveCharacter(inputValue)); 
         }
@@ -81,6 +90,7 @@ namespace DungeonSlime.Managers {
         }
 
         public void PauseGame() {
+            m_isGamePaused = true;
             AudioController.Instance.Play(buttonClickSfx, AudioController.SoundType.SoundEffect2D);
             transitionController.DoTransitionIn(() => {
                 pausePanel.SetActive(true);
@@ -92,10 +102,13 @@ namespace DungeonSlime.Managers {
             Time.timeScale = 1;
             AudioController.Instance.Play(buttonClickSfx, AudioController.SoundType.SoundEffect2D);
             pausePanel.SetActive(false);
+            m_isGamePaused = false;
             transitionController.DoTransitionOut();
         }
 
         public void BackToMenu() {
+            if (!m_isGamePaused) return;
+            
             Time.timeScale = 1;
             SceneManager.LoadScene("MainMenu");
         }

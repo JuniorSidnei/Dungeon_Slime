@@ -23673,6 +23673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1292312648}
   - component: {fileID: 1292312649}
+  - component: {fileID: 1292312650}
   m_Layer: 0
   m_Name: torch (1)
   m_TagString: Untagged
@@ -23709,8 +23710,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.46
-  m_Color: {r: 0.9296404, g: 1, b: 0.09411765, a: 1}
-  m_Intensity: 2
+  m_Color: {r: 1, g: 0.7058824, b: 0, a: 1}
+  m_Intensity: 1.6
   m_LightVolumeOpacity: 0.35
   m_ApplyToSortingLayers: 00000000178718d807e7399dc7abc5bafbb409a8a5dbcfe4
   m_LightCookieSprite: {fileID: 0}
@@ -23735,6 +23736,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &1292312650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292312647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db8a4f85f1c00f45b459a81251bd8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxIntensity: 1.7
 --- !u!1 &1293462046
 GameObject:
   m_ObjectHideFlags: 0
@@ -68190,6 +68204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1361054333}
   - component: {fileID: 1361054334}
+  - component: {fileID: 1361054335}
   m_Layer: 0
   m_Name: torch
   m_TagString: Untagged
@@ -68226,8 +68241,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.46
-  m_Color: {r: 0.9296404, g: 1, b: 0.09411765, a: 1}
-  m_Intensity: 2
+  m_Color: {r: 1, g: 0.7058824, b: 0, a: 1}
+  m_Intensity: 1.6
   m_LightVolumeOpacity: 0.35
   m_ApplyToSortingLayers: 00000000178718d807e7399dc7abc5bafbb409a8a5dbcfe4
   m_LightCookieSprite: {fileID: 0}
@@ -68252,6 +68267,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &1361054335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361054332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db8a4f85f1c00f45b459a81251bd8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxIntensity: 1.7
 --- !u!1 &1376600096
 GameObject:
   m_ObjectHideFlags: 0

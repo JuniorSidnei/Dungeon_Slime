@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
+using GameToBeNamed.Utils.Sound;
+using Unity.Mathematics;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
+using Random = UnityEngine.Random;
 
 namespace DungeonSlime.Character {
 
@@ -69,6 +71,11 @@ namespace DungeonSlime.Character {
             animator.SetInteger("form", i);
             
             if (m_numberOfMovements <= 0 && !levelManager.IsLevelClear) {
+                var randDeath = Random.Range(0, deathSounds.Length);
+                AudioController.Instance.Play(deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
+                animator.SetTrigger("dead");
+                var spriteCenter = slimeColliderMesh.spriteRenderer.bounds.center;
+                Instantiate(deadAnimation, spriteCenter, Quaternion.identity, transform);
                 GameManager.Instance.LoadCurrentScene();
             }
         }
@@ -92,7 +99,12 @@ namespace DungeonSlime.Character {
 
         private void OnCollisionWithSpikes(OnCollisionWithSpikes ev) {
             if (ev.ObjectId != Id) return;
-            
+
+            var randDeath = Random.Range(0, deathSounds.Length);
+            AudioController.Instance.Play(deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
+            animator.SetTrigger("dead");
+            var spriteCenter = slimeColliderMesh.spriteRenderer.bounds.center;
+            Instantiate(deadAnimation, spriteCenter, Quaternion.identity, transform);
             GameManager.Instance.LoadCurrentScene();
         }
         

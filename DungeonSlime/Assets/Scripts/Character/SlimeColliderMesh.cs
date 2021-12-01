@@ -54,8 +54,6 @@ namespace DungeonSlime.Character {
                   if (id == objectCollider.Id) return;
               }
               
-              //need to fix this, because if the rock can move to a position that is free, we should move
-              //if are free space in the right, but de the direction is down, we move right
               var directionToMove = objectCollider.GetAxisToMove(m_slimeObject.CurrentFinalPosition, m_slimeObject.CurrentDirection, m_slimeObject.CurrentSize);
               var rockShouldBeDestroyed = RockCanMoveWithinDirection(objectCollider, directionToMove);
               objectCollider.MoveToDestination(m_slimeObject.CurrentFinalPosition, directionToMove, m_slimeObject.CurrentSize, !rockShouldBeDestroyed);
@@ -76,6 +74,9 @@ namespace DungeonSlime.Character {
                   EvaluateRockCollision(objectColliderRock, i);
               }
               else {
+                  var playerStates = m_slimeObject.GetComponent<PlayerStates>();
+                  playerStates.animator.SetTrigger("dead");
+                  Instantiate(playerStates.deadAnimation, transform.position, Quaternion.identity, transform);
                   GameManager.Instance.LoadCurrentScene();
               }
           }
@@ -96,21 +97,20 @@ namespace DungeonSlime.Character {
           var boxOrigin = Vector2.zero;
 
           //the verification of size is just because the sprite cant fit correctly in grid
-          // when pick the correct sprite, verifiy if fit and remove this
           if (direction == Vector2Int.left) {
-              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y - 0.1f);
+              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y - 0.2f);
               boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.right) {
-              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y - 0.1f);
+              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.3f) : new Vector2(0.02f, spriteSize.y - 0.2f);
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.01f, 0.2f) : new Vector2(spriteSize.x - 0.1f, 0.02f);
+              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x - 0.2f, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
           
@@ -165,13 +165,15 @@ namespace DungeonSlime.Character {
 //            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
           
 
-        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
-            new Vector2(spriteBounds.size.x - 0.1f, 0.02f));
+        //Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
+        //    new Vector2(spriteBounds.size.x - 0.2f, 0.02f));
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteBounds.size.y / 2),
+            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
         
         var spriteSize = spriteRenderer.bounds.center;
         
        
-        Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
+        //Gizmos.DrawCube(new Vector2(spriteSize.x, spriteSize.y), new Vector3(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y, 0));
       }
     }
 }

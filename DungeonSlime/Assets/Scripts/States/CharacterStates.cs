@@ -12,15 +12,16 @@ namespace DungeonSlime.Character {
         public LayerMask objectLayer;
         public CharacterMovement characterMovement;
         public LevelManager levelManager;
+        public GameObject deadAnimation;
 
         public CharacterType charType;
         
         [Header("sounds")]
-        public AudioClip []moveSound;
-        public AudioClip []stopMoveSound;
+        public AudioClip []moveSounds;
+        public AudioClip []stopMoveSounds;
+        public AudioClip []deathSounds;
         
         [SerializeField] private int m_id;
-        
         
         public int Id {
             get => m_id;
@@ -53,7 +54,5 @@ namespace DungeonSlime.Character {
         public abstract CharacterForms GetCurrentForm();
         
         protected abstract Tuple<CharacterForms, int> GetIndexAndForm(Vector2 direction, CharacterForms forms = CharacterForms.NORMAL);
-
-        //protected abstract void OnCollisionEnter2D(Collision2D other);
     }
 }

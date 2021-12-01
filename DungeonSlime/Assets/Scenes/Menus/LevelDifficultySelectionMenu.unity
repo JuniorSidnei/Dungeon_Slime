@@ -747,6 +747,7 @@ GameObject:
   m_Component:
   - component: {fileID: 278249565}
   - component: {fileID: 278249566}
+  - component: {fileID: 278249567}
   m_Layer: 0
   m_Name: left_flame
   m_TagString: Untagged
@@ -809,6 +810,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &278249567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278249564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db8a4f85f1c00f45b459a81251bd8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxIntensity: 0.8
 --- !u!1 &308268294
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,6 +3189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1749263033}
   - component: {fileID: 1749263034}
+  - component: {fileID: 1749263035}
   m_Layer: 0
   m_Name: right_flame
   m_TagString: Untagged
@@ -3237,6 +3252,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &1749263035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749263032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db8a4f85f1c00f45b459a81251bd8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxIntensity: 0.8
 --- !u!1 &1754333841
 GameObject:
   m_ObjectHideFlags: 0

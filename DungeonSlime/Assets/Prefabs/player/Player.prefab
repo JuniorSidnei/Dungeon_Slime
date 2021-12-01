@@ -71,8 +71,9 @@ MonoBehaviour:
     m_Bits: 128
   characterMovement: {fileID: 8853754357541218834}
   levelManager: {fileID: 0}
+  deadAnimation: {fileID: 6421883046547879215, guid: 3809cd3cc31965048880fd0494aa424f, type: 3}
   charType: 0
-  moveSound:
+  moveSounds:
   - {fileID: 8300000, guid: c473178ffa4f1544e95aa7d9a0e8cc89, type: 3}
   - {fileID: 8300000, guid: a751bcf1c6a5ed14383abe9fec20a987, type: 3}
   - {fileID: 8300000, guid: 5982396f80cad564d93f2d31a5101aea, type: 3}
@@ -81,12 +82,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6002aec76f2cb6b49b5a5b90bd9985db, type: 3}
   - {fileID: 8300000, guid: 2b657deb4f966dc4a91e4f37aedc1233, type: 3}
   - {fileID: 8300000, guid: 989e79fb778312049896904fb72a7b9c, type: 3}
-  stopMoveSound:
-  - {fileID: 8300000, guid: 3cbde4912defe60488f74e5f7555ac26, type: 3}
+  stopMoveSounds:
   - {fileID: 8300000, guid: 7f522c87eb15b724994c8b3cdef37586, type: 3}
   - {fileID: 8300000, guid: 8f6a1dd63b935ac4e95e8c68f43fa7e1, type: 3}
   - {fileID: 8300000, guid: f8978a8463e7fed4ba2a9967234b8026, type: 3}
   - {fileID: 8300000, guid: 4231bf3f4c7c62d42877b144c6020a40, type: 3}
+  - {fileID: 8300000, guid: 3cbde4912defe60488f74e5f7555ac26, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: fb7d87e4cbc60d04e8dae1b2a60dddfd, type: 3}
+  - {fileID: 8300000, guid: c26fe48c33ef3f3429cc4880fc481639, type: 3}
+  - {fileID: 8300000, guid: e2fef0073a528c642bb65f5f09d1ec95, type: 3}
   m_id: 1
   slimeColliderMesh: {fileID: 8853754357541218838}
 --- !u!114 &8853754357541218839

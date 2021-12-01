@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21552785}
   - component: {fileID: 21552786}
+  - component: {fileID: 21552787}
   m_Layer: 0
   m_Name: torch
   m_TagString: Untagged
@@ -169,8 +170,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.46
-  m_Color: {r: 0.9296404, g: 1, b: 0.09411765, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.7058824, b: 0, a: 1}
+  m_Intensity: 1.6
   m_LightVolumeOpacity: 0.35
   m_ApplyToSortingLayers: 00000000178718d807e7399dc7abc5bafbb409a8a5dbcfe4
   m_LightCookieSprite: {fileID: 0}
@@ -195,6 +196,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &21552787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21552784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db8a4f85f1c00f45b459a81251bd8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxIntensity: 1.6
 --- !u!1001 &123452444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -846,6 +860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 485359414}
   - component: {fileID: 485359415}
+  - component: {fileID: 485359416}
   m_Layer: 0
   m_Name: torch (1)
   m_TagString: Untagged
@@ -882,8 +897,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.46
-  m_Color: {r: 0.9296404, g: 1, b: 0.09411765, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.7058824, b: 0, a: 1}
+  m_Intensity: 1.6
   m_LightVolumeOpacity: 0.35
   m_ApplyToSortingLayers: 00000000178718d807e7399dc7abc5bafbb409a8a5dbcfe4
   m_LightCookieSprite: {fileID: 0}
@@ -908,6 +923,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &485359416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485359413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db8a4f85f1c00f45b459a81251bd8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxIntensity: 1.6
 --- !u!1 &494184365
 GameObject:
   m_ObjectHideFlags: 0
