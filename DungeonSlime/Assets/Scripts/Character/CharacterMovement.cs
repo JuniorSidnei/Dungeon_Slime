@@ -122,7 +122,7 @@ namespace DungeonSlime.Character {
                 AudioController.Instance.Play(m_characterStates.moveSounds[randMove], AudioController.SoundType.SoundEffect2D);
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
                     m_moving = false;
-                   // GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
+                   
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
                             m_movementSequence.Kill();
@@ -145,6 +145,9 @@ namespace DungeonSlime.Character {
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
                         GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
+                        //transform.DOShakeRotation(0.05f, new Vector3(45, 0, 0), 15);
+                        //transform.DOShakePosition(0.1f, new Vector3(0.1f, 0.1f, 0), 15);
+                        transform.DOShakeScale(0.1f, new Vector3(0, 0.3f, 0), 20);
                         m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
@@ -157,9 +160,7 @@ namespace DungeonSlime.Character {
                 var randMove = Random.Range(0, m_characterStates.moveSounds.Length);
                 AudioController.Instance.Play(m_characterStates.moveSounds[randMove], AudioController.SoundType.SoundEffect2D);
                 m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-                    m_moving = false;
-                    //GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
-                    
+
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
                             m_movementSequence.Kill();
@@ -182,6 +183,10 @@ namespace DungeonSlime.Character {
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
                         GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
+                        //transform.DOShakeRotation(0.1f, new Vector3(0, 45, 0), 15);
+                        //transform.DOShakePosition(0.1f, new Vector3(0.1f, 0.1f, 0), 15);
+                        transform.DOShakeScale(0.1f, new Vector3(0.3f, 0, 0), 20);
+                        m_moving = false;
                         m_alreadyFindPosition = false;
                         m_currentSize = m_currentNewSize;
                         
@@ -190,7 +195,6 @@ namespace DungeonSlime.Character {
                     });
                 }));
             }
-            
         }
 
         private bool GetNextPositionOnGrid(Vector2Int direction, Vector2Int currentPos) {
