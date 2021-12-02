@@ -7,6 +7,7 @@ using DungeonSlime.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 namespace DungeonSlime.Managers {
     public class LevelManager : MonoBehaviour {
@@ -20,11 +21,10 @@ namespace DungeonSlime.Managers {
         public TextMeshProUGUI movementLimitText;
         
         [Header("level settings")]
-        public GameObject levelBox;
+        public Image levelBox;
         public TextMeshProUGUI levelText;
         public float transitionTime;
-        public float textBoxOffset;
-        
+
         [Header("level data settings")]
         public LevelDataTiles levelDataTiles;
         public LevelData levelData;
@@ -63,9 +63,9 @@ namespace DungeonSlime.Managers {
 
         private void Start() {
             levelText.text = string.Format("LEVEL {0}", levelData.currentLevelData);
-            var originalPos = levelBox.transform.position;
-            levelBox.transform.DOMoveX(textBoxOffset, transitionTime).OnComplete(() => {
-                levelBox.transform.DOMoveX(originalPos.x, 2f);
+            var originalPos = levelBox.rectTransform.position.x;
+            levelBox.transform.DOMoveX(0, transitionTime).OnComplete(() => {
+                levelBox.transform.DOMoveX(originalPos, 2f);
             });
         }
 

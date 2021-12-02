@@ -11,11 +11,8 @@ namespace DungeonSlime.Utils {
     public class DoTransitionController : MonoBehaviour {
 
         public Image imageTransition;
-        public float offsetIn;
-        public float offsetOut;
         public float transitionTimeIn;
         public float transitionTimeOut;
-        public Vector2 resetPosition;
         public AudioClip sound;
 
         private static UserData m_userData;
@@ -29,8 +26,8 @@ namespace DungeonSlime.Utils {
             if (m_userData.isSfxOn) {
                 AudioController.Instance.Play(sound, AudioController.SoundType.SoundEffect2D);
             }
-
-            imageTransition.transform.DOMoveX(offsetIn, transitionTimeIn).OnComplete(() => onFinishTransition?.Invoke());
+            
+            imageTransition.transform.DOMoveX(0, transitionTimeIn).OnComplete(() => onFinishTransition?.Invoke());
         }
 
         public void DoTransitionOut(Action onFinishTransition = null) {
@@ -38,10 +35,11 @@ namespace DungeonSlime.Utils {
                 AudioController.Instance.Play(sound, AudioController.SoundType.SoundEffect2D);
             }
 
-            imageTransition.transform.DOMoveX(offsetOut, transitionTimeOut).OnComplete(() => {
+            var xPos = imageTransition.rectTransform.rect.width;
+            imageTransition.rectTransform.DOLocalMoveX(xPos, transitionTimeOut).OnComplete(() => {
                 onFinishTransition?.Invoke();
                 imageTransition.gameObject.SetActive(false);
-                imageTransition.rectTransform.anchoredPosition = resetPosition;
+                imageTransition.rectTransform.anchoredPosition = new Vector2(-xPos, 0);
             });
         }
     }
