@@ -145,8 +145,6 @@ namespace DungeonSlime.Character {
                     transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
                         GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
-                        //transform.DOShakeRotation(0.05f, new Vector3(45, 0, 0), 15);
-                        //transform.DOShakePosition(0.1f, new Vector3(0.1f, 0.1f, 0), 15);
                         transform.DOShakeScale(0.1f, new Vector3(0, 0.3f, 0), 20);
                         m_moving = false;
                         m_alreadyFindPosition = false;
@@ -183,8 +181,6 @@ namespace DungeonSlime.Character {
                     transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
                         GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
                         GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
-                        //transform.DOShakeRotation(0.1f, new Vector3(0, 45, 0), 15);
-                        //transform.DOShakePosition(0.1f, new Vector3(0.1f, 0.1f, 0), 15);
                         transform.DOShakeScale(0.1f, new Vector3(0.3f, 0, 0), 20);
                         m_moving = false;
                         m_alreadyFindPosition = false;
