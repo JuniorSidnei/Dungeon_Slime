@@ -185,11 +185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageTransition: {fileID: 1490214158}
-  offsetIn: 800
-  offsetOut: 3000
   transitionTimeIn: 1.5
   transitionTimeOut: 1
-  resetPosition: {x: 0, y: 0}
   sound: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
 --- !u!1 &342261537
 GameObject:
@@ -774,10 +771,9 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   movementLimitBox: {fileID: 2111113635}
   movementLimitText: {fileID: 1870504518}
-  levelBox: {fileID: 1993068904}
+  levelBox: {fileID: 1993068905}
   levelText: {fileID: 613691490}
   transitionTime: 3
-  textBoxOffset: 130
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: 32a528dd90a7c334dbba75b085ceb181, type: 2}
   showTilesIndex: 0

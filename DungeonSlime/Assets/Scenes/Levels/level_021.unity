@@ -868,11 +868,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageTransition: {fileID: 664759836}
-  offsetIn: 800
-  offsetOut: 3000
   transitionTimeIn: 1.5
   transitionTimeOut: 1
-  resetPosition: {x: -2778, y: 0}
   sound: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
 --- !u!1 &247115600
 GameObject:
@@ -1075,10 +1072,9 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   movementLimitBox: {fileID: 420332484}
   movementLimitText: {fileID: 1000380423}
-  levelBox: {fileID: 192210389}
+  levelBox: {fileID: 192210390}
   levelText: {fileID: 547851568}
   transitionTime: 3
-  textBoxOffset: 160
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: a30a42a99eeb7cd48acdf00705c6f115, type: 2}
   showTilesIndex: 0
@@ -96579,9 +96575,11 @@ MonoBehaviour:
     m_Bits: 128
   characterMovement: {fileID: 1226553227}
   levelManager: {fileID: 419522944}
+  deadAnimation: {fileID: 0}
   charType: 1
-  moveSound: []
-  stopMoveSound: []
+  moveSounds: []
+  stopMoveSounds: []
+  deathSounds: []
   m_id: 3
   m_initialPosition: {x: 27, y: 49}
 --- !u!114 &1226553227
@@ -96833,9 +96831,11 @@ MonoBehaviour:
     m_Bits: 128
   characterMovement: {fileID: 1321185857}
   levelManager: {fileID: 419522944}
+  deadAnimation: {fileID: 0}
   charType: 1
-  moveSound: []
-  stopMoveSound: []
+  moveSounds: []
+  stopMoveSounds: []
+  deathSounds: []
   m_id: 2
   m_initialPosition: {x: 27, y: 24}
 --- !u!114 &1321185857
@@ -97016,9 +97016,11 @@ MonoBehaviour:
     m_Bits: 128
   characterMovement: {fileID: 1356554623}
   levelManager: {fileID: 419522944}
+  deadAnimation: {fileID: 0}
   charType: 1
-  moveSound: []
-  stopMoveSound: []
+  moveSounds: []
+  stopMoveSounds: []
+  deathSounds: []
   m_id: 4
   m_initialPosition: {x: 68, y: 55}
 --- !u!114 &1356554623
@@ -97602,9 +97604,11 @@ MonoBehaviour:
     m_Bits: 128
   characterMovement: {fileID: 1666897553}
   levelManager: {fileID: 419522944}
+  deadAnimation: {fileID: 0}
   charType: 1
-  moveSound: []
-  stopMoveSound: []
+  moveSounds: []
+  stopMoveSounds: []
+  deathSounds: []
   m_id: 5
   m_initialPosition: {x: 100, y: 61}
 --- !u!114 &1666897553

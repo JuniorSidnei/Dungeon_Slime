@@ -4605,11 +4605,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageTransition: {fileID: 312800757}
-  offsetIn: 500
-  offsetOut: 6000
   transitionTimeIn: 1.5
   transitionTimeOut: 1.2
-  resetPosition: {x: -2924, y: 0}
   sound: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
 --- !u!1001 &230823806
 PrefabInstance:
@@ -9088,10 +9085,9 @@ MonoBehaviour:
   tilemap: {fileID: 912062434}
   movementLimitBox: {fileID: 1289261349}
   movementLimitText: {fileID: 1167008475}
-  levelBox: {fileID: 521570768}
+  levelBox: {fileID: 521570770}
   levelText: {fileID: 1357855640}
   transitionTime: 3
-  textBoxOffset: 150
   levelDataTiles: {fileID: 11400000, guid: 23b2a2eeb98954a488ba8ceb1d990ff9, type: 2}
   levelData: {fileID: 11400000, guid: c21a38f7cd42d514cb2a3048066edde6, type: 2}
   showTilesIndex: 0
