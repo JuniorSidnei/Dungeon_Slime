@@ -41,7 +41,7 @@ namespace DungeonSlime.Managers {
                 posY = spriteBounds.center.y;
                 rotation = -180;
             } else if (currentDirection == Vector2.right) {
-                posX = spriteBounds.max.x;
+                posX = spriteBounds.center.x;
                 posY = spriteBounds.center.y;
             } else if (currentDirection == Vector2.down) {
                 posX = spriteBounds.center.x;
@@ -49,7 +49,7 @@ namespace DungeonSlime.Managers {
                 rotation = -90;
             } else if (currentDirection == Vector2.up) {
                 posX = spriteBounds.center.x;
-                posY = spriteBounds.max.y;
+                posY = spriteBounds.max.y - 0.5f;
                 rotation = 90;
             }
 

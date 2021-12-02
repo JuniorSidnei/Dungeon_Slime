@@ -64,10 +64,8 @@ namespace DungeonSlime.Managers {
 
             if (inputValue.x == 1 || inputValue.x == -1) {
                 inputValue.y = 0;
-                Debug.Log("fixed Y input");
             } else if (inputValue.y == 1 || inputValue.y == -1) {
                 inputValue.x = 0;
-                Debug.Log("fixed X input");
             }
             
             GlobalDispatcher.Emit(new OnMoveCharacter(inputValue)); 
