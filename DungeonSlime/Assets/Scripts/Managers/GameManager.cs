@@ -90,8 +90,10 @@ namespace DungeonSlime.Managers {
         public void PauseGame() {
             m_isGamePaused = true;
             AudioController.Instance.Play(buttonClickSfx, AudioController.SoundType.SoundEffect2D);
+            m_intputManager.Disable();
             transitionController.DoTransitionIn(() => {
                 pausePanel.SetActive(true);
+                m_intputManager.Enable();
                 Time.timeScale = m_isGameFinished ? 1 : 0;
             });
         }
@@ -99,9 +101,10 @@ namespace DungeonSlime.Managers {
         public void ResumeGame() {
             Time.timeScale = 1;
             AudioController.Instance.Play(buttonClickSfx, AudioController.SoundType.SoundEffect2D);
+            m_intputManager.Disable();
             pausePanel.SetActive(false);
             m_isGamePaused = false;
-            transitionController.DoTransitionOut();
+            transitionController.DoTransitionOut(()=> m_intputManager.Enable());
         }
 
         public void BackToMenu() {
