@@ -13,10 +13,11 @@ namespace DungeonSlime.Character {
         [SerializeField] private float m_speedMultiplier;
         [SerializeField] private bool m_moving;
         [SerializeField] private bool m_willExpandShape;
-        private LevelManager m_levelManager;
         [SerializeField] private CharacterStates m_characterStates;
+        [SerializeField] private PlayerStates m_playerStates;
         public Ease ease;
         private float m_speed;
+        private LevelManager m_levelManager;
         private Vector2Int m_currentPos;
         private Vector2Int m_finalPos;
         private Vector2Int m_currentSize;
@@ -65,6 +66,8 @@ namespace DungeonSlime.Character {
             set => m_movementSequence = value;
         }
 
+        public PlayerStates PlayerStates => m_playerStates;
+        
         private void Start() {
             m_currentSize = m_characterStates.GetCurrentSize(m_characterStates.GetCurrentForm());
             if (!m_willExpandShape) return;
@@ -302,14 +305,14 @@ namespace DungeonSlime.Character {
         private int FixCurrentPosition(Vector2Int size, int currentValue, Vector2Int nextSize) {
             if (!m_willExpandShape || m_alreadyHasPosition) return currentValue;
 
-            if (size.x < 12 && size.y < 12) {
-                if (nextSize.x == 9) {
+            if (size.x < m_playerStates.FullStretchedSizeHorizontal.x && size.y < m_playerStates.FullStretchedSizeVertical.y) {
+                if (nextSize.x == m_playerStates.SemiStretchedSizeHorizontal.x) {
                     return currentValue - 2;
                 }
                 return currentValue - 1;
             }
             
-            if (nextSize.x >= 12 || nextSize.y >= 12) {
+            if (nextSize.x >= m_playerStates.FullStretchedSizeHorizontal.x || nextSize.y >= m_playerStates.FullStretchedSizeVertical.y) {
                 return currentValue;
             }
             

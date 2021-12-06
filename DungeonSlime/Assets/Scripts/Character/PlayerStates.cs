@@ -10,18 +10,31 @@ using Random = UnityEngine.Random;
 
 namespace DungeonSlime.Character {
 
-    public class PlayerStates : CharacterStates {
+    public class PlayerStates : CharacterStates
+    {
         private int m_rockObjectId;
         public SlimeColliderMesh slimeColliderMesh;
         private int m_numberOfMovements;
+
+        private static Vector2Int m_normalSize = new Vector2Int(6, 6);
+        private static Vector2Int m_semi_stretched_H = new Vector2Int(9, 3);
+        private static Vector2Int m_full_stretched_H = new Vector2Int(11, 1);
+        private static Vector2Int m_semi_stretched_V = new Vector2Int(3, 9);
+        private static Vector2Int m_full_stretched_V = new Vector2Int(1, 11);
+
+        public Vector2Int NormalSize => m_normalSize;
+        public Vector2Int SemiStretchedSizeHorizontal => m_semi_stretched_H;
+        public Vector2Int FullStretchedSizeHorizontal => m_full_stretched_H;
+        public Vector2Int SemiStretchedSizeVertical => m_semi_stretched_V;
+        public Vector2Int FullStretchedSizeVertical => m_full_stretched_V;
         
         
         private readonly Dictionary <CharacterForms, Vector2Int> m_slotsOnGrid = new Dictionary<CharacterForms, Vector2Int> {
-            {CharacterForms.NORMAL, new Vector2Int(6, 6)},
-            {CharacterForms.SEMI_STRETCHED_H, new Vector2Int(9, 3)},
-            {CharacterForms.FULL_STRETCHED_H, new Vector2Int(12, 1)},
-            {CharacterForms.SEMI_STRETCHED_V,  new Vector2Int(3, 9)},
-            {CharacterForms.FULL_STRETCHED_V, new Vector2Int(1, 12)},
+            {CharacterForms.NORMAL, m_normalSize},
+            {CharacterForms.SEMI_STRETCHED_H, m_semi_stretched_H},
+            {CharacterForms.FULL_STRETCHED_H, m_full_stretched_H},
+            {CharacterForms.SEMI_STRETCHED_V,  m_semi_stretched_V},
+            {CharacterForms.FULL_STRETCHED_V, m_full_stretched_V},
         };
 
         protected override void Awake() {

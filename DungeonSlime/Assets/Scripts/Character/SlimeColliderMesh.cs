@@ -99,19 +99,19 @@ namespace DungeonSlime.Character {
 
           //the verification of size is just because the sprite cant fit correctly in grid
           if (direction == Vector2Int.left) {
-              boxSize = m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.45f) : new Vector2(0.02f, spriteSize.y - 0.2f);
+              boxSize = m_slimeObject.CurrentSize.x == m_slimeObject.PlayerStates.FullStretchedSizeHorizontal.x ? new Vector2(0.1f, spriteSize.y - 0.45f) : new Vector2(0.02f, spriteSize.y - 0.2f);
               boxOrigin = new Vector2(spriteBounds.min.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.right) {
-              boxSize =  m_slimeObject.CurrentSize.x == 12 ? new Vector2(0.1f, spriteSize.y - 0.45f) : new Vector2(0.02f, spriteSize.y - 0.2f);
+              boxSize =  m_slimeObject.CurrentSize.x == m_slimeObject.PlayerStates.FullStretchedSizeHorizontal.x ? new Vector2(0.1f, spriteSize.y - 0.45f) : new Vector2(0.02f, spriteSize.y - 0.2f);
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
+              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              boxSize = m_slimeObject.CurrentSize.y == 12 ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x - 0.2f, 0.02f);
+              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x - 0.2f, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
           

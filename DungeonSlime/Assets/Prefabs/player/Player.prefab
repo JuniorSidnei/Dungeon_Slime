@@ -52,6 +52,7 @@ MonoBehaviour:
   m_moving: 0
   m_willExpandShape: 1
   m_characterStates: {fileID: 8853754357541218837}
+  m_playerStates: {fileID: 8853754357541218837}
   ease: 33
 --- !u!114 &8853754357541218837
 MonoBehaviour:
