@@ -374,9 +374,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 385
+        y: 391
         width: 24
-        height: 69
+        height: 59
       alignment: 9
       pivot: {x: 0.5179971, y: 0.6602888}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -394,9 +394,9 @@ TextureImporter:
       name: cenario 2020 paredes_sosinhas_10
       rect:
         serializedVersion: 2
-        x: 62
+        x: 64
         y: 468
-        width: 69
+        width: 62
         height: 49
       alignment: 9
       pivot: {x: 0.3125565, y: 0.22864704}
