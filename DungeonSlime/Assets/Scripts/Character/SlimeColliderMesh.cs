@@ -107,11 +107,11 @@ namespace DungeonSlime.Character {
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
-              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
+              boxSize = new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(0.1f, 0.2f) : new Vector2(spriteSize.x - 0.2f, 0.02f);
+              boxSize = new Vector2(spriteSize.x, 0.1f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
           
@@ -166,10 +166,10 @@ namespace DungeonSlime.Character {
 //            new Vector2(0.1f, spriteBounds.size.y - 0.3f));
           
 
-        //Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
-        //    new Vector2(spriteBounds.size.x - 0.2f, 0.02f));
-        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteBounds.size.y / 2),
-            new Vector2(0.1f, spriteBounds.size.y - 0.45f));
+        Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x - spriteBounds.size.x / 2, spriteBounds.max.y),
+            new Vector2(spriteBounds.size.x - 0.15f, 0.5f));
+        // Gizmos.DrawWireCube(new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteBounds.size.y / 2),
+        //     new Vector2(0.1f, spriteBounds.size.y - 0.45f));
         
         var spriteSize = spriteRenderer.bounds.center;
         

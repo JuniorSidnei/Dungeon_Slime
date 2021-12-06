@@ -104372,7 +104372,7 @@ PrefabInstance:
       objectReference: {fileID: 419522944}
     - target: {fileID: 3305225145426383723, guid: 3119183b65949004d98117c2dd0403a8, type: 3}
       propertyPath: m_initialPosition.x
-      value: 23
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 3305225145426383723, guid: 3119183b65949004d98117c2dd0403a8, type: 3}
       propertyPath: m_initialPosition.y

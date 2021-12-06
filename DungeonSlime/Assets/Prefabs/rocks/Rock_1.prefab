@@ -52,6 +52,7 @@ MonoBehaviour:
   m_moving: 0
   m_willExpandShape: 0
   m_characterStates: {fileID: 3305225145426383723}
+  m_playerStates: {fileID: 0}
   ease: 33
 --- !u!114 &3305225145426383723
 MonoBehaviour:
@@ -105,7 +106,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.45152473, y: 0.4530077}
+  m_Size: {x: 0.45152473, y: 0.5105734}
   m_EdgeRadius: 0
 --- !u!114 &3305225145426383637
 MonoBehaviour:
