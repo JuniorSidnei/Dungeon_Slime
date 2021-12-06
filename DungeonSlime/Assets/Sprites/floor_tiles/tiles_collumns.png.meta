@@ -500,11 +500,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 208
-        y: 8
-        width: 33
-        height: 67
+        y: 13
+        width: 25
+        height: 58
       alignment: 9
-      pivot: {x: 0.35057208, y: 0.350159}
+      pivot: {x: 0.5044763, y: 0.32381147}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -520,12 +520,12 @@ TextureImporter:
       name: tiles_collumns_4
       rect:
         serializedVersion: 2
-        x: 246
-        y: 8
-        width: 35
-        height: 67
+        x: 257
+        y: 12
+        width: 24
+        height: 59
       alignment: 9
-      pivot: {x: 0.659661, y: 0.6592851}
+      pivot: {x: 0.50258636, y: 0.71708286}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
