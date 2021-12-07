@@ -107,11 +107,11 @@ namespace DungeonSlime.Character {
               boxOrigin = new Vector2(spriteBounds.max.x, spriteBounds.max.y - spriteSize.y / 2);
           }
           else if (direction == Vector2Int.down) {
-              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(spriteSize.x - 0.4f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
+              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(spriteSize.x - 0.45f, 0.2f) : new Vector2(spriteSize.x, 0.02f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.min.y);
           }
           else if (direction == Vector2Int.up) {
-              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(spriteSize.x - 0.4f, 0.2f) : new Vector2(spriteSize.x, 0.1f);
+              boxSize = m_slimeObject.CurrentSize.y == m_slimeObject.PlayerStates.FullStretchedSizeVertical.y ? new Vector2(spriteSize.x - 0.45f, 0.2f) : new Vector2(spriteSize.x, 0.1f);
               boxOrigin = new Vector2(spriteBounds.max.x - spriteSize.x / 2, spriteBounds.max.y);
           }
           
