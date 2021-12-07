@@ -22,7 +22,8 @@ public class TriggerSpikeColliderMesh : ColliderMesh {
         if (sizeColliderBuffer == 0) return;
 
         AudioController.Instance.Play(StoneSetted, AudioController.SoundType.SoundEffect2D);
-        spikeColliderMesh.SetCollisionEnabled(false);
+        //spikeColliderMesh.SetCollisionEnabled(false);
+        spikeColliderMesh.DeactiveSpike(false);
         EnableCollision = false;
     }
 }

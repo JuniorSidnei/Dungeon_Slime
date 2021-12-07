@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using DungeonSlime.Character;
 using DungeonSlime.Managers;
 using DungeonSlime.Utils;
+using GameToBeNamed.Utils.Sound;
 using UnityEngine;
 
 namespace DungeonSlime.Enviroment {
@@ -12,6 +14,8 @@ namespace DungeonSlime.Enviroment {
     public class SpikeColliderMesh : ColliderMesh {
         public BoxCollider2D boxCollider;
         public Animator animator;
+        public AudioClip deactiveSound;
+        
         
         private void FixedUpdate() {
             if (!EnableCollision) return;
@@ -28,15 +32,12 @@ namespace DungeonSlime.Enviroment {
             GameManager.Instance.GlobalDispatcher.Emit(new OnCollisionWithSpikes(objectId));
         }
 
-        public void SetCollisionEnabled(bool enable) {
+        public async void DeactiveSpike(bool enable) {
             animator.SetTrigger("deactive");
-            SpriteRend.DOFade(1, 0.5f).OnComplete(() => {
-                //tocar som
-                EnableCollision = enable;
-                boxCollider.enabled = enable;
-            });
+            await Task.Delay(500);
+            AudioController.Instance.Play(deactiveSound, AudioController.SoundType.SoundEffect2D);
+            EnableCollision = enable;
+            boxCollider.enabled = enable;
         }
-        
-   
     }
 }

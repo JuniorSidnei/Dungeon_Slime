@@ -75,11 +75,11 @@ MonoBehaviour:
   deadAnimation: {fileID: 0}
   charType: 1
   moveSounds:
-  - {fileID: 8300000, guid: 7f522c87eb15b724994c8b3cdef37586, type: 3}
+  - {fileID: 8300000, guid: bc6dd7f314e85e640aab5a37a716b222, type: 3}
   stopMoveSounds:
-  - {fileID: 8300000, guid: 8f6a1dd63b935ac4e95e8c68f43fa7e1, type: 3}
+  - {fileID: 8300000, guid: bc6dd7f314e85e640aab5a37a716b222, type: 3}
   deathSounds:
-  - {fileID: 8300000, guid: f8978a8463e7fed4ba2a9967234b8026, type: 3}
+  - {fileID: 8300000, guid: bc6dd7f314e85e640aab5a37a716b222, type: 3}
   m_id: 2
   m_initialPosition: {x: 18, y: 11}
 --- !u!61 &3305225145426383636

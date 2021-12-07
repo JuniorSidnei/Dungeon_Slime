@@ -51,6 +51,7 @@ MonoBehaviour:
     m_Bits: 192
   boxCollider: {fileID: 7107174759328290576}
   animator: {fileID: 1151290604438898849}
+  deactiveSound: {fileID: 8300000, guid: ac6c2b823929783419946bf3ee0b0e42, type: 3}
 --- !u!50 &7107174759328290583
 Rigidbody2D:
   serializedVersion: 4
