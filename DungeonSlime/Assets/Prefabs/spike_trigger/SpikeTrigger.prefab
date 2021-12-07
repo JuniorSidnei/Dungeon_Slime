@@ -110,6 +110,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   spikeColliderMesh: {fileID: 0}
+  StoneSetted: {fileID: 8300000, guid: 244ae66579c93f34baee3c4d425625ac, type: 3}
 --- !u!1001 &5904415339307387576
 PrefabInstance:
   m_ObjectHideFlags: 0

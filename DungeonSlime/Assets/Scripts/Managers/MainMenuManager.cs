@@ -37,6 +37,7 @@ namespace DungeonSlime.Managers {
         public AudioClip menuTheme;
         public AudioClip selection;
         public AudioClip choose;
+        public AudioClip back;
 
         private static UserData m_userData;
 
@@ -116,6 +117,9 @@ namespace DungeonSlime.Managers {
         }
 
         public void OnQuitControls() {
+            if (m_userData.isSfxOn) {
+                AudioController.Instance.Play(back, AudioController.SoundType.SoundEffect2D);
+            }
             firstSelected.Select();
             OnPlaySelected();
             EnableControlsPanel(false);
@@ -123,7 +127,7 @@ namespace DungeonSlime.Managers {
         
         private void AnimateSlimeSelector() {
             if (m_userData.isSfxOn) {
-                AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D);
+                AudioController.Instance.Play(selection, AudioController.SoundType.SoundEffect2D, 0.6f);
             }
 
             slimeSelectorAnim.SetTrigger("move");

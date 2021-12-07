@@ -436,10 +436,10 @@ TextureImporter:
       name: tiles_collumns_0
       rect:
         serializedVersion: 2
-        x: 157
-        y: 26
-        width: 28
-        height: 28
+        x: 161
+        y: 25
+        width: 24
+        height: 24
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
