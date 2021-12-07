@@ -2964,8 +2964,8 @@ MonoBehaviour:
   menuPanel: {fileID: 1465763638}
   controlsPanel: {fileID: 1662933377}
   menuTheme: {fileID: 8300000, guid: 9ed3144987bd42b458627511628b5434, type: 3}
-  selection: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
-  choose: {fileID: 8300000, guid: 7f522c87eb15b724994c8b3cdef37586, type: 3}
+  selection: {fileID: 8300000, guid: bf179b895b4b67d438be4ce7c93c821b, type: 3}
+  choose: {fileID: 8300000, guid: d6e2c50e0810ff44cbebeda7a9ad1b3a, type: 3}
 --- !u!4 &1545816794
 Transform:
   m_ObjectHideFlags: 0

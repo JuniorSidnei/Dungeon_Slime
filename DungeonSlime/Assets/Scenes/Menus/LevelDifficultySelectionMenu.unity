@@ -2583,9 +2583,9 @@ MonoBehaviour:
   slimeSelectorAnim: {fileID: 1624146299}
   normalBtn: {fileID: 1184763907}
   hardBtn: {fileID: 1747005993}
-  selection: {fileID: 8300000, guid: cce13ef5265e1c04291bb735856fec58, type: 3}
-  selectionDone: {fileID: 8300000, guid: 7f522c87eb15b724994c8b3cdef37586, type: 3}
-  selectionBack: {fileID: 8300000, guid: fb7d87e4cbc60d04e8dae1b2a60dddfd, type: 3}
+  selection: {fileID: 8300000, guid: bf179b895b4b67d438be4ce7c93c821b, type: 3}
+  selectionDone: {fileID: 8300000, guid: d6e2c50e0810ff44cbebeda7a9ad1b3a, type: 3}
+  selectionBack: {fileID: 8300000, guid: 28c6615c0b7a68a4993e6ed136629b0f, type: 3}
 --- !u!4 &1545816794
 Transform:
   m_ObjectHideFlags: 0
