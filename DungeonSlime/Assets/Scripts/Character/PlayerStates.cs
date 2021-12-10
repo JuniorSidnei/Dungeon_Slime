@@ -15,6 +15,7 @@ namespace DungeonSlime.Character {
         private int m_rockObjectId;
         public SlimeColliderMesh slimeColliderMesh;
         private int m_numberOfMovements;
+        private bool m_isPlayerDead = false;
 
         private static Vector2Int m_normalSize = new Vector2Int(6, 6);
         private static Vector2Int m_semi_stretched_H = new Vector2Int(9, 3);
@@ -46,6 +47,7 @@ namespace DungeonSlime.Character {
             characterMovement.SetLevelManager(levelManager);
             
             m_numberOfMovements = levelManager.levelData.numberOfMovements;
+            m_isPlayerDead = false;
         }
 
         protected override void Start() {
@@ -57,20 +59,15 @@ namespace DungeonSlime.Character {
         private void OnMove(OnMoveCharacter ev) {
             if (!slimeColliderMesh.CanIMoveWithinDirection(ev.Direction)) {
                 slimeColliderMesh.IsPlayerMoving = false;
+                characterMovement.StopMovement();
                 return;
             }
+
+            if (characterMovement.IsMoving) return; 
             
             slimeColliderMesh.IsPlayerMoving = true;
             slimeColliderMesh.ResetRocksId();
             characterMovement.OnMove(ev.Direction, false, charType);
-            animator.SetBool("moving", characterMovement.IsMoving);
-            animator.SetInteger("moveX", characterMovement.CurrentDirection.x);
-            animator.SetInteger("moveY", characterMovement.CurrentDirection.y);
-
-            if (levelManager.UserData.levelDifficulty != 1) return;
-            
-            m_numberOfMovements -= 1;
-            levelManager.UpdateMovementLimitValue(m_numberOfMovements);
         }
 
         private void OnFinishMovement(OnFinishMovement ev) {
@@ -82,15 +79,24 @@ namespace DungeonSlime.Character {
             CharacterForm = slimeForm;
             animator.SetBool("moving", characterMovement.IsMoving);
             animator.SetInteger("form", i);
+
+            if (levelManager.UserData.levelDifficulty != 1) return;
             
-            if (m_numberOfMovements <= 0 && !levelManager.IsLevelClear) {
-                var randDeath = Random.Range(0, deathSounds.Length);
-                AudioController.Instance.Play(deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
-                animator.SetTrigger("dead");
-                var spriteCenter = slimeColliderMesh.spriteRenderer.bounds.center;
-                Instantiate(deadAnimation, spriteCenter, Quaternion.identity, transform);
-                GameManager.Instance.LoadCurrentScene();
-            }
+            m_numberOfMovements -= 1;
+            if (m_numberOfMovements <= 0) m_numberOfMovements = 0;
+
+            levelManager.UpdateMovementLimitValue(m_numberOfMovements);
+            
+            if (m_numberOfMovements > 0 || levelManager.IsLevelClear || m_isPlayerDead) return;
+
+            m_isPlayerDead = true;
+            GameManager.Instance.DisableInputs();
+            var randDeath = Random.Range(0, deathSounds.Length);
+            AudioController.Instance.Play(deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
+            animator.SetTrigger("dead");
+            var spriteCenter = slimeColliderMesh.spriteRenderer.bounds.center;
+            Instantiate(deadAnimation, spriteCenter, Quaternion.identity, transform);
+            GameManager.Instance.LoadCurrentScene();
         }
 
         private void OnRockUnableToMove(OnRockUnableToMove ev) {
@@ -113,6 +119,7 @@ namespace DungeonSlime.Character {
         private void OnCollisionWithSpikes(OnCollisionWithSpikes ev) {
             if (ev.ObjectId != Id) return;
 
+            GameManager.Instance.DisableInputs();
             var randDeath = Random.Range(0, deathSounds.Length);
             AudioController.Instance.Play(deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
             animator.SetTrigger("dead");

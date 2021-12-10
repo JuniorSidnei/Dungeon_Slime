@@ -74,6 +74,7 @@ namespace DungeonSlime.Character {
                   EvaluateRockCollision(objectColliderRock, i);
               }
               else {
+                  GameManager.Instance.DisableInputs();
                   var playerStates = m_slimeObject.GetComponent<PlayerStates>();
                   playerStates.animator.SetTrigger("dead");
                   m_slimeObject.StopMovement();

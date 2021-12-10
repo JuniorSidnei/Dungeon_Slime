@@ -72,7 +72,6 @@ namespace DungeonSlime.Managers {
         }
         
         public void LoadCurrentScene() {
-            m_intputManager.Disable();
             transitionController.DoTransitionIn(() => {
                 StartCoroutine(LoadScene(string.Format("Level_0{0}", LevelManager.levelData.currentLevelData)));
             });
@@ -127,6 +126,10 @@ namespace DungeonSlime.Managers {
             }
         }
 
+        public void DisableInputs() {
+            m_intputManager.Disable();    
+        }
+        
         private void SaveAllData() {
             var currentData = SaveManager.LoadData();
             var currentLevel = LevelManager.levelData.currentLevelData;

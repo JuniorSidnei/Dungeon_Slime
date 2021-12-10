@@ -112,6 +112,9 @@ namespace DungeonSlime.Character {
 
             m_moving = true;
             m_charType = charType;
+            m_characterStates.animator.SetBool("moving", m_moving);
+            m_characterStates.animator.SetInteger("moveX", m_currentDirection.x);
+            m_characterStates.animator.SetInteger("moveY", m_currentDirection.y);
             GameManager.Instance.GlobalDispatcher.Emit(new OnRockUnableToMove(m_resetRockId));
             
             ResolveCollision(m_finalPos, m_currentDirection);
@@ -134,10 +137,12 @@ namespace DungeonSlime.Character {
                             m_levelManager.IsObjectDead = false;
                         }
                         else {
+                            StopMovement();
                             var randDeath = Random.Range(0, m_characterStates.deathSounds.Length);
                             AudioController.Instance.Play(m_characterStates.deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
                             m_characterStates.animator.SetTrigger("dead");
                             var spriteCenter = GetComponentInChildren<SpriteRenderer>().bounds.center;
+                            Debug.Log("morri" + m_moving);
                             Instantiate(m_characterStates.deadAnimation, spriteCenter, Quaternion.identity, transform);
                             GameManager.Instance.LoadCurrentScene();
                         }
@@ -170,6 +175,8 @@ namespace DungeonSlime.Character {
                             m_levelManager.IsObjectDead = false;
                         }
                         else {
+                            StopMovement();
+                            GameManager.Instance.DisableInputs();
                             var randDeath = Random.Range(0, m_characterStates.deathSounds.Length);
                             AudioController.Instance.Play(m_characterStates.deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
                             m_characterStates.animator.SetTrigger("dead");
