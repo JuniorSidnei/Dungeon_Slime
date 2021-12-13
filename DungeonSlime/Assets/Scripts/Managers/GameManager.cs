@@ -45,6 +45,7 @@ namespace DungeonSlime.Managers {
                 AudioController.Instance.Play(levelClip, AudioController.SoundType.Music, 0.8f);
             }
 
+            SaveAllData();
             StartCoroutine(WaitToFadeOut(0.5f));
         }
 
