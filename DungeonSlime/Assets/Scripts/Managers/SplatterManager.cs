@@ -19,7 +19,7 @@ namespace DungeonSlime.Managers {
 
         public void CreateSplatter(Bounds spriteBounds, Vector2 currentDirection,
             CharacterStates.CharacterForms currentForm, bool isBlockCollision) {
-            //TODO not invoke event when onmove is rock type
+            
             if (isBlockCollision) return;
             
             var (splatterPos, splatterRotation) = CalculateSplatterPositionAndRotation(currentDirection, spriteBounds);
@@ -44,11 +44,11 @@ namespace DungeonSlime.Managers {
                 posX = spriteBounds.center.x;
                 posY = spriteBounds.center.y;
             } else if (currentDirection == Vector2.down) {
-                posX = spriteBounds.center.x;
+                posX = spriteBounds.center.x + 0.3f;
                 posY = spriteBounds.min.y;
                 rotation = -90;
             } else if (currentDirection == Vector2.up) {
-                posX = spriteBounds.center.x;
+                posX = spriteBounds.center.x + 0.3f;
                 posY = spriteBounds.max.y - 0.5f;
                 rotation = 90;
             }

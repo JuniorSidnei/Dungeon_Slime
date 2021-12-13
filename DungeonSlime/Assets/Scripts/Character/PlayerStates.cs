@@ -78,7 +78,6 @@ namespace DungeonSlime.Character {
             var (slimeForm, i) = GetIndexAndForm(ev.CurrentDirection);
             CharacterForm = slimeForm;
             animator.SetBool("moving", characterMovement.IsMoving);
-            animator.SetInteger("form", i);
 
             if (levelManager.UserData.levelDifficulty != 1) return;
             

@@ -97,7 +97,6 @@ namespace DungeonSlime.Character {
             m_currentDirection = movementDirection;
             m_alreadyHasPosition = alreadyHasPosition;
             
-            
             if (!m_alreadyHasPosition) {
                 if (!GetNextPositionOnGrid(m_currentDirection, m_currentPos)) {
                     m_moving = false;
@@ -109,12 +108,8 @@ namespace DungeonSlime.Character {
                 m_isObjectDead = false;
                 m_speed = 0.001f;
             }
-
-            m_moving = true;
+            
             m_charType = charType;
-            m_characterStates.animator.SetBool("moving", m_moving);
-            m_characterStates.animator.SetInteger("moveX", m_currentDirection.x);
-            m_characterStates.animator.SetInteger("moveY", m_currentDirection.y);
             GameManager.Instance.GlobalDispatcher.Emit(new OnRockUnableToMove(m_resetRockId));
             
             ResolveCollision(m_finalPos, m_currentDirection);
@@ -124,81 +119,30 @@ namespace DungeonSlime.Character {
             m_movementSequence = DOTween.Sequence();
             
             if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
-                var randMove = Random.Range(0, m_characterStates.moveSounds.Length);
-                AudioController.Instance.Play(m_characterStates.moveSounds[randMove], AudioController.SoundType.SoundEffect2D);
+                InitiateMovement();
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
-                    m_moving = false;
-                   
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
-                            m_movementSequence.Kill();
-                            m_characterStates.animator.SetTrigger("dead");
-                            Invoke(nameof(OnFinishDeadAnimation), 1.3f);
-                            m_levelManager.IsObjectDead = false;
+                            StoneObjectDies();
                         }
                         else {
-                            StopMovement();
-                            var randDeath = Random.Range(0, m_characterStates.deathSounds.Length);
-                            AudioController.Instance.Play(m_characterStates.deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
-                            m_characterStates.animator.SetTrigger("dead");
-                            var spriteCenter = GetComponentInChildren<SpriteRenderer>().bounds.center;
-                            Debug.Log("morri" + m_moving);
-                            Instantiate(m_characterStates.deadAnimation, spriteCenter, Quaternion.identity, transform);
-                            GameManager.Instance.LoadCurrentScene();
+                           PlayerDies();
                         }
                     }
-
-                    var randStop = Random.Range(0, m_characterStates.stopMoveSounds.Length);
-                    AudioController.Instance.Play(m_characterStates.stopMoveSounds[randStop], AudioController.SoundType.SoundEffect2D);
-                    transform.DOMoveY(newPos.y, 0.01f).OnComplete(() => {
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
-                        m_moving = false;
-                        m_alreadyFindPosition = false;
-                        m_currentSize = m_currentNewSize;
-
-                        if (m_charType != CharacterStates.CharacterType.Slime) return;
-                        transform.DOShakeScale(0.1f, new Vector3(0, 0.3f, 0), 20);
-                        m_isBlockCollision = false;
-                    });
+                    transform.DOMoveY(newPos.y, 0.001f).OnComplete(MovementFinished);
                 }));
             } else if(m_currentDirection == Vector2.up || m_currentDirection == Vector2.down) {
-                var randMove = Random.Range(0, m_characterStates.moveSounds.Length);
-                AudioController.Instance.Play(m_characterStates.moveSounds[randMove], AudioController.SoundType.SoundEffect2D);
+                InitiateMovement();
                 m_movementSequence.Append(transform.DOMoveY(newPos.y, m_speed).SetEase(ease).OnComplete(() => {
-
                     if (m_levelManager.IsObjectDead || m_isObjectDead) {
                         if (m_charType == CharacterStates.CharacterType.Rock) {
-                            m_movementSequence.Kill();
-                            m_characterStates.animator.SetTrigger("dead");
-                            Invoke(nameof(OnFinishDeadAnimation), 1.3f);
-                            m_levelManager.IsObjectDead = false;
+                           StoneObjectDies();
                         }
                         else {
-                            StopMovement();
-                            GameManager.Instance.DisableInputs();
-                            var randDeath = Random.Range(0, m_characterStates.deathSounds.Length);
-                            AudioController.Instance.Play(m_characterStates.deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
-                            m_characterStates.animator.SetTrigger("dead");
-                            var spriteCenter = GetComponentInChildren<SpriteRenderer>().bounds.center;
-                            Instantiate(m_characterStates.deadAnimation, spriteCenter, Quaternion.identity, transform);
-                            GameManager.Instance.LoadCurrentScene();
+                            PlayerDies();
                         }
                     }
-
-                    var randStop = Random.Range(0, m_characterStates.stopMoveSounds.Length);
-                    AudioController.Instance.Play(m_characterStates.stopMoveSounds[randStop], AudioController.SoundType.SoundEffect2D);
-                    transform.DOMoveX(newPos.x, 0.01f).OnComplete(() => {
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
-                        GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
-                        m_moving = false;
-                        m_alreadyFindPosition = false;
-                        m_currentSize = m_currentNewSize;
-                        
-                        if (m_charType != CharacterStates.CharacterType.Slime) return;
-                        transform.DOShakeScale(0.1f, new Vector3(0.3f, 0, 0), 20);
-                        m_isBlockCollision = false;
-                    });
+                    transform.DOMoveX(newPos.x, 0.001f).OnComplete(MovementFinished);
                 }));
             }
         }
@@ -414,6 +358,18 @@ namespace DungeonSlime.Character {
             m_currentNewSize = size;
             m_alreadyHasPosition = false;
         }
+
+        private void InitiateMovement() {
+            m_moving = true;
+            m_characterStates.animator.SetBool("moving", m_moving);
+            m_characterStates.animator.SetInteger("moveX", m_currentDirection.x);
+            m_characterStates.animator.SetInteger("moveY", m_currentDirection.y);
+            var randMove = Random.Range(0, m_characterStates.moveSounds.Length);
+            AudioController.Instance.Play(m_characterStates.moveSounds[randMove], AudioController.SoundType.SoundEffect2D);
+
+            if (m_charType != CharacterStates.CharacterType.Slime) return;
+            GameManager.Instance.DisableMovement();
+        }
         
         public void StopMovement() {
             m_movementSequence.Kill();
@@ -423,6 +379,40 @@ namespace DungeonSlime.Character {
 
         private void OnFinishDeadAnimation()  {
             Destroy(gameObject);
+        }
+
+        private void PlayerDies() {
+            StopMovement();
+            GameManager.Instance.DisableInputs();
+            var randDeath = Random.Range(0, m_characterStates.deathSounds.Length);
+            AudioController.Instance.Play(m_characterStates.deathSounds[randDeath], AudioController.SoundType.SoundEffect2D);
+            m_characterStates.animator.SetTrigger("dead");
+            var spriteCenter = GetComponentInChildren<SpriteRenderer>().bounds.center;
+            Instantiate(m_characterStates.deadAnimation, spriteCenter, Quaternion.identity, transform);
+            GameManager.Instance.LoadCurrentScene();
+        }
+
+        private void MovementFinished() {
+            var randStop = Random.Range(0, m_characterStates.stopMoveSounds.Length);
+            AudioController.Instance.Play(m_characterStates.stopMoveSounds[randStop], AudioController.SoundType.SoundEffect2D);
+            GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
+            GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
+            m_moving = false;
+            m_alreadyFindPosition = false;
+            m_currentSize = m_currentNewSize;
+
+            if (m_charType != CharacterStates.CharacterType.Slime) return;
+            
+            GameManager.Instance.EnableMovement();
+            transform.DOShakeScale(0.1f, new Vector3(0, 0.3f, 0), 20);
+            m_isBlockCollision = false;
+        }
+
+        private void StoneObjectDies() {
+            m_movementSequence.Kill();
+            m_characterStates.animator.SetTrigger("dead");
+            Invoke(nameof(OnFinishDeadAnimation), 1.3f);
+            m_levelManager.IsObjectDead = false;
         }
     }
 }

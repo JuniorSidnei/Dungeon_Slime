@@ -128,8 +128,17 @@ namespace DungeonSlime.Managers {
         }
 
         public void DisableInputs() {
-            m_intputManager.Disable();    
+            m_intputManager.Disable();
         }
+
+        public void EnableMovement() {
+            m_intputManager.Slime.movement.Enable();
+        }
+        
+        public void DisableMovement() {
+            m_intputManager.Slime.movement.Disable();
+        }
+        
         
         private void SaveAllData() {
             var currentData = SaveManager.LoadData();
