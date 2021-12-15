@@ -12,10 +12,14 @@ using UnityEngine.UI;
 namespace DungeonSlime.Managers {
     public class LevelManager : MonoBehaviour {
 
+        public enum LevelDifficulty {
+            NORMAL,
+            HARD
+        }
+
         [Header("tile settings")]
         public Tilemap tilemap;
 
-        
         [Header("movement limit settings")]
         public GameObject movementLimitBox;
         public TextMeshProUGUI movementLimitText;
@@ -55,8 +59,8 @@ namespace DungeonSlime.Managers {
             m_tiles.Add(Block.BlockType.FakeSpikes, levelDataTiles.GetFakeSpikesTile());
 
             m_userData = SaveManager.LoadData();
-            movementLimitBox.SetActive(m_userData.levelDifficulty == 1);
-            movementLimitText.gameObject.SetActive(m_userData.levelDifficulty == 1);
+            movementLimitBox.SetActive(m_userData.levelDifficulty == LevelDifficulty.HARD);
+            movementLimitText.gameObject.SetActive(m_userData.levelDifficulty == LevelDifficulty.HARD);
             UpdateMovementLimitValue(levelData.numberOfMovements);
             LoadLevel();
         }

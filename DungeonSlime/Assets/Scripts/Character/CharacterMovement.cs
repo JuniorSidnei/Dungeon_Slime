@@ -28,6 +28,7 @@ namespace DungeonSlime.Character {
         private bool m_alreadyFindPosition;
         private bool m_alreadyHasPosition;
         private bool m_isBlockCollision;
+        private bool m_playerFinishedMovement = true;
         private Sequence m_movementSequence;
         private int m_id;
         private int m_resetRockId = 0;
@@ -92,7 +93,8 @@ namespace DungeonSlime.Character {
         }
         
         public void OnMove(Vector2Int movementDirection, bool alreadyHasPosition, CharacterStates.CharacterType charType) {
-            if (m_moving || movementDirection == Vector2Int.zero) return;
+            Debug.Log("terminei de mover? " + m_playerFinishedMovement);
+            if (m_moving || !m_playerFinishedMovement) return;
 
             m_currentDirection = movementDirection;
             m_alreadyHasPosition = alreadyHasPosition;
@@ -117,7 +119,6 @@ namespace DungeonSlime.Character {
             var newPos = m_levelManager.tilemap.CellToLocal(new Vector3Int(m_finalPos.x, m_finalPos.y, 0));
             
             m_movementSequence = DOTween.Sequence();
-            
             if (m_currentDirection == Vector2.right || m_currentDirection == Vector2.left) {
                 InitiateMovement();
                 m_movementSequence.Append(transform.DOMoveX(newPos.x, m_speed).SetEase(ease).OnComplete(() =>  {
@@ -361,14 +362,12 @@ namespace DungeonSlime.Character {
 
         private void InitiateMovement() {
             m_moving = true;
-            m_characterStates.animator.SetBool("moving", m_moving);
+            m_playerFinishedMovement = false;
             m_characterStates.animator.SetInteger("moveX", m_currentDirection.x);
             m_characterStates.animator.SetInteger("moveY", m_currentDirection.y);
+            m_characterStates.animator.SetBool("moving", m_moving);
             var randMove = Random.Range(0, m_characterStates.moveSounds.Length);
             AudioController.Instance.Play(m_characterStates.moveSounds[randMove], AudioController.SoundType.SoundEffect2D);
-
-            if (m_charType != CharacterStates.CharacterType.Slime) return;
-            GameManager.Instance.DisableMovement();
         }
         
         public void StopMovement() {
@@ -397,15 +396,17 @@ namespace DungeonSlime.Character {
             AudioController.Instance.Play(m_characterStates.stopMoveSounds[randStop], AudioController.SoundType.SoundEffect2D);
             GameManager.Instance.GlobalDispatcher.Emit(new OnFinishMovement(m_currentDirection, m_id, m_charType));
             GameManager.Instance.GlobalDispatcher.Emit(new OnSpawnSplatter(m_currentDirection, m_characterStates.GetCurrentForm(), m_isBlockCollision));
-            m_moving = false;
             m_alreadyFindPosition = false;
             m_currentSize = m_currentNewSize;
 
             if (m_charType != CharacterStates.CharacterType.Slime) return;
             
-            GameManager.Instance.EnableMovement();
-            transform.DOShakeScale(0.1f, new Vector3(0, 0.3f, 0), 20);
+            transform.DOShakeScale(0.1f, new Vector3(0, 0.3f, 0), 20).OnComplete(() => {
+                m_playerFinishedMovement = true;
+            });
+            
             m_isBlockCollision = false;
+            m_moving = false;
         }
 
         private void StoneObjectDies() {

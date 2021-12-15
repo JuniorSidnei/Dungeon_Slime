@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DungeonSlime.Managers;
 using UnityEngine;
 
 namespace DungeonSlime.Utils {
@@ -10,7 +11,7 @@ namespace DungeonSlime.Utils {
         public int lastLevelPlayed;
         public int normalLevelUnlocked = 1;
         public int hardLevelUnlocked = 1;
-        public int levelDifficulty;
+        public LevelManager.LevelDifficulty levelDifficulty;
         public bool isFullScreen;
         public bool isMusicOn;
         public bool isSfxOn;

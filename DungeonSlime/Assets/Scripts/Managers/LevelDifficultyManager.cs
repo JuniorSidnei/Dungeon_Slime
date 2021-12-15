@@ -60,12 +60,12 @@ namespace DungeonSlime.Managers {
         }
         
         public void OnNormalPressed() {
-            SaveDifficultySelection(LevelDifficulty.NORMAL);
+            SaveDifficultySelection(LevelManager.LevelDifficulty.NORMAL);
             SceneManager.LoadScene("LevelSelectionMenu");
         }
         
         public void OnHardPressed() {
-            SaveDifficultySelection(LevelDifficulty.HARD);
+            SaveDifficultySelection(LevelManager.LevelDifficulty.HARD);
             SceneManager.LoadScene("LevelSelectionMenu");
         }
 
@@ -84,14 +84,14 @@ namespace DungeonSlime.Managers {
             slimeSelectorAnim.SetTrigger("move");
         }
         
-        private void SaveDifficultySelection(LevelDifficulty levelDifficulty) {
+        private void SaveDifficultySelection(LevelManager.LevelDifficulty levelDifficulty) {
             if (m_userData.isSfxOn) {
                 AudioController.Instance.Play(selectionDone, AudioController.SoundType.SoundEffect2D);
             }
             
             var userData = new UserData {
                 lastLevelPlayed = m_userData.lastLevelPlayed, normalLevelUnlocked = m_userData.normalLevelUnlocked, hardLevelUnlocked = m_userData.hardLevelUnlocked,
-                levelDifficulty = (int) levelDifficulty, isFullScreen = m_userData.isFullScreen, isMusicOn = m_userData.isMusicOn, isSfxOn = m_userData.isSfxOn
+                levelDifficulty = levelDifficulty, isFullScreen = m_userData.isFullScreen, isMusicOn = m_userData.isMusicOn, isSfxOn = m_userData.isSfxOn
             };
             
             SaveManager.SaveData(userData);

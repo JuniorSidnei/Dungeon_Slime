@@ -62,7 +62,7 @@ namespace DungeonSlime.Character {
                 characterMovement.StopMovement();
                 return;
             }
-
+            
             if (characterMovement.IsMoving) return; 
             
             slimeColliderMesh.IsPlayerMoving = true;
@@ -79,7 +79,7 @@ namespace DungeonSlime.Character {
             CharacterForm = slimeForm;
             animator.SetBool("moving", characterMovement.IsMoving);
 
-            if (levelManager.UserData.levelDifficulty != 1) return;
+            if (levelManager.UserData.levelDifficulty != LevelManager.LevelDifficulty.HARD) return;
             
             m_numberOfMovements -= 1;
             if (m_numberOfMovements <= 0) m_numberOfMovements = 0;

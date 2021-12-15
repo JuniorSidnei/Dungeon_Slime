@@ -60,8 +60,11 @@ namespace DungeonSlime.Managers {
             }
             
             levelIndexText.text = m_levelIndex.ToString();
-            padlock.SetActive(m_levelIndex > m_userData.normalLevelUnlocked);
-            m_levelCanBePlayed = m_levelIndex <= m_userData.normalLevelUnlocked;
+            
+            var userIndex = m_userData.levelDifficulty == LevelManager.LevelDifficulty.NORMAL ? m_userData.normalLevelUnlocked : m_userData.hardLevelUnlocked;
+            
+            padlock.SetActive(m_levelIndex > userIndex);
+            m_levelCanBePlayed = m_levelIndex <= userIndex;
         }
 
         private void OnAnimateArrow(int value) {

@@ -147,10 +147,10 @@ namespace DungeonSlime.Managers {
             var hardUnlocked = currentData.hardLevelUnlocked;
             
             switch (currentData.levelDifficulty) {
-                case 0:
+                case LevelManager.LevelDifficulty.NORMAL:
                     normalUnlocked = currentLevel;
                     break;
-                case 1:
+                case LevelManager.LevelDifficulty.HARD:
                     hardUnlocked = currentLevel;
                     break;
             }

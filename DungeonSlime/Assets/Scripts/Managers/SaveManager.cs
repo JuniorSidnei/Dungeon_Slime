@@ -8,7 +8,7 @@ using UnityEngine;
 namespace DungeonSlime.Managers {
 
     public static class SaveManager {
-
+        
         private static string m_directory = "/UserData/";
         private static string m_fileName = "userData.txt";
         
